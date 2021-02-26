@@ -11,8 +11,7 @@ defmodule GenAMQP.PoolWorker do
   end
 
   def handle_call({:do_work, data}, _from, state) do
-    work(data)
-    {:reply, nil, state}
+    {:reply, work(data), state}
   end
 
   defp work(%{
@@ -78,6 +77,8 @@ defmodule GenAMQP.PoolWorker do
     if reply? do
       reply(chan, meta, resp)
     end
+
+    validation_error([resp])
   end
 
   defp reply(
@@ -106,6 +107,10 @@ defmodule GenAMQP.PoolWorker do
     IO.puts("SOL = #{inspect(sol)}")
     sol
   end
+
+  @spec validation_error(any()) :: {:ok, any()} | {:error, any()}
+  defp validation_error(args),
+    do: apply(error_handler(), :validate_response, args)
 
   defp reduce_with_funcs(funcs, event, payload) do
     Enum.reduce(funcs, payload, fn f, acc ->

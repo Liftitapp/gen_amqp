@@ -11,6 +11,7 @@ defmodule GenAMQP.Server do
     extra_args = Keyword.get(opts, :extra_args, [])
     before_funcs = Keyword.get(opts, :before, [])
     after_funcs = Keyword.get(opts, :after, [])
+    requeue = Keyword.get(opts, :requeue, false)
 
     quote do
       require Logger
@@ -108,11 +109,11 @@ defmodule GenAMQP.Server do
           {conn_name, conn_pid, false}
         end
 
-        def on_message(
-              payload,
-              meta,
-              %{conn_name: conn_name, chan: chan, pool_name: pool_name} = state
-            ) do
+        defp on_message(
+               payload,
+               meta,
+               %{conn_name: conn_name, chan: chan, pool_name: pool_name} = state
+             ) do
           data = %{
             event: unquote(event),
             exec_module: @exec_module,
@@ -128,8 +129,25 @@ defmodule GenAMQP.Server do
             :poolboy.transaction(
               pool_name,
               fn pid ->
-                AMQP.Basic.ack(chan, meta.delivery_tag)
-                GenServer.call(pid, {:do_work, data}, :infinity)
+                try do
+                  case GenServer.call(pid, {:do_work, data}, :infinity) do
+                    {:ok, _} ->
+                      AMQP.Basic.ack(chan, meta.delivery_tag)
+
+                    {:error, _} = res ->
+                      if unquote(requeue) do
+                        AMQP.Basic.reject(chan, meta.delivery_tag, requeue: false)
+                      else
+                        AMQP.Basic.ack(chan, meta.delivery_tag)
+                      end
+                  end
+                rescue
+                  e ->
+                    if unquote(requeue) do
+                      IO.inspect("reintento por error no esperado")
+                      AMQP.Basic.reject(chan, meta.delivery_tag, requeue: not meta.redelivered)
+                    end
+                end
               end
             )
           end)
