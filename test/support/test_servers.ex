@@ -13,6 +13,11 @@ defmodule ErrorHandler do
 
     {:reply, resp}
   end
+
+  def validate_response("ok"), do: {:ok, "ok"}
+  def validate_response("error"), do: {:error, "error"}
+  def validate_response(%{"status" => "error"} = resp), do: {:error, resp}
+  def validate_response(_), do: {:error, nil}
 end
 
 defmodule ServerDemo do
