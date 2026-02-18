@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.4",
+  "checkpoint_id": "aa97f801289d",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "bi/wrenai-poc/cloudflare.tf",
+    "bi/wrenai-poc/load-balancer.tf",
+    "bi/wrenai-poc/locals.tf",
+    "bi/wrenai-poc/vm.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/aa/97f801289d/0/metadata.json",
+      "transcript": "/aa/97f801289d/0/full.jsonl",
+      "context": "/aa/97f801289d/0/context.md",
+      "content_hash": "/aa/97f801289d/0/content_hash.txt",
+      "prompt": "/aa/97f801289d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 2570,
+    "cache_creation_tokens": 84955,
+    "cache_read_tokens": 2158895,
+    "output_tokens": 1318,
+    "api_call_count": 35
+  }
+}
