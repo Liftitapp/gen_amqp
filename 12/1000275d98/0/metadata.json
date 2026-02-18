@@ -1,0 +1,41 @@
+{
+  "cli_version": "0.4.4",
+  "checkpoint_id": "121000275d98",
+  "session_id": "2ae41cd2-55ba-4d99-8253-562627d8ca39",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-18T20:28:54.66604863Z",
+  "branch": "master",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/frontends/buckets.tf",
+    "apps/gke/.terraform-version",
+    "apps/gke/versions.tf",
+    "bi/wrenai-poc/.terraform-version",
+    "bi/wrenai-poc/versions.tf",
+    "databases/mongo-vm/vm.tf",
+    "databases/vm/clouddns.tf",
+    "databases/vm/vm.tf",
+    "iam/service-accounts/services.tf"
+  ],
+  "agent": "Claude Code",
+  "transcript_identifier_at_start": "6f1e5204-ad91-4663-8f04-c0d62c75b781",
+  "checkpoint_transcript_start": 2142,
+  "transcript_lines_at_start": 2142,
+  "token_usage": {
+    "input_tokens": 75,
+    "cache_creation_tokens": 20450,
+    "cache_read_tokens": 3886438,
+    "output_tokens": 1112,
+    "api_call_count": 32
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-18T20:28:52.554162162Z",
+    "agent_lines": 2,
+    "human_added": 495,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 497,
+    "agent_percentage": 0.4024144869215292
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/2ae41cd2-55ba-4d99-8253-562627d8ca39.jsonl"
+}

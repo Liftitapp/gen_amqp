@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.4.4",
+  "checkpoint_id": "121000275d98",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/frontends/buckets.tf",
+    "apps/gke/.terraform-version",
+    "apps/gke/versions.tf",
+    "bi/wrenai-poc/.terraform-version",
+    "bi/wrenai-poc/versions.tf",
+    "databases/mongo-vm/vm.tf",
+    "databases/vm/clouddns.tf",
+    "databases/vm/vm.tf",
+    "iam/service-accounts/services.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/12/1000275d98/0/metadata.json",
+      "transcript": "/12/1000275d98/0/full.jsonl",
+      "context": "/12/1000275d98/0/context.md",
+      "content_hash": "/12/1000275d98/0/content_hash.txt",
+      "prompt": "/12/1000275d98/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 75,
+    "cache_creation_tokens": 20450,
+    "cache_read_tokens": 3886438,
+    "output_tokens": 1112,
+    "api_call_count": 32
+  }
+}
