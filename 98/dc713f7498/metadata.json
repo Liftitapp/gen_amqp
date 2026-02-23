@@ -1,0 +1,61 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "98dc713f7498",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "CLAUDE.md",
+    "apps/airflow/CLAUDE.md",
+    "apps/apps/CLAUDE.md",
+    "apps/bigquery/CLAUDE.md",
+    "apps/buckets/CLAUDE.md",
+    "apps/cloudrun/CLAUDE.md",
+    "apps/frontends/CLAUDE.md",
+    "apps/gke/CLAUDE.md",
+    "apps/helisa/CLAUDE.md",
+    "apps/pubsub/CLAUDE.md",
+    "apps/scheduler/CLAUDE.md",
+    "apps/service-accounts/CLAUDE.md",
+    "bi/apps/CLAUDE.md",
+    "bi/databases/vm/CLAUDE.md",
+    "bi/pentaho/CLAUDE.md",
+    "bi/wrenai-poc/CLAUDE.md",
+    "common/apps/CLAUDE.md",
+    "common/artifactregistry/CLAUDE.md",
+    "databases/amqp-vm/CLAUDE.md",
+    "databases/cloudsql/CLAUDE.md",
+    "databases/mongo-vm/CLAUDE.md",
+    "databases/redis-vm/CLAUDE.md",
+    "databases/vm/CLAUDE.md",
+    "iam/permissions/CLAUDE.md",
+    "iam/service-accounts/CLAUDE.md",
+    "networking/dns/CLAUDE.md",
+    "networking/peering/CLAUDE.md",
+    "networking/vpc/CLAUDE.md",
+    "org/policies/CLAUDE.md",
+    "org/projects/CLAUDE.md",
+    "sec/backup/CLAUDE.md",
+    "sec/firewall/CLAUDE.md",
+    "sec/kms/CLAUDE.md",
+    "sec/restore/CLAUDE.md",
+    "sec/ssl/CLAUDE.md",
+    "sec/waf/CLAUDE.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/98/dc713f7498/0/metadata.json",
+      "transcript": "/98/dc713f7498/0/full.jsonl",
+      "context": "/98/dc713f7498/0/context.md",
+      "content_hash": "/98/dc713f7498/0/content_hash.txt",
+      "prompt": "/98/dc713f7498/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 62,
+    "cache_creation_tokens": 193836,
+    "cache_read_tokens": 3616462,
+    "output_tokens": 332,
+    "api_call_count": 40
+  }
+}
