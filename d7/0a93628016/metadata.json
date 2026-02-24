@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "d70a93628016",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/research/ARCHITECTURE.md",
+    ".planning/research/FEATURES.md",
+    ".planning/research/PITFALLS.md",
+    ".planning/research/STACK.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/d7/0a93628016/0/metadata.json",
+      "transcript": "/d7/0a93628016/0/full.jsonl",
+      "context": "/d7/0a93628016/0/context.md",
+      "content_hash": "/d7/0a93628016/0/content_hash.txt",
+      "prompt": "/d7/0a93628016/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 9,
+    "cache_creation_tokens": 17799,
+    "cache_read_tokens": 650953,
+    "output_tokens": 362,
+    "api_call_count": 7
+  }
+}
