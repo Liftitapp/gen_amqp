@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "6d365021c44d",
+  "session_id": "bdb8dd29-5f0a-4fe2-b19c-05c53da283fe",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-24T21:31:34.908880725Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/phases/01-endpoint-analysis/service-profiles/vm-apps.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "e057a18f68a3",
+  "token_usage": {
+    "input_tokens": 5,
+    "cache_creation_tokens": 28743,
+    "cache_read_tokens": 165851,
+    "output_tokens": 12,
+    "api_call_count": 4
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-24T21:31:34.74930377Z",
+    "agent_lines": 0,
+    "human_added": 624,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 624,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/bdb8dd29-5f0a-4fe2-b19c-05c53da283fe.jsonl"
+}
