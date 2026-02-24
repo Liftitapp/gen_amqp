@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "7bbb45b6a04e",
+  "session_id": "16645e65-2fca-4205-897b-2e0fb832b159",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-24T21:36:32.686457004Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/phases/01-endpoint-analysis/service-profiles/gke-services.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "ef07b28f0094",
+  "checkpoint_transcript_start": 381,
+  "transcript_lines_at_start": 381,
+  "token_usage": {
+    "input_tokens": 16,
+    "cache_creation_tokens": 29220,
+    "cache_read_tokens": 730558,
+    "output_tokens": 1064,
+    "api_call_count": 15
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-24T21:36:32.289494423Z",
+    "agent_lines": 0,
+    "human_added": 1266,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1266,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/16645e65-2fca-4205-897b-2e0fb832b159.jsonl"
+}
