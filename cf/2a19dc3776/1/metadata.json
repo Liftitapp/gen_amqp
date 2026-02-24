@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "cf2a19dc3776",
+  "session_id": "16645e65-2fca-4205-897b-2e0fb832b159",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-24T21:02:39.069180355Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/ROADMAP.md",
+    ".planning/phases/01-endpoint-analysis/01-01-PLAN.md",
+    ".planning/phases/01-endpoint-analysis/01-02-PLAN.md",
+    ".planning/phases/01-endpoint-analysis/01-03-PLAN.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "31a080b6ee95",
+  "checkpoint_transcript_start": 224,
+  "transcript_lines_at_start": 224,
+  "token_usage": {
+    "input_tokens": 6,
+    "cache_creation_tokens": 3309,
+    "cache_read_tokens": 298613,
+    "output_tokens": 945,
+    "api_call_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-24T21:02:38.742842595Z",
+    "agent_lines": 0,
+    "human_added": 495,
+    "human_modified": 2,
+    "human_removed": 0,
+    "total_committed": 495,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/16645e65-2fca-4205-897b-2e0fb832b159.jsonl"
+}
