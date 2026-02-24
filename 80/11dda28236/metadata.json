@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "8011dda28236",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/01-endpoint-analysis/risk-matrix.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/80/11dda28236/0/metadata.json",
+      "transcript": "/80/11dda28236/0/full.jsonl",
+      "context": "/80/11dda28236/0/context.md",
+      "content_hash": "/80/11dda28236/0/content_hash.txt",
+      "prompt": "/80/11dda28236/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
