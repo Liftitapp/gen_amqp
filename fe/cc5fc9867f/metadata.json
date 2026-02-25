@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "fecc5fc9867f",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/03-policy-attachment-preview/03-RESEARCH.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/fe/cc5fc9867f/0/metadata.json",
+      "transcript": "/fe/cc5fc9867f/0/full.jsonl",
+      "context": "/fe/cc5fc9867f/0/context.md",
+      "content_hash": "/fe/cc5fc9867f/0/content_hash.txt",
+      "prompt": "/fe/cc5fc9867f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
