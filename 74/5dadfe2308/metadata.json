@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "745dadfe2308",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/airflow/load-balancer.tf",
+    "apps/airflow/remote-state.tf",
+    "apps/apps/load-balancer.tf",
+    "apps/apps/remote-state.tf",
+    "apps/gke/load-balancer.tf",
+    "apps/gke/remote-state.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/74/5dadfe2308/0/metadata.json",
+      "transcript": "/74/5dadfe2308/0/full.jsonl",
+      "context": "/74/5dadfe2308/0/context.md",
+      "content_hash": "/74/5dadfe2308/0/content_hash.txt",
+      "prompt": "/74/5dadfe2308/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
