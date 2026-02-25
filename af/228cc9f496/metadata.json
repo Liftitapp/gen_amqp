@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "af228cc9f496",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/waf/providers.tf",
+    "sec/waf/remote-state.tf",
+    "sec/waf/versions.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/af/228cc9f496/0/metadata.json",
+      "transcript": "/af/228cc9f496/0/full.jsonl",
+      "context": "/af/228cc9f496/0/context.md",
+      "content_hash": "/af/228cc9f496/0/content_hash.txt",
+      "prompt": "/af/228cc9f496/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
