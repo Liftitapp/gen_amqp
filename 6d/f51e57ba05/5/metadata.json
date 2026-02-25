@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "6df51e57ba05",
+  "session_id": "c5c957bb-3ec3-4447-90b2-1e71286c9a3f",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-25T19:35:55.44033907Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "bi/wrenai-poc/remote-state.tf",
+    "common/apps/load-balancer.tf",
+    "common/apps/remote-state.tf",
+    "bi/apps/load-balancer.tf",
+    "bi/apps/remote-state.tf",
+    "bi/wrenai-poc/load-balancer.tf"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "fab22fd140b8",
+  "checkpoint_transcript_start": 365,
+  "transcript_lines_at_start": 365,
+  "token_usage": {
+    "input_tokens": 14,
+    "cache_creation_tokens": 30528,
+    "cache_read_tokens": 519823,
+    "output_tokens": 283,
+    "api_call_count": 12
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-25T19:35:55.055049562Z",
+    "agent_lines": 0,
+    "human_added": 27,
+    "human_modified": 3,
+    "human_removed": 0,
+    "total_committed": 27,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/c5c957bb-3ec3-4447-90b2-1e71286c9a3f.jsonl"
+}
