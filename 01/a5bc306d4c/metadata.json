@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "01a5bc306d4c",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/waf/waf.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/01/a5bc306d4c/0/metadata.json",
+      "transcript": "/01/a5bc306d4c/0/full.jsonl",
+      "context": "/01/a5bc306d4c/0/context.md",
+      "content_hash": "/01/a5bc306d4c/0/content_hash.txt",
+      "prompt": "/01/a5bc306d4c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}

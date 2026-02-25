@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "01a5bc306d4c",
+  "session_id": "0e389dd6-1d32-45f1-b9bd-2a6edc096d6e",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-25T16:51:55.482087714Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/waf/waf.tf"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "b61af53640f9",
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-25T16:51:54.769802117Z",
+    "agent_lines": 0,
+    "human_added": 0,
+    "human_modified": 60,
+    "human_removed": 95,
+    "total_committed": 0,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/0e389dd6-1d32-45f1-b9bd-2a6edc096d6e.jsonl"
+}
