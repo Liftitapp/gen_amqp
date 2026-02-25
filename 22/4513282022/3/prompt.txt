@@ -1,0 +1,104 @@
+<objective>
+Execute all plans in a phase using wave-based parallel execution.
+
+Orchestrator stays lean: discover plans, analyze dependencies, group into waves, spawn subagents, collect results. Each subagent loads the full execute-plan context and handles its own plan.
+
+Context budget: ~15% orchestrator, 100% fresh per subagent.
+</objective>
+
+<execution_context>
+@/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md
+@/home/jhonortiz/.claude/get-shit-done/references/ui-brand.md
+</execution_context>
+
+<context>
+Phase: en todos los ambientes siempre y cuando se esté en modo monitoreo sin bloquear
+
+**Flags:**
+- `--gaps-only` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after verify-work creates fix plans.
+
+Context files are resolved inside the workflow via `gsd-tools init execute-phase` and per-subagent `<files_to_read>` blocks.
+</context>
+
+<process>
+Execute the execute-phase workflow from @/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md end-to-end.
+Preserve all workflow gates (wave execution, checkpoint handling, verification, state updates, routing).
+</process>
+
+---
+
+<objective>
+Execute all plans in a phase using wave-based parallel execution.
+
+Orchestrator stays lean: discover plans, analyze dependencies, group into waves, spawn subagents, collect results. Each subagent loads the full execute-plan context and handles its own plan.
+
+Context budget: ~15% orchestrator, 100% fresh per subagent.
+</objective>
+
+<execution_context>
+@/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md
+@/home/jhonortiz/.claude/get-shit-done/references/ui-brand.md
+</execution_context>
+
+<context>
+Phase: 3 en todos los ambientes siempre y cuando se esté en modo monitoreo sin bloquear
+
+**Flags:**
+- `--gaps-only` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after verify-work creates fix plans.
+
+Context files are resolved inside the workflow via `gsd-tools init execute-phase` and per-subagent `<files_to_read>` blocks.
+</context>
+
+<process>
+Execute the execute-phase workflow from @/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md end-to-end.
+Preserve all workflow gates (wave execution, checkpoint handling, verification, state updates, routing).
+</process>
+
+---
+
+<objective>
+Execute all plans in a phase using wave-based parallel execution.
+
+Orchestrator stays lean: discover plans, analyze dependencies, group into waves, spawn subagents, collect results. Each subagent loads the full execute-plan context and handles its own plan.
+
+Context budget: ~15% orchestrator, 100% fresh per subagent.
+</objective>
+
+<execution_context>
+@/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md
+@/home/jhonortiz/.claude/get-shit-done/references/ui-brand.md
+</execution_context>
+
+<context>
+Phase: 3 en todos los ambientes siempre y cuando se esté en modo monitoreo sin bloquear, yo ejecuto terraform apply
+
+**Flags:**
+- `--gaps-only` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after verify-work creates fix plans.
+
+Context files are resolved inside the workflow via `gsd-tools init execute-phase` and per-subagent `<files_to_read>` blocks.
+</context>
+
+<process>
+Execute the execute-phase workflow from @/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md end-to-end.
+Preserve all workflow gates (wave execution, checkpoint handling, verification, state updates, routing).
+</process>
+
+---
+
+continua, conversación en españo
+
+---
+
+Pero creo que esos cambios de IAm deberían ser para staging, prod, sha y bi
+
+---
+
+los 5, todos los ambientes, debido a que estara sólo en modo escucha, no hará bloqueos
+
+---
+
+Lo hiciste mal, es un sólo código manejado por workspaces
+
+---
+
+Valida porque en el paso 2 faltó el workspace de bi, para el tema de whitelist (es la misma de prod, ya que bi usa la VPC shared de prod)
