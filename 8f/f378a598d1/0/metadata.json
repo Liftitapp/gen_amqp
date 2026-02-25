@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "8ff378a598d1",
+  "session_id": "0e389dd6-1d32-45f1-b9bd-2a6edc096d6e",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-25T21:45:40.21158613Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/REQUIREMENTS.md",
+    ".planning/ROADMAP.md",
+    ".planning/STATE.md",
+    ".planning/phases/03-policy-attachment-preview/03-04-SUMMARY.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "b61af53640f9",
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-25T21:45:39.482121671Z",
+    "agent_lines": 0,
+    "human_added": 129,
+    "human_modified": 15,
+    "human_removed": 0,
+    "total_committed": 129,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/0e389dd6-1d32-45f1-b9bd-2a6edc096d6e.jsonl"
+}
