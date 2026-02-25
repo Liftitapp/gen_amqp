@@ -1,0 +1,37 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "6a031475ee94",
+  "session_id": "8542ace3-a1b5-4b16-b403-5fdcb0c933ab",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-25T22:04:11.227744105Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/cloudrun/domain-map.tf",
+    "apps/gke/load-balancer.tf",
+    "apps/scheduler/scheduler.tf",
+    "bi/wrenai-poc/vm.tf",
+    "sec/waf/.terraform.lock.hcl"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "d56b93119b7d",
+  "checkpoint_transcript_start": 1127,
+  "transcript_lines_at_start": 1127,
+  "token_usage": {
+    "input_tokens": 12,
+    "cache_creation_tokens": 9185,
+    "cache_read_tokens": 1022993,
+    "output_tokens": 1185,
+    "api_call_count": 8
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-25T22:04:10.873566141Z",
+    "agent_lines": 0,
+    "human_added": 0,
+    "human_modified": 31,
+    "human_removed": 23,
+    "total_committed": 0,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/8542ace3-a1b5-4b16-b403-5fdcb0c933ab.jsonl"
+}
