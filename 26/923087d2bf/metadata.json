@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "26923087d2bf",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/03-policy-attachment-preview/03-CONTEXT.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/26/923087d2bf/0/metadata.json",
+      "transcript": "/26/923087d2bf/0/full.jsonl",
+      "context": "/26/923087d2bf/0/context.md",
+      "content_hash": "/26/923087d2bf/0/content_hash.txt",
+      "prompt": "/26/923087d2bf/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
