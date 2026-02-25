@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "57db22418811",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/REQUIREMENTS.md",
+    ".planning/ROADMAP.md",
+    ".planning/STATE.md",
+    ".planning/phases/02-waf-infrastructure/02-01-SUMMARY.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/57/db22418811/0/metadata.json",
+      "transcript": "/57/db22418811/0/full.jsonl",
+      "context": "/57/db22418811/0/context.md",
+      "content_hash": "/57/db22418811/0/content_hash.txt",
+      "prompt": "/57/db22418811/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
