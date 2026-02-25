@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "6df51e57ba05",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "bi/apps/load-balancer.tf",
+    "bi/apps/remote-state.tf",
+    "bi/wrenai-poc/load-balancer.tf",
+    "bi/wrenai-poc/remote-state.tf",
+    "common/apps/load-balancer.tf",
+    "common/apps/remote-state.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/6d/f51e57ba05/0/metadata.json",
+      "transcript": "/6d/f51e57ba05/0/full.jsonl",
+      "context": "/6d/f51e57ba05/0/context.md",
+      "content_hash": "/6d/f51e57ba05/0/content_hash.txt",
+      "prompt": "/6d/f51e57ba05/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
