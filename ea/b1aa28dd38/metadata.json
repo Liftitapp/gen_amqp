@@ -3,7 +3,7 @@
   "checkpoint_id": "eab1aa28dd38",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     ".planning/ROADMAP.md",
     ".planning/phases/02-waf-infrastructure/02-VERIFICATION.md"
@@ -36,13 +36,20 @@
       "context": "/ea/b1aa28dd38/3/context.md",
       "content_hash": "/ea/b1aa28dd38/3/content_hash.txt",
       "prompt": "/ea/b1aa28dd38/3/prompt.txt"
+    },
+    {
+      "metadata": "/ea/b1aa28dd38/4/metadata.json",
+      "transcript": "/ea/b1aa28dd38/4/full.jsonl",
+      "context": "/ea/b1aa28dd38/4/context.md",
+      "content_hash": "/ea/b1aa28dd38/4/content_hash.txt",
+      "prompt": "/ea/b1aa28dd38/4/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 106,
-    "cache_creation_tokens": 452126,
-    "cache_read_tokens": 6165463,
-    "output_tokens": 11298,
-    "api_call_count": 89
+    "input_tokens": 115,
+    "cache_creation_tokens": 456151,
+    "cache_read_tokens": 7023577,
+    "output_tokens": 11621,
+    "api_call_count": 97
   }
 }
