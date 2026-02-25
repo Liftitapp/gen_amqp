@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "f236d4968f7e",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/REQUIREMENTS.md",
+    ".planning/ROADMAP.md",
+    ".planning/STATE.md",
+    ".planning/phases/02-waf-infrastructure/02-01-SUMMARY.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f2/36d4968f7e/0/metadata.json",
+      "transcript": "/f2/36d4968f7e/0/full.jsonl",
+      "context": "/f2/36d4968f7e/0/context.md",
+      "content_hash": "/f2/36d4968f7e/0/content_hash.txt",
+      "prompt": "/f2/36d4968f7e/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
