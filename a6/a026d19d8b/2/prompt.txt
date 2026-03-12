@@ -1,0 +1,2384 @@
+<objective>
+Execute all plans in a phase using wave-based parallel execution.
+
+Orchestrator stays lean: discover plans, analyze dependencies, group into waves, spawn subagents, collect results. Each subagent loads the full execute-plan context and handles its own plan.
+
+Context budget: ~15% orchestrator, 100% fresh per subagent.
+</objective>
+
+<execution_context>
+@/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md
+@/home/jhonortiz/.claude/get-shit-done/references/ui-brand.md
+</execution_context>
+
+<context>
+Phase: 3
+
+**Flags:**
+- `--gaps-only` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after verify-work creates fix plans.
+
+Context files are resolved inside the workflow via `gsd-tools init execute-phase` and per-subagent `<files_to_read>` blocks.
+</context>
+
+<process>
+Execute the execute-phase workflow from @/home/jhonortiz/.claude/get-shit-done/workflows/execute-phase.md end-to-end.
+Preserve all workflow gates (wave execution, checkpoint handling, verification, state updates, routing).
+</process>
+
+---
+
+El siguiente paso es por favor analiza los logs relacionados con waf en el proyecto prod-apps-454414 desde que se activó hasta el día de hoy, con  esas información valida si las reglas actuales de waf en devops/tf-infrastructure/sec/waf  son suficientes y cubren todos los escenarios o indicame qué modificaciones requieres hacer
+
+---
+
+<task-notification>
+<task-id>bsl7gzvxp</task-id>
+<tool-use-id>toolu_012Lm1CE2189ZTtnqwJ9FGnd</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Background command "Count total WAF preview-deny entries in prod (14d)" completed (exit code 0)</summary>
+</task-notification>
+Read the output file to retrieve the result: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>bnnhhune4</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/tmp/claude-1000/-home-jhonortiz-devops-tf-infrastructure/tasks/bnnhhune4.output</output-file>
+<status>completed</status>
+<summary>Background command "Daily breakdown of WAF preview-deny entries" completed (exit code 0)</summary>
+</task-notification>
+Read the output file to retrieve the result: /tmp/claude-1000/-home-jhonortiz-devops-tf-infrastructure/tasks/bnnhhune4.output
+
+---
+
+Respecto a Excel-loader esta es Python no PHP, por favor revisa en la carpeta devops todos los repositorios que tengan pipeline de github de Helm y de GCS,  que  son las aplicaciones que se verían afectadas por el WAF ya que en el caso de cloudrun no aplica.
+
+---
+
+<task-notification>
+<task-id>a2dbbc7e06d633567</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find Helm pipeline repos" completed</summary>
+<result>I'm unable to complete this task because the tools I need -- Bash, Glob, and Grep -- have all been denied permission. Here is what I was trying to do and why:
+
+1. **Bash** (`ls`) -- to list all repository directories under `/home/jhonortiz/devops/`.
+2. **Glob** -- to find all GitHub Actions workflow files matching `.github/workflows/*.yml` and `.github/workflows/*.yaml` across every repo in that directory.
+3. **Grep** -- to search those workflow files for Helm-related references (`helm`, `helm upgrade`, `helm install`, `helm chart`, etc.) and extract the relevant lines.
+
+All three tools are essential for this research task. I need at least one of them to proceed. Could you grant permission to use Glob and Grep (read-only operations), or alternatively Bash? Then I can complete the search and produce the requested table.</result>
+<usage><total_tokens>12478</total_tokens><tool_uses>7</tool_uses><duration_ms>19043</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a5941ec43d80b940c</task-id>
+<tool-use-id>toolu_01RjZFQkN9VRVtCkpW22qKTT</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find GCS pipeline repos" completed</summary>
+<result>I'm unable to complete this task because the Bash, Glob, and Grep tools are all denied. These are the essential tools needed to:
+
+1. **List directories** under `/home/jhonortiz/devops/` to discover all repositories (requires Bash or Glob)
+2. **Find workflow files** matching `.github/workflows/*.yml` or `.yaml` patterns across all repos (requires Glob or Bash with `find`)
+3. **Search file contents** for GCS-related keywords like `gsutil`, `gs://`, `upload-cloud-storage`, `bucket`, etc. (requires Grep or Bash with `grep`)
+4. **Read matching files** to extract bucket names and domains (requires Read, but I need the file paths first)
+
+Could you please grant permission to at least **Glob** and **Grep** (or **Bash**) so I can perform this search? These are read-only operations that won't modify anything.</result>
+<usage><total_tokens>12932</total_tokens><tool_uses>9</tool_uses><duration_ms>21452</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+Sugiero que valides los endpoints de cada una de esas aplicaciones para afinar aún más las reglas, sobre todo las que hacen uploads de archivos para que sean permitidas en las reglas
+
+---
+
+<task-notification>
+<task-id>a4c404593ad5e0b0e</task-id>
+<tool-use-id>toolu_01THMTEGmmge8gK5DXPbUmC8</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find attachment-domain endpoints" completed</summary>
+<result>Perfect! Now I have all the information I need. Let me compile a comprehensive list of all the endpoints with their HTTP methods, paths, and characteristics.
+
+## API Endpoints Summary for attachment-domain
+
+**Framework**: FastAPI (Python)  
+**Route Prefix**: `/api/v1` (all endpoints use this prefix)  
+**Location**: `/home/jhonortiz/devops/attachment-domain/src/entrypoints/fastapi/endpoints/`
+
+---
+
+### All Endpoints (HTTP Method | Full Route Path | Function)
+
+#### File Upload Endpoints (multipart/form-data)
+1. **POST** | `/api/v1/attachments/binary` | `create_binary_attachments()`
+   - Handles multipart form data with file uploads
+   - Parameters: `file_name[]`, `meta[]`, `output_dir`, `files[]`
+   - Returns: `CreateAttachmentsResponse` (201 Created)
+
+#### Attachment Creation Endpoints
+2. **POST** | `/api/v1/attachments/base64` | `create_base64_attachments()`
+   - Creates attachments from base64-encoded content
+   - Returns: `CreateAttachmentsResponse` (201 Created)
+
+3. **POST** | `/api/v1/attachments/url` | `create_url_attachments()`
+   - Creates attachments by downloading from external URLs
+   - Returns: `CreateAttachmentsResponse` (201 Created)
+
+#### Attachment Signing/Access Endpoints
+4. **POST** | `/api/v1/attachments` | `get_public_url()`
+   - Generates public signed URLs for attachment access
+   - Request body: `AttachmentsRead` schema
+   - Returns: `AttachmentsResponse` (200 OK)
+
+#### DELETE Endpoints
+5. **DELETE** | `/api/v1/attachments` | `del_attachments()`
+   - Deletes a list of attachments
+   - Request body: `AttachmentsRead` schema
+   - Returns: `DeleteAttachmentsResponse` (200 OK)
+
+#### PATCH Endpoints
+6. **PATCH** | `/api/v1/attachments/metadata` | `update_attachment_metadata()`
+   - Updates attachment metadata with merge operation
+   - Request body: `UpdateAttachmentMetadataRequest` schema
+   - Preserves existing fields, adds/updates specified fields
+   - Returns: `UpdateAttachmentMetadataResponse` (200 OK)
+
+#### ZIP Creation Endpoint
+7. **POST** | `/api/v1/attachments/zip` | `create_zip_attachments()`
+   - Creates a ZIP file containing multiple attachments
+   - Request body: `AttachmentsCreateZip` schema
+   - Returns: Streaming ZIP file (application/zip) (200 OK)
+
+#### Signer Redirect Endpoint
+8. **GET** | `/api/v1/attachments/signer` | `redirect_to_public_url()`
+   - Redirects to public URL with HMAC-SHA256 validation
+   - Query parameters: `url`, `hash`
+   - Returns: Redirect response (302) to public URL
+
+#### Root Endpoint
+9. **GET** | `/` | `redirect_to_docs()`
+   - Redirects to OpenAPI documentation
+   - Returns: Redirect to `/docs` (302)
+
+---
+
+### Summary by HTTP Method
+
+| HTTP Method | Count | Endpoints |
+|-------------|-------|-----------|
+| **POST** | 5 | `/attachments/binary`, `/attachments/base64`, `/attachments/url`, `/attachments`, `/attachments/zip` |
+| **DELETE** | 1 | `/attachments` |
+| **PATCH** | 1 | `/attachments/metadata` |
+| **GET** | 2 | `/attachments/signer`, `/` |
+
+---
+
+### Multipart/Form-Data Handling
+- **Only endpoint**: `POST /api/v1/attachments/binary`
+  - Uses FastAPI `File()` and `Form()` parameters
+  - Imports: `python-multipart==0.0.20` (in requirements)
+  - Accepts multiple files with metadata per file
+
+---
+
+### PUT/PATCH/DELETE Summary
+- **PATCH**: 1 endpoint (`/api/v1/attachments/metadata`)
+- **DELETE**: 1 endpoint (`/api/v1/attachments`)
+- **PUT**: 0 endpoints
+- **Custom methods**: None
+
+---
+
+### Route Registration
+Both routers are included in main.py with authentication middleware:
+- `attachment_api.router` → requires Bearer token authentication
+- `attachment_signer_api.router` → public access (no auth required for GET /signer)
+- All routes pass through CORS middleware and session context middleware</result>
+<usage><total_tokens>29781</total_tokens><tool_uses>12</tool_uses><duration_ms>24107</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a744b271073740a71</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find lms-excel-loader endpoints" completed</summary>
+<result>Good! I have all the route files. Let me now create a comprehensive summary of all endpoints. Let me verify the route prefix and organize the information:
+
+Based on my thorough analysis of the lms-excel-loader Python application, here is a comprehensive list of all API endpoints:
+
+## API Framework & Configuration
+- **Framework**: FastAPI
+- **API Base Prefix**: `/v1`
+- **Root Redirect**: GET `/` → redirects to `/docs` (OpenAPI documentation)
+
+## Complete API Endpoints
+
+### 1. **Environment & Health Check** (No Auth Required)
+| Method | Endpoint | Summary |
+|--------|----------|---------|
+| GET | `/health` | Healthcheck status (database_status, disk_usage) |
+| GET | `/v1/environment` | Get API version info |
+
+### 2. **File Loader** (Auth Required - Bearer Token)
+| Method | Endpoint | Summary | Upload |
+|--------|----------|---------|--------|
+| POST | `/v1/load-orders` | Create orders for dispatch | Yes (File upload) |
+| POST | `/v1/preview-file` | Preview order loader file | Yes (File upload) |
+
+### 3. **Configuration Management** (Auth Required - Bearer Token)
+| Method | Endpoint | Summary | Upload |
+|--------|----------|---------|--------|
+| POST | `/v1/configuration` | Create custom configuration | No |
+| GET | `/v1/configurations` | Get all configurations (paginated, filterable) | No |
+| GET | `/v1/configuration/{configuration_id}` | Get configuration details by ID | No |
+| PATCH | `/v1/configuration/default/{configuration_id}` | Mark configuration as default | No |
+| DELETE | `/v1/configuration/{configuration_id}` | Delete a configuration | No |
+| POST | `/v1/duplicate-configuration/{parent_configuration_id}` | Duplicate a configuration | No |
+| GET | `/v1/configuration/additional-columns/{organization_id}` | Get preconfigured additional columns | No |
+| PUT | `/v1/configuration/{configuration_id}` | Update a configuration | No |
+| POST | `/v1/configuration-files` | Upload template for configuration | Yes (File upload) |
+
+### 4. **Columns Observations** (Auth Required - Bearer Token)
+| Method | Endpoint | Summary |
+|--------|----------|---------|
+| GET | `/v1/columns-observations` | Get all columns descriptions/observations |
+
+### 5. **Historical Data** (Auth Required - Bearer Token)
+| Method | Endpoint | Summary |
+|--------|----------|---------|
+| GET | `/v1/historical/{historical_id}` | Get summary for load orders process |
+| GET | `/v1/historical` | Get historical detail (paginated, filterable) |
+| GET | `/v1/historical/file/{file_id}` | Get public URL of a history file |
+| GET | `/v1/historical-detail/` | Get details of orders for a load process |
+
+### 6. **Data Quality** (Auth Required - Bearer Token)
+| Method | Endpoint | Summary |
+|--------|----------|---------|
+| GET | `/v1/data-quality/typing` | Get data quality typing definitions |
+| GET | `/v1/data-quality/impact` | Get data quality impact information |
+| GET | `/v1/data-quality/columns-rules` | Get data quality columns rules |
+| GET | `/v1/data-quality/detail` | Get data quality detail information |
+
+### 7. **Customer Sites** (Auth Required - Bearer Token)
+| Method | Endpoint | Summary | Upload |
+|--------|----------|---------|--------|
+| POST | `/v1/customer-sites` | Create new customer site | No (JSON body) |
+| GET | `/v1/customer-sites-summary/{load_id}` | Get customer sites process detail | No |
+| GET | `/v1/customer-sites-load` | Get customer sites load data | No |
+| GET | `/v1/customer-sites-file` | Get customer sites file | No |
+| GET | `/v1/customer-sites` | Get customer sites | No |
+
+### 8. **External Integration** (Auth Required - Bearer Token, Hidden from Schema)
+| Method | Endpoint | Summary |
+|--------|----------|---------|
+| GET | `/v1/external/organizations` | Get LMS organizations |
+
+## File Upload Endpoints Summary
+The following endpoints accept **multipart/form-data** file uploads:
+
+1. **POST `/v1/load-orders`** - File upload for creating orders (required parameter: `file`)
+2. **POST `/v1/preview-file`** - File upload for previewing order loader file (required parameter: `file`)
+3. **POST `/v1/configuration-files`** - File upload for configuration template (required parameter: `file`)
+
+## Route Organization Structure
+- **No Prefix**: Health check only (public endpoint)
+- **Prefix `/v1`**: All other endpoints grouped by functional domain
+  - `/load-orders*` → Loader routes
+  - `/configuration*` → Configuration management routes
+  - `/columns-observations*` → Column metadata routes
+  - `/historical*` → Historical data routes
+  - `/data-quality*` → Data quality info routes
+  - `/customer-sites*` → Customer site management routes
+  - `/external*` → External integrations (hidden from OpenAPI schema)
+  - `/environment` → Environment info routes
+
+All configuration, loader, historical, data-quality, and customer-sites endpoints require **Bearer token authentication** via the `Authorization` header.</result>
+<usage><total_tokens>37016</total_tokens><tool_uses>15</tool_uses><duration_ms>28202</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+[Request interrupted by user]
+
+---
+
+<task-notification>
+<task-id>acae2417b1cae86c6</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find tms_core API endpoints" completed</summary>
+<result>Perfect! Now let me create a comprehensive summary by documenting all the endpoints. Let me compile the final report:
+
+Based on my analysis of the tms_core codebase, here is a comprehensive list of all API route/endpoint definitions that serve api.liftit.co:
+
+## API Framework & Structure
+- **Framework**: Elixir/Phoenix
+- **API Version**: v1 (prefix used in routes: `/v1/*`)
+- **Port**: Gateway app serves the API
+- **State**: Multiple apps: gateway, core, user, admin
+
+---
+
+## PUT/PATCH/DELETE Endpoints (Modifying Methods)
+
+### PUT Endpoints
+
+**Onboarding/Authentication:**
+- `PUT /v1/onboarding/first_login/:user_id`
+- `PUT /v1/onboarding/user/:user_prospect_id` (complete register)
+- `PUT /v1/onboarding/update_user/:user_id/logistic_operator/:logistic_operator`
+
+**Service Management:**
+- `PUT /v1/service/:id/run`
+- `PUT /v1/service/:id/cancel`
+- `PUT /v1/service/:id/task/:task_id/go`
+- `PUT /v1/service/:id/task/:task_id/arrived`
+- `PUT /v1/service/:id/task/:task_id/start`
+- **`PUT /v1/service/:id/task/:task_id/finish`** ⚠️ (WAF log hit)
+- `PUT /v1/service/:id/task/:task_id/cancel`
+- `PUT /v1/service/:id/task/:task_id/return`
+- `PUT /v1/service/:id/tasks/cancelled`
+- `PUT /v1/service/:id/task/:task_id/reschedule`
+- `PUT /v1/service/:id/manifest/:manifest_id`
+
+**Worker Vehicle Management:**
+- **`PUT /v1/worker_vehicle/:id/update_status`** ⚠️ (WAF log hit)
+- **`PUT /v1/worker_vehicle/:id/service/:service_id/accept`** ⚠️ (WAF log hit)
+- `PUT /v1/worker_vehicle/:id/service/:service_id/take`
+
+**Other PUT Endpoints:**
+- `PUT /v1/change_organization/:id`
+- `PUT /v1/user/:id` (user profile update)
+- `PUT /v1/delivery_bags` (update)
+- `PUT /v1/orders/:uuid/cancel`
+- `PUT /v1/service/task/offline`
+
+---
+
+### PATCH Endpoints
+
+**Onboarding:**
+- `PATCH /v1/onboarding/user/:user_id/document` (register documents)
+- `PATCH /v1/onboarding/profile/:user_id` (update user profile)
+
+**Organization:**
+- `PATCH /v1/organization/:id`
+
+**Service Management:**
+- `PATCH /v1/service/:service_id/novelty/:novelty_id` (update novelty)
+
+---
+
+### DELETE Endpoints
+
+**Service Management:**
+- `DELETE /v1/service/:id/delete` (service deletion)
+
+**Delivery:**
+- `DELETE /v1/delivery_bags` (bulk delete)
+
+---
+
+## File Upload Endpoints
+
+### POST Endpoints for File Uploads
+
+**Onboarding:**
+- `POST /v1/onboarding/file` (SelfOnboardingController.upload_file) ⚠️ General file upload
+
+**Task Attachments:**
+- `POST /v1/task_attachments/:task_id_or_uuid/type/:type` (TaskController.post_task_attachments)
+- `POST /v1/bridge/task_attachments/:task_id_or_uuid/type/:type` (bridge_post_task_attachments)
+
+**Service Attachments:**
+- `POST /v1/service/:id/attachments/:type` (ServiceController.add_attachments)
+- `POST /v1/bridge/service/:service_id/attachments/:type` (bridge_add_attachments)
+
+**Vehicle Inspection:**
+- **`POST /v1/vehicles/inspection`** ⚠️ (WAF log hit - create inspection)
+- `POST /v1/bridge/inspection/:inspection_id/attachments` (bridge_add_attachments)
+
+**Task Validation:**
+- `POST /v1/service/:id/task/:task_id/attachment_validator_ocr` (OCR validation)
+
+---
+
+## Specific WAF-Flagged Endpoints (Confirmed Routes)
+
+| Endpoint Pattern | HTTP Method | Controller | Action | Found |
+|---|---|---|---|---|
+| `/v1/service/*/task/*/finish` | PUT | ServiceController | finish_task | ✓ |
+| `/v1/worker_vehicle/*/update_status` | PUT | WorkerVehicleController | update_status | ✓ |
+| `/v1/worker_vehicle/*/service/*/accept` | PUT | ServiceController | accept | ✓ |
+| `/v1/vehicles/inspection` | POST | InspectionController | create | ✓ |
+
+---
+
+## Route Prefix Structure
+
+```
+Base: /v1/
+  
+Service Routes:
+  /v1/service/                    - Root service endpoints
+    /:id/                         - Resource-specific service
+      task/:task_id/*             - Task operations
+      manifest/:manifest_id/*     - Manifest operations
+      attachments/:type           - Attachment uploads
+      deposits                    - Deposit creation
+
+Worker Vehicle Routes:
+  /v1/worker_vehicle/            - Root worker vehicle endpoints
+    /:id/                         - Resource-specific worker vehicle
+      update_status              - Status updates
+      service/:service_id/*      - Service operations
+      can_take_service           - Service availability check
+      freed_up                   - Freed up status
+
+Vehicle Inspection Routes:
+  /v1/vehicles/inspection/
+    /questions                   - Get inspection questions (GET)
+    /exists                      - Check if inspection exists (GET)
+    /:id                         - Get inspection details (GET)
+    /                            - Create new inspection (POST)
+
+Onboarding Routes:
+  /v1/onboarding/
+    /file                        - File uploads (POST)
+    /user/:user_id              - User operations
+    /profile/:user_id           - Profile operations
+```
+
+---
+
+## Summary Statistics
+
+- **Total PUT endpoints**: 18
+- **Total PATCH endpoints**: 4
+- **Total DELETE endpoints**: 2
+- **Total file upload endpoints (POST)**: 6
+- **Critical WAF endpoints identified**: 4
+
+All routes use the `v1` API prefix and are served from the Gateway app at `/home/jhonortiz/devops/tms_core/apps/gateway/lib/gateway_web/router.ex`.</result>
+<usage><total_tokens>52616</total_tokens><tool_uses>26</tool_uses><duration_ms>47260</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a45f0745d23f1acaf</task-id>
+<tool-use-id>toolu_0185YhoVUi66W7h9XHhNocj1</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find Excel_loader endpoints" completed</summary>
+<result>Based on my thorough investigation of the Excel_loader application, I have compiled a comprehensive list of all API routes and endpoints.
+
+## Complete Excel_loader API Endpoint Summary
+
+**Application Type:** Django (Python web application)
+**Domain:** excel-loader.liftit.co
+**Framework:** Django 2.2+
+
+---
+
+### ROOT URL CONFIGURATION (`/home/jhonortiz/devops/Excel_loader/excel_app/urls.py`)
+
+| Route Prefix | Namespace | Module |
+|---|---|---|
+| `admin/` | - | Django Admin |
+| `main/` | main | apps.main.urls |
+| `` (empty) | authentication | apps.authentication.urls |
+| `i18n/` | - | Django i18n |
+| `historical/` | historical | apps.historical.urls |
+
+---
+
+### ALL ENDPOINTS WITH HTTP METHODS
+
+#### MAIN APP ENDPOINTS (`/main/`)
+| Endpoint | HTTP Methods | Handler | Purpose |
+|---|---|---|---|
+| `/main/` | GET | `main_view` | Landing page / render main template |
+| `/main/main/` | GET | `main_view` | Alias for main page |
+| `/main/` | POST | `main_view` | **File upload - Process orders data** |
+| `/main/organizations-hubs/` | GET | `organizations_hubs` | Get hubs for selected organization |
+| `/main/hubs/` | GET | `hubs` | Set hub context |
+| `/main/orders-process-status/` | GET, POST | `get_advance_by_process_uuid` | **Poll order processing status** |
+| `/main/health-check/` | GET | `health_check` | Health check endpoint |
+| `/main/jsi18n/` | GET | JavaScriptCatalog | JavaScript i18n catalog |
+| `/main/environment/` | GET | `get_application_version` | Get application version/environment info |
+
+#### AUTHENTICATION APP ENDPOINTS (`/`)
+| Endpoint | HTTP Methods | Handler | Purpose |
+|---|---|---|---|
+| `/` | GET | `index` | Redirect to main |
+| `/set-config` | GET | `set_config` | Configuration form page |
+| `/set-config` | POST | `set_config` | **Set auth tokens** (access_token, refresh_token) |
+
+#### HISTORICAL APP ENDPOINTS (`/historical/`)
+| Endpoint | HTTP Methods | Handler | Purpose |
+|---|---|---|---|
+| `/historical/` | GET | `index` | Load historical data listing page |
+| `/historical/download/` | GET | `download_file` | **Download error file from S3** |
+| `/historical/historical-organization-hubs/` | GET | `get_organization_hubs` | Get hubs for organization |
+| `/historical/historical-users-hubs/` | POST | `get_users` | **Get users for selected hubs** |
+| `/historical/filter-data/` | GET | `advance_filters` | Filter and search historical loads |
+| `/historical/load-detail/` | GET | `load_detail` | View detailed load information |
+| `/historical/jsi18n/` | GET | JavaScriptCatalog | JavaScript i18n catalog |
+
+---
+
+### FILE UPLOAD ENDPOINTS
+
+**Primary Upload Endpoint:**
+- **`POST /main/`** - Accepts JSON payload with:
+  - `orders_data` (2D array: headers + data rows)
+  - `filename` (string)
+  - Returns: UUID and total_orders count (HTTP 202)
+
+**File Download Endpoint:**
+- **`GET /historical/download/?file_path=<S3_path>`** - Redirects to S3 public URL for error files
+
+---
+
+### AJAX POLLING ENDPOINTS (from send.js)
+
+| Endpoint | Method | Interval | Purpose |
+|---|---|---|---|
+| `orders-process-status/` | POST | 3 seconds | Poll order processing progress |
+
+---
+
+### KEY REQUEST PATTERNS
+
+**Fetch Requests:**
+1. **File Upload**: `POST /main/` with JSON body + CSRF token
+2. **Status Polling**: `POST /main/orders-process-status/` every 3 seconds
+3. **AJAX Selects**: jQuery AJAX to `organizations-hubs/`, `hubs/`, `historical-organization-hubs/`, `historical-users-hubs/`
+
+**Session Management:**
+- Keycloak middleware authentication
+- Session variables for: `auth_token`, `hub_id`, `hub_name`, `user_information`, `organization_id`
+
+---
+
+### ROUTE PREFIX STRUCTURE
+
+```
+Root:
+  ├── /admin/                          [Django Admin]
+  ├── /main/                           [Main App - File Upload]
+  │   ├── "" (GET - main_view)
+  │   ├── "main/" (GET - main_view) 
+  │   ├── "" (POST - orders upload)
+  │   ├── "organizations-hubs/" (GET)
+  │   ├── "hubs/" (GET)
+  │   ├── "orders-process-status/" (POST - polling)
+  │   ├── "health-check/" (GET)
+  │   ├── "jsi18n/" (GET)
+  │   └── "environment/" (GET)
+  ├── / (Auth App - Root)
+  │   ├── "" (GET - redirect)
+  │   └── "set-config" (GET/POST)
+  ├── /i18n/                           [Django i18n]
+  └── /historical/                     [Historical Data]
+      ├── "" (GET - list)
+      ├── "download/" (GET)
+      ├── "historical-organization-hubs/" (GET)
+      ├── "historical-users-hubs/" (POST)
+      ├── "filter-data/" (GET)
+      ├── "load-detail/" (GET)
+      └── "jsi18n/" (GET)
+```
+
+---
+
+### SUMMARY FOR WAF CONFIGURATION
+
+The `/main/` prefix referenced in WAF logs maps to **apps.main.urls** and includes these critical endpoints:
+- `GET /main/` - HTML form rendering
+- `POST /main/` - File upload processing (orders data)
+- `GET /main/orders-process-status/` - Status polling (also accepts POST)
+- `GET /main/health-check/` - Health monitoring
+
+All endpoints use Django's CSRF protection with `X-CSRFToken` headers for POST requests.</result>
+<usage><total_tokens>48522</total_tokens><tool_uses>26</tool_uses><duration_ms>47243</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a5707aa32be9a2938</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find services-domain endpoints" completed</summary>
+<result>Perfect! Now I have all the endpoint information. Let me compile a comprehensive list of all endpoints organized by category and HTTP method.
+
+## API ENDPOINTS - SERVICES-DOMAIN (FastAPI)
+
+**Framework**: FastAPI 0.115.6 | **Port**: Typically 8000 | **Route Prefix**: `/api/v1` and `/api/v2`
+
+---
+
+### FILE UPLOAD ENDPOINTS (multipart/form-data)
+
+**POST /api/v1/attachments** - Create binary attachment with file upload
+- **Content-Type**: multipart/form-data
+- **Form Parameters**:
+  - `content`: List[UploadFile] (required)
+  - `entity_type`: List[str] (required)
+  - `entity_key_id`: List[int] (required)
+  - `description`: List[str] (required)
+  - `attachment_entity_type`: List[str] (required)
+- **Status**: 201 Created
+- **File**: `/home/jhonortiz/devops/services-domain/src/entrypoints/fastapi/endpoints/attachment_api.py:161-199`
+- **Note**: This is the WAF-logged attachment endpoint
+
+---
+
+### ATTACHMENT ENDPOINTS
+
+**GET /api/v1/attachments** - Get all attachments with pagination/filtering
+- **Response**: Paginated list
+- **File**: `attachment_api.py:111-128`
+
+**GET /api/v1/attachments/{attachment_id}** - Get single attachment by ID
+- **Response**: Single attachment object
+- **File**: `attachment_api.py:131-158`
+
+**POST /api/v1/attachments** - Create attachment (JSON body, base64 content)
+- **Content-Type**: application/json
+- **Status**: 201 Created
+- **File**: `attachment_api.py:202-229`
+
+**PUT /api/v1/attachments/{attachment_id}** - Update attachment
+- **Status**: 200 OK
+- **File**: `attachment_api.py:232-258`
+
+**DELETE /api/v1/attachments/{attachment_id}** - Delete attachment
+- **Status**: 204 No Content
+- **File**: `attachment_api.py:261-279`
+
+---
+
+### SERVICE ENDPOINTS (Core CRUD)
+
+**GET /api/v1/services** - List all services with pagination/filtering
+- **Query Params**: Supports filtering, ordering, pagination
+- **File**: `service_api.py:127-163`
+
+**GET /api/v2/services** - List all services (V2 version)
+- **Query Params**: Supports filtering, ordering, pagination
+- **File**: `service_api.py:166-202`
+
+**GET /api/v1/services/{service_id}** - Get single service by ID
+- **File**: `service_api.py:205-243`
+
+**GET /api/v1/services/{service_id}/tracking** - Get service tracking info
+- **File**: `service_api.py:246-275`
+
+**POST /api/v1/services** - Create new service
+- **Status**: 201 Created
+- **File**: `service_api.py:278-293`
+
+**POST /api/v2/services** - Create new service (V2)
+- **Status**: 201 Created
+- **File**: `service_api.py:296-310`
+
+**PUT /api/v1/services/{service_id}** - Update service
+- **Status**: 200 OK
+- **File**: `service_api.py:397-422`
+
+**DELETE /api/v1/services/{service_id}** - Delete service
+- **Status**: 204 No Content
+- **File**: `service_api.py:492-510`
+
+---
+
+### SERVICE ACTIONS ENDPOINTS
+
+**POST /api/v1/services/{service_id}/assign** - Manual assignment of worker/vehicle
+- **Status**: 202 Accepted
+- **File**: `service_api.py:425-448`
+
+**POST /api/v1/services/{service_id}/accept** - Accept or reject service
+- **Status**: 202 Accepted
+- **File**: `service_api.py:451-471`
+
+**POST /api/v1/services/{service_id}/add_attempt** - Add new attempt to service
+- **Status**: 201 Created
+- **File**: `service_api.py:474-489`
+
+**POST /api/v1/services/{service_id}/{action}** - Dynamic service actions (flexible)
+- **Body**: JSON (varies by action)
+- **File**: `service_api.py:533-556`
+
+---
+
+### SERVICE TASK ENDPOINTS
+
+**GET /api/v1/service_tasks** - List all service tasks
+- **File**: `service_task_api.py:127-149`
+
+**GET /api/v1/histories/service_tasks/{service_task_id}** - Get service task by ID
+- **File**: `service_task_api.py:152-179`
+
+**POST /api/v1/service_tasks** - Create service task
+- **Status**: 201 Created
+- **File**: `service_task_api.py:182-197`
+
+**PUT /api/v1/service_tasks/{service_task_id}** - Update service task
+- **Status**: 200 OK
+- **File**: `service_task_api.py:200-221`
+
+**DELETE /api/v1/service_tasks/{service_task_id}** - Delete service task
+- **Status**: 204 No Content
+- **File**: `service_task_api.py:251-265`
+
+**POST /api/v1/service_tasks/{service_task_id}/approve_attachments** - Approve/reject task attachments
+- **Status**: 201 Created
+- **File**: `service_task_api.py:224-248`
+
+**POST /api/v1/service_tasks/{service_task_id}/otp_send** - Resend OTP
+- **Status**: 200 OK
+- **File**: `service_task_api.py:359-375`
+
+**POST /api/v1/service_tasks/{service_task_id}/{status}** - Update task status (dynamic)
+- **File**: `service_task_api.py:378-407`
+
+**PUT /api/v1/services/{service_id}/service_tasks/reorder** - Reorder service tasks
+- **File**: `service_task_api.py:410-423`
+
+---
+
+### SERVICE TASK ITEM ENDPOINTS
+
+**GET /api/v1/service_task_items** - List all service task items
+- **File**: `service_task_item_api.py:17-35`
+
+**GET /api/v1/service_task_items/{service_task_item_id}** - Get task item by ID
+- **File**: `service_task_item_api.py:38-65`
+
+**POST /api/v1/service_task_items** - Create service task item
+- **Status**: 201 Created
+- **File**: `service_task_item_api.py:68-83`
+
+**PUT /api/v1/service_task_items/{service_task_item_id}** - Update service task item
+- **Status**: 200 OK
+- **File**: `service_task_item_api.py:86-108`
+
+**DELETE /api/v1/service_task_items/{service_task_item_id}** - Delete service task item
+- **Status**: 204 No Content
+- **File**: `service_task_item_api.py:111-129`
+
+---
+
+### SERVICE TASK ATTEMPT ENDPOINTS
+
+**GET /api/v1/service_task_attempts** - List all service task attempts
+- **File**: `service_task_api.py:268-283`
+
+**POST /api/v1/service_task_attempts** - Create service task attempt
+- **Status**: 201 Created
+- **File**: `service_task_api.py:286-303`
+
+**DELETE /api/v1/service_task_attempts/{service_task_attempt_id}** - Delete task attempt
+- **Status**: 204 No Content
+- **File**: `service_task_api.py:306-328`
+
+---
+
+### MONEY COLLECTION/CONSIGNMENT ENDPOINTS
+
+**POST /api/v1/service_tasks/money_collect** - Create money collection
+- **Status**: 201 Created
+- **File**: `service_task_api.py:23-37`
+
+**GET /api/v1/service_tasks/money_collect** - List money collections
+- **File**: `service_task_api.py:75-84`
+
+**GET /api/v1/service_tasks/money_collect/{id}** - Get money collection by ID
+- **File**: `service_task_api.py:55-72`
+
+**PUT /api/v1/service_tasks/money_collect/{money_collect_id}** - Update money collection
+- **Status**: 200 OK
+- **File**: `service_task_api.py:87-103`
+
+**DELETE /api/v1/service_tasks/money_collect/{money_collect_id}** - Delete money collection
+- **Status**: 204 No Content
+- **File**: `service_task_api.py:106-124`
+
+**POST /api/v1/services/consign_money** - Create consignment money
+- **Status**: 201 Created
+- **File**: `service_api.py:23-37`
+
+**GET /api/v1/services/consign_money** - List consignment money
+- **File**: `service_api.py:75-84`
+
+**GET /api/v1/services/consign_money/{id}** - Get consignment by ID
+- **File**: `service_api.py:55-72`
+
+**PUT /api/v1/services/consign_money/{money_consign_id}** - Update consignment
+- **Status**: 200 OK
+- **File**: `service_api.py:108-124`
+
+**DELETE /api/v1/services/consign_money/{money_consign_id}** - Delete consignment
+- **Status**: 204 No Content
+- **File**: `service_api.py:87-105`
+
+---
+
+### STATUS HISTORY ENDPOINTS (READ-ONLY)
+
+**GET /api/v1/service_status_history** - Service status history
+- **File**: `service_status_history_api.py:17-44`
+
+**GET /api/v1/service_status_history/{id}** - Get status history by ID
+- **File**: `service_status_history_api.py:47-77`
+
+**GET /api/v1/service_task_status_history** - Service task status history
+- **File**: `service_task_status_history_api.py:17-46`
+
+**GET /api/v1/service_task_status_history/{id}** - Get task status history by ID
+- **File**: `service_task_status_history_api.py:49-79`
+
+**GET /api/v1/service_task_item_status_history** - Service task item status history
+- **File**: `service_task_item_status_history_api.py:17-41`
+
+**GET /api/v1/service_task_item_status_history/{id}** - Get item status history by ID
+- **File**: `service_task_item_status_history_api.py:44-74`
+
+**GET /api/v1/assignment_service_driver_status_history** - Assignment status history
+- **File**: `assignment_service_driver_status_history_api.py:18-42`
+
+**GET /api/v1/assignment_service_driver_status_history/{id}** - Get assignment status by ID
+- **File**: `assignment_service_driver_status_history_api.py:45-75`
+
+---
+
+### ASSIGNMENT ENDPOINTS
+
+**POST /api/v1/assignment_service_driver** - Create assignment
+- **Status**: 201 Created
+- **File**: `assignment_api.py:20-38`
+
+**GET /api/v1/assignment_service_driver** - List assignments
+- **File**: `assignment_api.py:44-66`
+
+**GET /api/v1/assignment_service_driver/{id}** - Get assignment by ID
+- **File**: `assignment_api.py:69-99`
+
+**GET /api/v1/driver_route_assignment_history** - Driver route assignment history
+- **File**: `assignment_api.py:102-125`
+
+---
+
+### VERIFICATION WORD ENDPOINTS
+
+**POST /api/v1/service_tasks/{service_task_id}/verification_word** - Get verification word
+- **File**: `service_task_verification_word_api.py:11-25`
+
+**GET /api/v1/service_tasks/{service_task_id}/verification_word/access_log** - Get verification word access log
+- **File**: `service_task_verification_word_api.py:28-45`
+
+---
+
+### SERVICE NOVELTY ENDPOINTS
+
+**GET /api/v1/service_novelties** - List service novelties
+- **File**: `service_novelty_api.py:19-38`
+
+**GET /api/v1/service_novelties/{service_novelty_id}** - Get novelty by ID
+- **File**: `service_novelty_api.py:41-68`
+
+**POST /api/v1/service_novelties** - Create service novelty
+- **Status**: 201 Created
+- **File**: `service_novelty_api.py:71-85`
+
+**PUT /api/v1/service_novelties/{service_novelty_id}/{status_code}** - Update novelty status
+- **Status**: 200 OK
+- **File**: `service_novelty_api.py:88-116`
+
+---
+
+### FILE GENERATION ENDPOINTS
+
+**POST /api/v1/files** - Generate file (PDF/XLS)
+- **Response**: Binary file (application/pdf or application/vnd.ms-excel)
+- **File**: `files_api.py:11-38`
+
+---
+
+### FINISH SERVICE ENDPOINTS
+
+**POST /api/v1/services/auto_finish_services** - Automatic service termination
+- **Status**: 200 OK
+- **File**: `finish_service_api.py:11-26`
+
+**POST /api/v1/services/finish_services** - Finish services from cron
+- **Status**: 200 OK
+- **File**: `finish_service_api.py:29-51`
+
+---
+
+### GENERAL SYNC ENDPOINT
+
+**POST /api/v1/general_sync** - General sync handler
+- **Status**: 201 Created
+- **File**: `general_sync.py:10-45`
+
+---
+
+### OPTIMIZATION ENDPOINTS
+
+**POST /api/v1/services/auto_optimization** - Create optimization service
+- **File**: `service_api.py:313-329`
+
+**POST /api/v1/service/auto_optimization** - Create service with auto optimization
+- **File**: `service_api.py:347-375`
+
+**POST /api/v1/service/auto_optimization/webhook** - Auto optimization webhook
+- **File**: `service_api.py:332-344`
+
+**POST /api/v1/create_tasks_by_attempts** - Ordering with optimization V2
+- **Status**: 200 OK
+- **File**: `service_api.py:378-394`
+
+---
+
+### CACHE MANAGEMENT ENDPOINTS
+
+**DELETE /api/v1/service_tasks/status/cache/delete** - Delete service task status cache
+- **Status**: 204 No Content
+- **File**: `service_task_api.py:346-356`
+
+---
+
+### METADATA UPDATE ENDPOINTS
+
+**POST /api/v1/service_tasks/update_meta/changed_attempt_info** - Update service tasks metadata
+- **Status**: 200 OK
+- **File**: `service_task_api.py:331-343`
+
+---
+
+### LEGACY TMS ENDPOINTS (READ-ONLY)
+
+**GET /api/v1/tms/service_types** - List TMS service types
+- **File**: `legacy/service_type_api.py:13-32`
+
+**GET /api/v1/tms/worker_vehicles** - List TMS worker vehicles
+- **File**: `legacy/worker_vehicle_api.py:13-32`
+
+---
+
+### LOGISTIC COVERAGE ENDPOINT
+
+**GET /api/v1/logistic_coverage** - Get logistic coverage with pagination
+- **File**: `service_api.py:559-578`
+
+---
+
+## MUTATION ENDPOINTS SUMMARY (PUT/PATCH/DELETE)
+
+| HTTP Method | Count | Endpoints |
+|------------|-------|-----------|
+| **PUT** | 11 | Attachments, Services, Service Tasks, Service Task Items, Money Collect, Consign Money, Service Novelty, Service Tasks Reorder |
+| **DELETE** | 11 | Attachments, Services, Service Tasks, Service Task Items, Service Task Attempts, Money Collect, Consign Money, Service Task Status Cache |
+| **POST (Creates)** | 31+ | Services, Service Tasks, Attachments, Assignments, Novelties, Collections, Consignments, Optimizations, etc. |
+
+---
+
+## ROUTE PREFIX STRUCTURE
+
+All endpoints follow the pattern:
+- `/api/v1/` - Main API version 1
+- `/api/v2/` - Version 2 (services, metadata updates)
+- Base path: No subdomain isolation; single global API surface
+
+---
+
+## AUTHENTICATION
+
+All endpoints (except health check and webhook paths) require:
+- **Header**: `Authorization: Bearer {token}`
+- **Mechanism**: APIKeyHeader with Bearer scheme
+- Enforced via FastAPI dependencies at router registration level
+
+---
+
+## KEY FINDINGS
+
+1. **Upload Endpoint**: `POST /api/v1/attachments` with `multipart/form-data` accepts file uploads
+2. **Mutation Endpoints**: 11 PUT endpoints, 11 DELETE endpoints for data modification
+3. **Framework**: FastAPI (async Python)
+4. **Total Routes**: 60+ unique endpoints across 13 endpoint files
+5. **No PATCH endpoints** - Only PUT for updates
+6. **File Paths for Reference**:
+   - Main app: `/home/jhonortiz/devops/services-domain/src/entrypoints/fastapi/main.py`
+   - Endpoints directory: `/home/jhonortiz/devops/services-domain/src/entrypoints/fastapi/endpoints/`</result>
+<usage><total_tokens>56505</total_tokens><tool_uses>26</tool_uses><duration_ms>62092</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+Investiga en todas las apps, también sugiero que valides las aplicaciones que están en VM y que usan balanceador, eso lo puedes saber en el repositorio tf-infrastructure en la carpeta devops
+
+---
+
+<task-notification>
+<task-id>ac4ed8454c0e989e8</task-id>
+<tool-use-id>toolu_01JEZ6r9kcR6NZSKiS8NfArN</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find auth/orders/keycloak endpoints" completed</summary>
+<result>Excellent! Now I have a comprehensive view. Let me compile this information into a clear report. First, let me also check if support_administration has any REST API endpoints by looking at its structure more carefully:
+
+Based on my thorough search of the three repositories, here's what I found:
+
+---
+
+## API Routes & Endpoints Summary
+
+### 1. auth-domain (FastAPI)
+
+**Framework:** FastAPI ~0.115.6
+
+**Endpoints:**
+
+**User Routes** (`/v1/auth/user/*`):
+- POST `/v1/auth/user/register` - Register user
+- POST `/v1/auth/user/{user_status}` - Change user status
+- GET `/v1/auth/user/info/{token}` - Get user info
+- GET `/v1/auth/user/info` - Get user info (from header token)
+- PATCH `/v1/auth/user/info/{token}` - Update user info
+- PUT `/v1/auth/user/info/{username}` - Update user by username
+- GET `/v1/auth/user/username/{username}` - Check if user exists
+- GET `/v1/auth/users` - List users
+- GET `/v1/auth/session` - Get user sessions
+
+**Lifter Routes** (`/v1/auth/lifter/*`):
+- POST `/v1/auth/lifter/login` - Lifter login
+- POST `/v1/auth/lifter/pass/recovery` - Request password recovery SMS
+- POST `/v1/auth/lifter/pass/confirm` - Confirm recovery code
+- PATCH `/v1/auth/lifter/pass/reset` - Reset password
+- POST `/v1/auth/lifter/pass/set` - Set password for new lifter
+- POST `/v1/auth/lifter/refresh-token` - Refresh access token
+- **PUT `/v1/auth/lifter/logout`** ✓ (Found)
+- PATCH `/v1/auth/lifter/info/{token}` - Update lifter account
+
+**Token Routes**:
+- POST `/v1/auth/realms/{realm}/protocol/openid-connect/token` - Get/refresh token
+- POST `/v1/auth/realms/{realm}/protocol/openid-connect/logout` - Logout
+
+**Role Routes** (`/v1/auth/client/{client_id}/roles*`):
+- POST `/v1/auth/client/{client_id}/roles` - Create role
+- GET `/v1/auth/client/{client_id}/roles` - List roles
+- GET `/v1/auth/roles/client/{client_id}/role/{role_id}` - Get specific role
+- GET `/v1/auth/roles/client/{client_id}/role/{role_id}/users` - Get role users
+- PUT `/v1/auth/roles/client/{client_id}/role/{role_id}` - Update role
+- GET `/v1/auth/roles/client/{client_id}/role/{role_name}/resources` - Get role resources
+- POST `/v1/auth/client/{client_id}/roles/{role_name}/members` - Assign role to user
+- POST `/v1/auth/client/{client_id}/roles/members` - Assign multiple roles
+- DELETE `/v1/auth/client/{client_id}/roles/{role_name}/members` - Unassign role
+- POST `/v1/auth/client/{client_id}/role/{role_name}/permissions` - Change role permissions
+
+---
+
+### 2. orders-domain (FastAPI)
+
+**Framework:** FastAPI ~0.115.6
+
+**Endpoints:**
+
+**Order Routes** (`/api/v1/orders` and `/api/v2/orders`):
+- GET `/api/v1/orders` - List orders (v1)
+- GET `/api/v2/orders` - List orders (v2)
+- GET `/api/v1/orders/{order_id}` - Get order by ID
+- POST `/api/v1/orders` - Create order (v1)
+- POST `/api/v2/orders` - Create order (v2)
+- **PUT `/api/v1/orders/{order_id}`** ✓ (Found) - Update order (v1)
+- **PUT `/api/v2/orders/{order_id}`** ✓ (Found) - Update order (v2)
+- PUT `/api/v2/orders` - Massive update orders (v2)
+- PUT `/api/v2/orders_base64` - Update orders from Base64 CSV
+- DELETE `/api/v1/orders/{order_id}` - Delete order
+- POST `/api/v1/orders/sync_tms_orders` - Sync TMS orders
+- POST `/api/v1/orders/depurate` - Depurate orders
+- POST `/api/v1/orders/{order_id}/{status}` - Change order status
+- POST `/api/v1/orders/massive_cancellation` - Massive cancellation
+
+**Order Item Routes** (`/api/v1/order_item`):
+- POST `/api/v1/order_item` - Create order item
+- GET `/api/v1/order_item` - List order items
+- **PUT `/api/v1/order_item/{id}`** ✓ (Found) - Update order item
+- DELETE `/api/v1/order_item/{id}` - Delete order item
+- POST `/api/v1/order_item/{id}/reactivate` - Reactivate order item
+
+**Order Attempt Routes** (`/api/v1/order_attempts*`):
+- GET `/api/v1/order_attempts` - List attempts
+- GET `/api/v1/order_attempts/{order_attempt_id}` - Get attempt
+- POST `/api/v1/order_attempts` - Create attempt
+- **PUT `/api/v1/order_attempts/{order_attempt_id}`** ✓ (Found) - Update attempt
+- DELETE `/api/v1/order_attempts/{order_attempt_id}` - Delete attempt
+- POST `/api/v1/order_attempt_items` - Create attempt item
+- **PUT `/api/v1/order_attempt_items/{order_attempt_item_id}`** ✓ (Found) - Update attempt item
+- DELETE `/api/v1/order_attempt_items/{order_attempt_item_id}` - Delete attempt item
+- GET `/api/v1/order_attempt_items` - List attempt items
+- GET `/api/v1/order_attempt_items/{order_attempt_item_id}` - Get attempt item
+
+**Additional Routes**:
+- POST `/api/v1/sync_order_attempts` - Sync attempts
+- POST `/api/v1/sync_order_attempts/ordering` - Sync ordering
+- POST `/api/v1/sync_order_attempts/cancelled_clone` - Clone cancelled
+- POST `/api/v1/sync_order_attempts/{status}` - Change state
+- POST `/api/v1/order_attempt_items/total_prices` - Total prices
+- POST `/api/v1/order_attempts/update_changed_entity_service_tasks` - Update tasks
+- POST `/api/v1/sync_order_attempts/{attempt_id}/returned_clone` - Clone returned
+
+---
+
+### 3. support_administration (Django)
+
+**Framework:** Django 3.2.5 with Django Admin Interface
+
+**Status:** ⚠️ No REST API endpoints found
+
+This is a traditional Django admin interface application, NOT a REST API. Routes are:
+- `/ht/` - Health check (via django-health-check)
+- `/admin/` - Django admin interface
+- `/` - Static files
+
+The application manages tickets through the Django admin interface (`tickets/admin/ticket_admin.py`), not through REST API endpoints. There is no `/tickets/ticket/add/` POST endpoint as a REST API.
+
+---
+
+## Summary
+
+| Repo | Framework | PUT/PATCH/DELETE Endpoints | Notes |
+|------|-----------|---------------------------|-------|
+| auth-domain | FastAPI | PUT `/v1/auth/lifter/logout` ✓ FOUND | User, Lifter, Token, Roles routes |
+| orders-domain | FastAPI | PUT `/api/v2/orders/{id}` ✓ FOUND | Order, Item, Attempt routes |
+| support_administration | Django Admin | No REST API | Django admin interface only |</result>
+<usage><total_tokens>62601</total_tokens><tool_uses>46</tool_uses><duration_ms>60294</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>ae33cecee2053dcbd</task-id>
+<tool-use-id>toolu_01FC8M11sdiAxWo9XJcUkMFU</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find backoffice_api upload endpoints" completed</summary>
+<result>Perfect! Now I have comprehensive information. Let me compile the final report:
+
+## API ENDPOINTS INVENTORY - BACKOFFICE API
+
+The backoffice_api is a **Flask-RESTful** Python application with three API versions. Here's the complete inventory:
+
+### FRAMEWORK & ROUTE PREFIX STRUCTURE
+- **Framework**: Flask + Flask-RESTful
+- **API Version Prefixes**:
+  - `/api/v1/` - Core endpoints (legacy)
+  - `/api/v2/` - Self-onboarding flows (newer features)
+  - `/api/v3/` - Modular endpoint structure (latest)
+
+---
+
+## 1. FILE UPLOAD ENDPOINTS
+
+### V1/V2 File Uploads
+- **POST `/api/v1/files`** - Image upload to Cloud Storage
+  - Handler: `Images.post()` 
+  - File param: `files` (multipart/form-data)
+  - Location: `/home/jhonortiz/devops/backoffice_api/app/api/images.py`
+
+### V2 Onboarding File Uploads
+- **POST `/api/v2/onboarding/file`** - Upload files (JSON-based or multipart)
+  - Handler: `UploadFiles.post()`
+  - Location: `/home/jhonortiz/devops/backoffice_api/app/api/onboarding/documents.py:223`
+  
+- **POST `/api/v2/onboarding/web/file`** - App-specific file upload
+  - Handler: `AppUploadFiles.post()`
+  - Location: `/home/jhonortiz/devops/backoffice_api/app/api/onboarding/documents.py:257`
+
+- **POST `/api/v2/onboarding/files_security`** - Security document upload
+  - Handler: `UploadFilesSecurity.post()`
+  - Location: `/home/jhonortiz/devops/backoffice_api/app/api/onboarding/documents.py:276`
+
+- **DELETE `/api/v2/onboarding/file`** - Delete uploaded files
+  - Handler: `UploadFiles.delete()`
+
+- **DELETE `/api/v2/onboarding/files_security`** - Delete security files
+  - Handler: `UploadFilesSecurity.delete()`
+
+### V3 File Uploads (Attachment Service)
+- **POST `/api/v3/files`** - Upload attachment (multipart/form-data or JSON)
+  - Handler: `Attachment.post()`
+  - Supports: `multipart/form-data` with `file` field list
+  - Location: `/home/jhonortiz/devops/backoffice_api/app/api/files/attachment.py:17`
+
+- **DELETE `/api/v3/files`** - Delete attachments
+  - Handler: `Attachment.delete()`
+
+- **POST `/api/v3/files/view`** - View files
+  - Handler: `AttachmentView.post()`
+
+---
+
+## 2. MUTATION ENDPOINTS (PUT/PATCH/DELETE)
+
+### V1 Users & Third Parties
+- PATCH `/api/v1/third_parties/<value>/<num_doc>` - Update third party
+- PATCH `/api/v1/bank_accounts` - Update bank account
+- PATCH `/api/v1/banks/<int:bank_id>` - Update bank
+
+### V1 Vehicles
+- DELETE `/api/v1/vehicles/<string:plate>` - Delete vehicle
+- PATCH `/api/v1/vehicles/<string:plate>` - Update vehicle
+- PATCH `/api/v1/vehicle/worker` - Update worker vehicle
+
+### V1 Services & CSV Operations
+- PATCH `/api/v1/services/<int:id>` - Update service
+- POST `/api/v1/services/csv/advances` - Upload CSV advances
+- POST `/api/v1/advances/csv/approves` - Approve CSV advances
+- POST `/api/v1/services/csv/discounts` - Upload CSV discounts
+
+### V1 Documents
+- PATCH `/api/v1/document/<string:type_name>` - Update document
+- POST `/api/v1/documents` - Create document
+- POST `/api/v1/documents/transporter/<int:transporter_id>` - Add transporter document
+
+### V1 Accountancy (Invoices, Payments, Bills)
+- PATCH `/api/v1/invoices/<int:recovery_id>` - Update invoice
+- PATCH `/api/v1/invoices/<int:recovery_id>/status` - Update invoice status
+- PATCH `/api/v1/invoices/<int:recovery_id>/services/<int:service_id>` - Update invoice service
+- PATCH `/api/v1/invoices/<int:recovery_id>/payments/<int:payment_id>` - Update invoice payment
+- POST `/api/v1/bills` - Create bill
+- POST `/api/v1/bills/csv` - Upload bills CSV
+- POST `/api/v1/bills/status/csv` - Upload bills status CSV
+- PATCH `/api/v1/recovery_payment` - Update recovery payment
+
+### V1 Working Capital
+- POST `/api/v1/instrument` - Create instrument
+- PATCH `/api/v1/instrument/<int:instrument_id>` - Update instrument
+- POST `/api/v1/instrument/<int:instrument_id>/invoices/csv` - CSV invoice association
+- PATCH `/api/v1/instrument/<int:instrument_id>/payments/<int:payment_id>` - Update payment
+
+### V1 Personal References
+- POST `/api/v1/user/<int:user_id>/personal_references` - Create reference
+- PATCH `/api/v1/personal_references/<int:id>` - Update reference
+- DELETE `/api/v1/personal_references/<int:id>` - Delete reference
+
+### V1 Transporter
+- PATCH `/api/v1/transporter/<int:transporter_id>` - Update transporter
+- PATCH `/api/v1/transporter/<int:transporter_id>/status` - Update transporter status
+- POST `/api/v1/transporter/<int:transporter_id>/contacts` - Add contact
+- PATCH `/api/v1/transporter/<int:transporter_id>/contact/<int:contact_id>` - Update contact
+- DELETE `/api/v1/transporter/<int:transporter_id>/contact/<int:contact_id>` - Delete contact
+
+### V2 Onboarding
+- POST `/api/v2/onboarding/user` - Create user
+- PATCH `/api/v2/onboarding/user/<int:user_id>` - Update user
+- PUT `/api/v2/onboarding/update_user/<int:user_id>/logistic_operator/<int:logistic_operator>` - Update user status
+
+- POST `/api/v2/onboarding/user/<int:prospect_user_id>` - Create from prospect
+- PUT `/api/v2/onboarding/user/<int:prospect_user_id>/create` - Convert prospect
+
+- PATCH `/api/v2/onboarding/user/<int:user_id>/document` - Update user document
+- POST `/api/v2/onboarding/user/<int:user_id>/validation_documents` - Validate documents
+
+- POST `/api/v2/onboarding/user` - Create user prospect
+- PUT `/api/v2/onboarding/user/<int:prospect_user_id>` - Update user prospect
+- PATCH `/api/v2/onboarding/user/<int:user_id>` - Patch user prospect
+- DELETE `/api/v2/onboarding/user/<int:user_id>` - Delete user prospect
+- DELETE `/api/v2/onboarding/reset/<int:user_prospect_id>` - Reset user prospect
+
+- POST `/api/v2/onboarding/supplier` - Create supplier
+- PATCH `/api/v2/onboarding/supplier/<int:supplier_id>` - Update supplier
+
+- POST `/api/v2/onboarding/vehicle_prospects` - Create vehicle prospect
+- POST `/api/v2/onboarding/vehicle_prospects` - Other vehicle operations
+
+### V2 Document Validation
+- PUT `/api/v2/onboarding/document_validation/<int:internal_user_id>/init` - Initialize validation
+- POST `/api/v2/onboarding/document_validation/notify` - Notify validation
+- POST `/api/v2/onboarding/document_validation/notify/finish_process` - Finish validation
+- POST `/api/v2/onboarding/document_validation/close` - Close validation
+- PATCH `/api/v2/onboarding/document_validation` - Update validation
+- DELETE `/api/v2/onboarding/document_validation/discarded` - Discard validation
+- POST `/api/v2/onboarding/document/<int:document_id>/validate` - Validate document
+
+### V2 Security Studies
+- POST `/api/v2/onboarding/user_prospect/<int:user_prospect_id>/security_study` - Create study
+- POST `/api/v2/onboarding/security_study/close` - Close study
+- POST `/api/v2/onboarding/security_study/notify` - Notify study
+- PATCH `/api/v2/onboarding/security_study/<int:security_study_id>` - Update study
+
+### V2 Finance & Compensations
+- PATCH `/api/v2/service/<int:service_id>/finance` - Update service finance
+- POST `/api/v2/service/<int:service_id>/novelty` - Create compensation
+- PATCH `/api/v2/service/<int:service_id>/novelty/<int:novelty_id>` - Update compensation
+- POST `/api/v2/service/massive-novelty` - Bulk compensation
+
+### V3 Document Operations
+- PATCH `/api/v3/documents` - Update documents
+- POST `/api/v3/documents/notify/expires_soon` - Notify expiring documents
+
+### V3 User Profile
+- PATCH `/api/v3/users/profile` - Update user profile
+
+### V3 Fleet
+- PATCH `/api/v3/fleet/vehicles/<int:vehicle_prospect_id>` - Update vehicle prospect
+- POST `/api/v3/fleet/vehicles` - Create vehicle prospect
+- PUT `/api/v3/fleet/worker_vehicle/<int:worker_vehicle_id>` - Update worker vehicle
+
+---
+
+## 3. READ-ONLY ENDPOINTS (GET)
+
+### V1 Users & Third Parties (50+ GET endpoints)
+- GET `/api/v1/third_parties` - List third parties
+- GET `/api/v1/third_parties/<string:num_doc>` - Get by document
+- GET `/api/v1/third_parties/csv` - Download CSV
+- GET `/api/v1/third_parties/<int:value>/<string:num_doc>` - Get specific user
+- GET `/api/v1/third_parties/history/<int:value>/<string:num_doc>` - User history
+
+### V1 Banks (10+ endpoints)
+- GET `/api/v1/banks` - List banks
+- GET `/api/v1/banks/<int:bank_id>` - Get bank
+
+### V1 Vehicles (15+ endpoints)
+- GET `/api/v1/vehicles` - List vehicles
+- GET `/api/v1/vehicles/csv` - Download CSV
+- GET `/api/v1/vehicles/<string:plate>` - Get vehicle
+- GET `/api/v1/vehicles/history/<string:plate>` - Vehicle history
+
+### V1 Services (8+ endpoints)
+- GET `/api/v1/services` - List services
+- GET `/api/v1/services/<int:id>` - Get service
+- GET `/api/v1/services/csv` - Download CSV
+
+### V1 Documents (8+ endpoints)
+- GET `/api/v1/documents` - List documents
+- GET `/api/v1/documents/field/<int:field_id>/options` - Get field options
+
+### V1 Accountancy (15+ endpoints)
+- GET `/api/v1/invoices/<int:recovery_id>` - Get invoice
+- GET `/api/v1/invoices/<int:recovery_id>/history` - Invoice history
+- GET `/api/v1/bills` - List bills
+- GET `/api/v1/payment_orders` - List payment orders
+
+### V1 Regions & Classifications (10+ endpoints)
+- GET `/api/v1/countries` - List countries
+- GET `/api/v1/regions` - List regions
+- GET `/api/v1/cities` - List cities
+
+### V2 Onboarding Templates & Info (20+ endpoints)
+- GET `/api/v2/onboarding/document_list/template` - Document template
+- GET `/api/v2/onboarding/document_list/info` - Document info
+- GET `/api/v2/onboarding/doc_types` - Document types
+- GET `/api/v2/onboarding/state` - States
+- GET `/api/v2/onboarding/city` - Cities
+
+### V3 Onboarding (10+ endpoints)
+- GET `/api/v3/onboarding/countries` - List countries
+- GET `/api/v3/onboarding/doc_types` - Document types
+- GET `/api/v3/documents/user` - User documents
+- GET `/api/v3/documents/vehicle/<int:vehicle_id>` - Vehicle documents
+
+### V3 Users
+- GET `/api/v3/users/profile` - Get user profile
+- GET `/api/v3/users/genders` - Get genders
+
+### Health Check Endpoints
+- GET `/api/v1/healt_check` (typo in code)
+- GET `/api/v2/health_check`
+- GET `/api/v3/health_check`
+
+---
+
+## SUMMARY TABLE
+
+| Endpoint Type | Count | Key Locations |
+|---------------|-------|---------------|
+| **File Upload (Multipart)** | 6 | `images.py`, `documents.py`, `attachment.py` |
+| **File Upload (JSON-based)** | 3 | `documents.py` (v2/v3) |
+| **CSV Upload/Processing** | 5+ | `services.py`, `accountancy.py`, `working_capital.py` |
+| **PUT/PATCH Mutations** | 40+ | Spread across all modules |
+| **DELETE Operations** | 10+ | `documents.py`, `user_prospect.py`, `transporter.py` |
+| **GET/Read Endpoints** | 100+ | All module files |
+
+---
+
+## FILE LOCATIONS
+- **V1 Routes**: `/home/jhonortiz/devops/backoffice_api/app/entrypoints/v1/routes.py`
+- **V2 Routes**: `/home/jhonortiz/devops/backoffice_api/app/entrypoints/v2/routes.py`
+- **V3 Routes**: `/home/jhonortiz/devops/backoffice_api/app/entrypoints/v3/routes.py` (modular)
+- **Main App Init**: `/home/jhonortiz/devops/backoffice_api/app/__init__.py` (registers blueprints with prefixes)</result>
+<usage><total_tokens>70499</total_tokens><tool_uses>50</tool_uses><duration_ms>91920</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a22d9da4eb39ea800</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find VM apps with load balancers" completed</summary>
+<result>Perfect! Now let me compile all the information I've gathered. Based on my search through the load-balancer configurations, here's the complete table:
+
+## VM-Based Applications with Load Balancers
+
+| Module | App Name | Domain | Backend Service Name | Has WAF Attached |
+|--------|----------|--------|----------------------|------------------|
+| common/apps | urlshortener | urlshortener.liftit.co | urlshortener-backend | Yes |
+| common/apps | sonar | sonar.liftit.co | sonar-backend | Yes |
+| common/apps | osrm | osrm.liftit.co | osrm-backend | Yes |
+| common/apps | monitor | monitor.liftit.co | monitor-backend | Yes |
+| bi/apps | metabase | metrics.liftit.co | metabase-backend | Yes |
+| bi/apps | superset | superset.liftit.co | superset-backend | Yes |
+| bi/wrenai-poc | wrenai-poc | wrenai-poc.liftit.co | wrenai-poc-backend | Yes |
+| bi/wrenai-poc | streamlit | insights.liftit.co | streamlit-backend | Yes |
+| apps/airflow | airflow | airflow.liftit.co (prod) / airflow-qa.liftit-sandbox.com (qa) | airflow-backend | Yes |
+| apps/apps | workflows | workflows.liftit.co (prod) / workflows-qa.liftit-sandbox.com (qa) | workflows-backend | Yes |
+| apps/apps | inventarios | inventarios.liftit.co | inventarios-backend | Yes |
+| apps/helisa | helisa | N/A - RDP only (port 3389) | N/A | No |
+
+## Key Findings:
+
+1. **Load Balancer Type**: All VM-based applications use `EXTERNAL_MANAGED` (Global Application Load Balancer) except Helisa
+2. **SSL/TLS**: All use Certificate Manager with wildcard certificates via certificate map entries
+3. **WAF**: All 11 applications WITH load balancers have Cloud Armor WAF policies attached (`cloud_armor_policy` = `data.terraform_remote_state.waf.outputs.waf_policy_name`)
+4. **Health Checks**: Each app has custom health check endpoints on various ports (port 80, 3000, 5000, 8080)
+5. **DNS**: All are managed via Cloudflare A records pointing to the LB public IP
+6. **Helisa**: Windows Server ERP system - NO load balancer (RDP access only, port 3389, prod-only)
+
+**File Locations:**
+- `/home/jhonortiz/devops/tf-infrastructure/common/apps/load-balancer.tf`
+- `/home/jhonortiz/devops/tf-infrastructure/bi/apps/load-balancer.tf`
+- `/home/jhonortiz/devops/tf-infrastructure/bi/wrenai-poc/load-balancer.tf`
+- `/home/jhonortiz/devops/tf-infrastructure/apps/airflow/load-balancer.tf`
+- `/home/jhonortiz/devops/tf-infrastructure/apps/apps/load-balancer.tf`
+- `/home/jhonortiz/devops/tf-infrastructure/apps/helisa/vm.tf` (no LB definition)</result>
+<usage><total_tokens>44475</total_tokens><tool_uses>29</tool_uses><duration_ms>31672</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a4a5eb40eaf03b6e6</task-id>
+<tool-use-id>toolu_018u2hbmA7L5icX2zcmHxUi7</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find backoffice_api all endpoints" completed</summary>
+<result>I'm hitting permission restrictions. Let me explain the situation to you:
+
+I'm unable to locate the `/home/jhonortiz/devops/backoffice_api` directory that you mentioned. My searches reveal:
+
+1. **Directory not found**: Neither `/home/jhonortiz/devops/backoffice_api` nor similar variations exist in the current filesystem.
+
+2. **What I found instead**:
+   - `/home/jhonortiz/devops/backoffice-v2-lite/` - A React frontend application, not a backend API
+   - References to `BackofficeAPI` and `BackofficeConfigAPI` client classes in `/home/jhonortiz/devops/integration_rndc/` that call remote backoffice API endpoints
+   - The client references endpoints like `/api/v1/configuration/{name}`, `/api/v2/tms/service/audit`
+
+3. **Permission issues**: I've encountered Bash and Grep permission restrictions that prevent me from doing a comprehensive search across the entire codebase.
+
+**Questions for you:**
+- Is the backoffice API in a different location or under a different name?
+- Could it be in a separate repository (not under `/home/jhonortiz/devops/`)?
+- Is it perhaps deployed remotely and the WAF logs are capturing traffic to an external service?
+- Do you have the actual git repository URL or path where the backoffice API source code is stored?
+
+Without access to the actual API source code, I cannot provide the complete endpoint list you need for your WAF rule analysis. The three endpoints you mentioned (`/api/v1/files`, `/api/v3/files`, `/api/v1/documents`) are being called by the WAF but aren't present in the repositories I can access.</result>
+<usage><total_tokens>31776</total_tokens><tool_uses>17</tool_uses><duration_ms>28045</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a2e3cab5ba4b16f7d</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find remaining GKE app endpoints 2" completed</summary>
+<result>Perfect! Now I have a comprehensive view of all the endpoints. Let me compile this information into a clean summary for the user.
+
+Based on my thorough search of all 7 repositories, here's the complete API endpoint inventory:
+
+## API Route Definitions Summary
+
+### 1. general-domain
+**Framework:** FastAPI
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| /api/v1/tools/iterator | POST | No |
+| /api/v1/causes | GET | No |
+| /api/v1/causes | POST | No |
+| /api/v1/causes/{id} | PUT | No |
+| /api/v1/causes/{id} | DELETE | No |
+| /api/v1/event-causes | GET | No |
+| /api/v1/event-causes | POST | No |
+| /api/v1/event-causes/{id} | PUT | No |
+| /api/v1/event-causes/{id} | DELETE | No |
+| /api/v1/scope-causes | GET | No |
+| /api/v1/scope-causes | POST | No |
+| /api/v1/scope-causes/{id} | PUT | No |
+| /api/v1/scope-causes/{id} | DELETE | No |
+| /api/v1/causes/task_causes_by_service/{service_id} | GET | No |
+| /api/v1/audit_fields | POST | No |
+| /api/v1/audit_fields/no_content | POST | No |
+| /api/v1/audit_fields | GET | No |
+
+---
+
+### 2. inventory-domain
+**Framework:** FastAPI
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| /api/v1/product | POST | No |
+| /api/v1/product | GET | No |
+| /api/v1/product/{id} | GET | No |
+| /api/v1/product/{id} | PUT | No |
+| /api/v1/product/{id} | DELETE | No |
+| /api/v1/product/{id}/reactivate | POST | No |
+| /api/v1/product/get_or_sync | POST | No |
+| /api/v1/load_type | POST | No |
+| /api/v1/load_type | GET | No |
+| /api/v1/load_type/{id} | GET | No |
+| /api/v1/load_type/{id} | PUT | No |
+| /api/v1/load_type/{id} | DELETE | No |
+| /api/v1/product_attribute | POST | No |
+| /api/v1/product_attribute/{id} | PUT | No |
+| /api/v1/product_attribute | GET | No |
+| /api/v1/product_attribute/{id} | GET | No |
+| /api/v1/product_attribute/{id} | DELETE | No |
+| /api/v1/product_status | POST | No |
+| /api/v1/product_status | GET | No |
+| /api/v1/product_status/{id} | GET | No |
+| /api/v1/product_status/{id} | PUT | No |
+| /api/v1/product_status/{id} | DELETE | No |
+| /api/v1/packaging | POST | No |
+| /api/v1/packaging | GET | No |
+| /api/v1/packaging/{id} | GET | No |
+| /api/v1/packaging/{id} | PUT | No |
+| /api/v1/packaging/{id} | DELETE | No |
+| /api/v1/product_attribute_value | POST | No |
+| /api/v1/product_attribute_value/{id} | DELETE | No |
+| /api/v1/product_attribute_value | GET | No |
+| /api/v1/product_attribute_value/{id} | GET | No |
+| /api/v1/package | POST | No |
+
+---
+
+### 3. internationalization-domain
+**Framework:** FastAPI
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| /api/v1/translations | POST | No |
+| /api/v1/translations/various | POST | No |
+| /api/v1/translations/refresh/cache | POST | No |
+| /api/v1/translations | PUT | No |
+| /health | GET | No |
+
+---
+
+### 4. organization-domain
+**Framework:** FastAPI
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| /api/v1/organization | POST | No |
+| /api/v1/organization | GET | No |
+| /api/v1/organization/user_organizations | GET | No |
+| /api/v1/organization/{id} | GET | No |
+| /api/v1/organization/{id} | PUT | No |
+| /api/v1/organization/{id} | DELETE | No |
+| /api/v1/tms_lms_orders_info | POST | No |
+| /api/v1/tms_lms_services_info | POST | No |
+| /api/v1/clients | GET | No |
+| /api/v1/clients | POST | No |
+| /api/v1/clients/{client_id} | PUT | No |
+| /api/v1/clients/{client_id} | PATCH | No |
+| /api/v1/clients/{client_id} | DELETE | No |
+| /api/v1/address | POST | No |
+| /api/v1/address/{id} | PUT | No |
+| /api/v1/address/{id}/update_lat_long_manually | PUT | No |
+| /api/v1/address | GET | No |
+| /api/v1/address/{id} | DELETE | No |
+| /api/v1/address/{id}/reactivate | POST | No |
+| /api/v1/hubs | GET | No |
+| /api/v1/user_hubs | GET | No |
+| /api/v1/hubs/{hub_id} | GET | No |
+| /api/v1/entity_type | GET | No |
+| /api/v1/entity_type/search | GET | No |
+| /api/v1/webhook | GET | No |
+| (Additional endpoints: document_type, customer_status, phone, parameter, entity_parameter, logistical_operator, sync_entity, site APIs) | Various | No |
+
+---
+
+### 5. pettycash-domain
+**Framework:** FastAPI
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| /petty-cash/dashboard/summary | GET | No |
+| /petty-cash/catalogs/statuses | GET | No |
+| /petty-cash | POST | No |
+| /petty-cash/{petty_cash_id} | GET | No |
+| /petty-cash | GET | No |
+| /petty-cash/{petty_cash_id} | PUT | No |
+| /petty-cash/{petty_cash_id} | DELETE | No |
+| /petty-cash/{petty_cash_id}/status | POST | No |
+| /petty-cash/{petty_cash_id}/status/history | GET | No |
+| /petty-cash/{petty_cash_id}/balance | GET | No |
+| /petty-cash/{petty_cash_id}/summary | GET | No |
+| /movements/expense | POST | Yes (attachments) |
+| /movements/income | POST | Yes (attachments) |
+| /movements/reload | POST | Yes (attachments) |
+| /movements/adjustment | POST | Yes (attachments) |
+| /movements/transfer | POST | Yes (attachments) |
+| /movements/{movement_id} | GET | No |
+| /movements | GET | No |
+| /approvals/approve/{movement_id} | POST | No |
+| /approvals/reject/{movement_id} | POST | No |
+| /approvals/bulk-approve | POST | No |
+| /approvals/pending | GET | No |
+| /approvals/pending/count | GET | No |
+| /approvals/statistics | GET | No |
+| /reports/petty-cash-summary | GET | No |
+| /reports/petty-cash-by-responsible | GET | No |
+| /reports/movement-detail | GET | No |
+| /reports/movements-by-status | GET | No |
+| /reports/reconciliation/{petty_cash_id} | GET | No |
+| /reports/audit-trail/{petty_cash_id} | GET | No |
+| /reports/export/petty-cash-summary | GET | No |
+| /reports/export/movement-detail | GET | No |
+| /reports/export/audit-trail/{petty_cash_id} | GET | No |
+
+---
+
+### 6. clustering-domain
+**Framework:** FastAPI
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| /clustering | POST | No |
+
+---
+
+### 7. users-domain
+**Framework:** FastAPI
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| /api/v1/users | GET | No |
+| /api/v1/users/{user_id}/ | GET | No |
+| /api/v1/users | POST | No |
+| /api/v1/users/{user_id}/entities/unassign | POST | No |
+| /api/v1/users/{user_id}/entities/assign | POST | No |
+| /api/v1/users/{user_id} | PUT | No |
+| /api/v1/users/{user_id}/ | DELETE | No |
+| /api/v1/users/{user_id}/reactivate | POST | No |
+| /api/v1/genders | GET | No |
+
+---
+
+## Key Findings:
+
+**PUT/PATCH/DELETE Endpoints Summary:**
+- **PUT endpoints:** Found across all domains (organization, inventory, general, internationalization, pettycash, users)
+- **PATCH endpoints:** Only in organization-domain (/api/v1/clients/{client_id} for partial updates)
+- **DELETE endpoints:** Found in general-domain, inventory-domain, organization-domain, pettycash-domain, users-domain
+
+**File Upload Endpoints:**
+- **Only pettycash-domain** has file upload capability via `attachments` field in movement creation endpoints (/movements/expense, /movements/income, /movements/reload, /movements/adjustment, /movements/transfer)
+- All other domains have NO file upload endpoints
+
+**Framework:** All 7 repositories use **FastAPI 0.105.0 - 0.115.6**</result>
+<usage><total_tokens>98864</total_tokens><tool_uses>74</tool_uses><duration_ms>57519</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a3a0a1f89ebfbfe45</task-id>
+<tool-use-id>toolu_01DnxxoZ1DJuP9KAFixq4ywq</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find auth/orders/support endpoints" completed</summary>
+<result>Perfect. Now I have all the information I need. Let me compile the comprehensive endpoint lists for all three repos.
+
+## Summary
+
+I've thoroughly searched all three repositories and compiled complete endpoint listings. Here are the findings:
+
+---
+
+## 1. AUTH-DOMAIN (FastAPI)
+
+Framework: **FastAPI** (Python)
+
+**Total Endpoints: 30**
+
+### User Endpoints
+- `GET /` - Redirect to docs
+- `POST /v1/auth/user/register` - Register user with password
+- `POST /v1/auth/user/{user_status}` - Change user status  
+- `GET /v1/auth/user/info/{token}` - Get user info from token
+- `GET /v1/auth/user/info` - Get user info from Authorization header
+- `PATCH /v1/auth/user/info/{token}` - Update user info from token
+- `PUT /v1/auth/user/info/{username}` - Update user by username
+- `GET /v1/auth/user/username/{username}` - Check if user exists
+- `GET /v1/auth/users` - Get all users with query filters
+- `POST /v1/auth/realms/{realm}/protocol/openid-connect/token` - Token endpoint
+- `POST /v1/auth/realms/{realm}/protocol/openid-connect/logout` - Logout (public)
+- `GET /v1/auth/session` - Get all sessions with pagination
+
+### Driver/Lifter Endpoints
+- `POST /v1/auth/lifter/login` - Lifter login with phone/password
+- `POST /v1/auth/lifter/pass/recovery` - Request password recovery SMS
+- `POST /v1/auth/lifter/pass/confirm` - Confirm recovery code
+- `PATCH /v1/auth/lifter/pass/reset` - Reset password for lifter
+- `POST /v1/auth/lifter/pass/set` - Set initial password for new lifter
+- `POST /v1/auth/lifter/refresh-token` - Refresh access token
+- `PUT /v1/auth/lifter/logout` - Logout lifter **(specifically mentioned endpoint)**
+- `PATCH /v1/auth/lifter/info/{token}` - Update lifter account
+
+### Role Management Endpoints
+- `POST /v1/auth/client/{client_id}/roles` - Create role by client
+- `GET /v1/auth/client/{client_id}/roles` - Get roles by client
+- `GET /v1/auth/roles/client/{client_id}/role/{role_id}` - Get specific role
+- `GET /v1/auth/roles/client/{client_id}/role/{role_id}/users` - Get users in role
+- `PUT /v1/auth/roles/client/{client_id}/role/{role_id}` - Update role
+- `GET /v1/auth/roles/client/{client_id}/role/{role_name}/resources` - Get role resources
+- `POST /v1/auth/client/{client_id}/roles/{role_name}/members` - Assign user to role
+- `POST /v1/auth/client/{client_id}/roles/members` - Assign users to multiple roles
+- `DELETE /v1/auth/client/{client_id}/roles/{role_name}/members` - Remove users from role
+- `POST /v1/auth/client/{client_id}/role/{role_name}/permissions` - Change role permissions
+
+**Special Note:** The endpoint `/v1/auth/lifter/logout` is a **PUT** endpoint (not DELETE or POST).
+
+---
+
+## 2. ORDERS-DOMAIN (FastAPI)
+
+Framework: **FastAPI** (Python)
+
+**Total Endpoints: 57**
+
+### Order Endpoints
+- `GET /` - Redirect to docs
+- `GET /api/v1/orders` - Get all orders with pagination
+- `GET /api/v2/orders` - Get all orders v2 with pagination
+- `GET /api/v1/orders/{order_id}` - Get order by ID
+- `POST /api/v1/orders` - Create order
+- `POST /api/v2/orders` - Create order v2
+- `PUT /api/v1/orders/{order_id}` - Update order by ID **(specifically mentioned endpoint)**
+- `PUT /api/v2/orders/{order_id}` - Update order v2 **(PATCH equivalent for v2)**
+- `PUT /api/v2/orders` - Massive update orders
+- `PUT /api/v2/orders_base64` - Update orders from base64 CSV file
+- `DELETE /api/v1/orders/{order_id}` - Delete order
+- `POST /api/v1/orders/sync_tms_orders` - Sync TMS orders
+- `POST /api/v1/orders/depurate` - Depurate orders
+- `POST /api/v1/orders/{order_id}/{status}` - Change order status chain
+- `POST /api/v1/orders/massive_cancellation` - Cancel multiple orders
+
+### Order Item Endpoints
+- `POST /api/v1/order_item` - Add item to order
+- `PUT /api/v1/order_item/{id}` - Update order item
+- `GET /api/v1/order_item` - Get all items with pagination
+- `DELETE /api/v1/order_item/{id}` - Delete order item
+- `POST /api/v1/order_item/{id}/reactivate` - Reactivate order item
+
+### Order Attempt Endpoints
+- `GET /api/v1/order_attempts` - Get all attempts with pagination
+- `GET /api/v1/order_attempts/{order_attempt_id}` - Get attempt by ID
+- `POST /api/v1/order_attempts` - Create order attempt
+- `PUT /api/v1/order_attempts/{order_attempt_id}` - Update order attempt
+- `DELETE /api/v1/order_attempts/{order_attempt_id}` - Delete order attempt
+- `POST /api/v1/sync_order_attempts` - Sync order attempts
+- `POST /api/v1/sync_order_attempts/ordering` - Sync ordering of attempts
+- `POST /api/v1/sync_order_attempts/cancelled_clone` - Clone attempt for cancelled
+- `POST /api/v1/sync_order_attempts/{status}` - Change attempt status
+- `POST /api/v1/order_attempt_items/total_prices` - Get total product prices
+- `POST /api/v1/order_attempts/update_changed_entity_service_tasks` - Update entity service tasks
+- `POST /api/v1/sync_order_attempts/{attempt_id}/returned_clone` - Clone attempt for returned
+
+### Order Attempt Item Endpoints
+- `GET /api/v1/order_attempt_items` - Get all items with pagination
+- `GET /api/v1/order_attempt_items/{order_attempt_item_id}` - Get item by ID
+- `POST /api/v1/order_attempt_items` - Create order attempt item
+- `PUT /api/v1/order_attempt_items/{order_attempt_item_id}` - Update attempt item
+- `DELETE /api/v1/order_attempt_items/{order_attempt_item_id}` - Delete attempt item
+
+### Status Endpoints
+- `POST /api/v1/status` - Add new status
+- `GET /api/v1/status` - Get status list
+
+### Tracking Endpoints
+- `GET /api/v1/tracking` - Get tracking info by uuid/organization_id/order_number
+- `GET /api/v2/tracking` - Get tracking v2 with additional filters
+
+### Order Status History
+- `GET /api/v1/order_status_history` - Get order status history with pagination
+- `GET /api/v1/order_status_history/{id}` - Get specific status history
+
+### Order Item Status History
+- `GET /api/v1/order_item_status_history` - Get item status history
+- `GET /api/v1/order_item_status_history/{id}` - Get specific item history
+
+### Order Attempt Status History
+- `GET /api/v1/order_attempt_status_history` - Get attempt status history
+- `GET /api/v1/order_attempt_status_history/{id}` - Get specific attempt history
+
+### Order Attempt Item Status History
+- `GET /api/v1/order_attempt_item_status_history` - Get item history
+- `GET /api/v1/order_attempt_item_status_history/{id}` - Get specific item history
+
+### Order Cancel Endpoint
+- `POST /api/v1/orders/cancel` - Cancel order from client
+
+### File Endpoint
+- `POST /api/v1/files` - Create file (BASE64/PDF/XLSX)
+
+**Special Note:** The endpoint `/api/v2/orders/{id}` is a **PUT** endpoint for updates.
+
+---
+
+## 3. SUPPORT_ADMINISTRATION (Django)
+
+Framework: **Django 3.2** (Python)
+
+**Exposed Endpoints: NONE (Admin-only)**
+
+This application is **Django admin-only** with no public REST API endpoints. The URL configuration shows:
+- `path('', admin.site.urls)` - Django admin panel at `/admin`
+- `url(r'^ht/', include('health_check.urls'))` - Health check endpoint at `/ht/`
+
+**Note on SQLi Risk:** The tickets app contains a `Statements` model with a `query` TextField that stores raw SQL. The form, admin interface, and `TicketAdmin` class provide ticket management capabilities. The SQL validation and execution utilities (`sql_validation.py`, `sql_executor.py`) indicate SQL execution functionality, which explains WAF SQLi logs. However, **there are NO public API endpoints** - ticket management is exclusively through the Django admin panel (requires authentication).
+
+---
+
+## File Locations
+
+- `/home/jhonortiz/devops/auth-domain/src/entrypoints/fastapi/main.py` - Main app
+- `/home/jhonortiz/devops/auth-domain/src/entrypoints/fastapi/endpoints/` - All endpoint files (user.py, driver.py, roles.py)
+- `/home/jhonortiz/devops/orders-domain/src/entrypoints/fastapi/main.py` - Main app
+- `/home/jhonortiz/devops/orders-domain/src/entrypoints/fastapi/endpoints/` - All endpoint files (11 files)
+- `/home/jhonortiz/devops/support_administration/support_admin/urls.py` - URL config
+- `/home/jhonortiz/devops/support_administration/tickets/` - Ticket models and admin</result>
+<usage><total_tokens>72809</total_tokens><tool_uses>41</tool_uses><duration_ms>75688</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a369a2e1942b56e89</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find remaining GKE app endpoints 3" completed</summary>
+<result>Perfect! Now I have enough information to compile a comprehensive report. Let me create the final output based on all the data I've gathered:
+
+## API Endpoints Summary
+
+Based on my analysis of the 8 repositories, here's a comprehensive list of all API route/endpoint definitions:
+
+### 1. **lms_lifters_domain**
+**Framework:** FastAPI (Python)
+
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| `/service_types` | GET | No |
+| `/inspections/questions` | GET | No |
+| `/inspections` | POST | No |
+| `/inspections/{id}` | GET | No |
+| `/inspections` | GET | No |
+| `/inspections/vehicle/{vehicle_id}` | GET | No |
+| `/fleet/enrollment` | POST | No |
+| `/fleet/finished_identity_validation` | POST | No |
+| `/fleet/finished_backgroundcheck` | POST | No |
+| `/fleet/documents/{worker_vehicle_id}` | GET | No |
+| `/fleet/enrollment_trace` | PATCH | No |
+| `/fleet/documents/pending/{user_id}` | GET | No |
+| `/fleet/documents` | PATCH | Yes |
+| `/ocr/analyze-image` | POST | Yes |
+| `/ocr/analyze-document` | POST | Yes |
+| `/ocr/analyze-documents` | POST | Yes |
+| `/ocr/config/documents` | GET | No |
+| `/ocr/config/service/{service_id}` | GET | No |
+| `/wallet/resume` | GET | No |
+| `/wallet/routes` | GET | No |
+| `/wallet/transactions` | GET | No |
+| `/wallet/advances` | GET | No |
+| `/wallet/register` | POST | No |
+| `/wallet/otp` | POST | No |
+| `/wallet/resend-otp` | POST | No |
+| `/wallet/advance` | POST | No |
+| `/wallet/advance/{payment_id}` | GET | No |
+| `/notifications` | POST | No |
+| `/worker_vehicles` | GET | No |
+| `/worker_vehicles/_by_id` | GET | No |
+| `/worker_vehicles/{id}/identification_card` | GET | No |
+
+---
+
+### 2. **lms_lifters_offline_service**
+**Framework:** FastAPI (Python)
+
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| `/api/v1/documents/service/{service_id}/reset` | PATCH | No |
+
+---
+
+### 3. **lms-billing-api**
+**Framework:** FastAPI (Python)
+
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| `/bills` | GET | No |
+| `/bills/status` | GET | No |
+| `/bills/instrument/type` | GET | No |
+| `/bills/instrument/status` | GET | No |
+| `/bills/billed-price/range` | GET | No |
+| `/bills` | POST | No |
+| `/bills/bulk/validation` | POST | No |
+| `/bills/bulk` | POST | No |
+| `/bills/{bill_id}` | GET | No |
+| `/bills/{bill_id}` | PATCH | No |
+| `/bills/{bill_id}/finance` | GET | No |
+| `/bills/{bill_id}/services` | GET | No |
+| `/bills/{bill_id}/documents` | GET | No |
+| `/bills/{bill_id}/documents` | POST | Yes |
+| `/bills/{bill_id}/documents/{document_id}` | DELETE | No |
+| `/bills/{bill_id}/payments` | GET | No |
+| `/bills/{bill_id}/payments/calculation` | POST | No |
+| `/bills/{bill_id}/payments` | POST | No |
+| `/bills/payments/bulk/validation` | POST | No |
+| `/bills/payments/bulk` | POST | No |
+| `/bills/categories/list` | GET | No |
+| `/bills/report/xlsx` | GET | No |
+| `/bills/{bill_id}/audit` | GET | No |
+| `/bills/release_services` | POST | No |
+| `/services` | GET | No |
+| `/services/finance` | GET | No |
+| `/services/total-finance` | GET | No |
+| `/services/total-finance` | POST | No |
+| `/services/card-info` | GET | No |
+| `/services/report/xlsx` | GET | No |
+| `/services/calculator` | POST | No |
+| `/regions` | GET | No |
+| `/organizations` | GET | No |
+| `/documents` | POST | Yes |
+| `/auth/user/{user_id}/role` | GET | No |
+
+---
+
+### 4. **lms-task-queue-service**
+**Framework:** Celery (Python, Message Queue Service)
+
+*No HTTP endpoints - this is a task queue service that processes async tasks via message bus*
+
+---
+
+### 5. **lms-imd** (import-map-deployer)
+**Framework:** Express.js (Node.js)
+
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| `/environments` | GET | No |
+| `/sofe-manifest.json` | GET | No |
+| `/import-map.json` | GET | No |
+| `/import-map.json` | PATCH | No |
+| `/` | GET | No |
+| `/health` | GET | No |
+| `/services` | PATCH | No |
+| `/services/:serviceName` | DELETE | No |
+
+---
+
+### 6. **operators_offline_bridge**
+**Framework:** Flask-RESTX (Python)
+
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| `/offline/restart` | GET | No |
+| `/offline/delete/limit/{limit}` | GET | No |
+| `/offline/delete/days/{day}` | GET | No |
+| `/health_check/` | GET | No |
+
+---
+
+### 7. **retry_gateway**
+**Framework:** Flask (Python)
+
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| `/make-request` | POST | No |
+| `/retry-request` | POST | No |
+| `/healthcheck` | GET | No |
+| `/dashboard/index` | GET | No |
+
+---
+
+### 8. **tracking_service**
+**Framework:** Echo (Go)
+
+| Endpoint | HTTP Method | Has Upload? |
+|----------|------------|------------|
+| `/` | GET | No |
+| `/ping` | GET | No |
+| `/api/v1/tracks` | GET | No |
+| `/api/v1/tracks/driver_vehicle/{id}` | GET | No |
+| `/api/v1/tracks` | POST | No |
+
+---
+
+## Summary Statistics
+
+- **Total Endpoints:** 94
+- **PUT/PATCH Endpoints:** 5 (`/fleet/enrollment_trace` PATCH, `/fleet/documents` PATCH, `/bills/{bill_id}` PATCH, `/import-map.json` PATCH, `/api/v1/documents/service/{service_id}/reset` PATCH)
+- **DELETE Endpoints:** 2 (`/bills/{bill_id}/documents/{document_id}` DELETE, `/services/:serviceName` DELETE)
+- **File Upload Endpoints:** 6 (`/fleet/documents` PATCH, `/ocr/analyze-image` POST, `/ocr/analyze-document` POST, `/ocr/analyze-documents` POST, `/bills/{bill_id}/documents` POST, `/documents` POST)
+- **Frameworks Used:** FastAPI (3 services), Express.js (1), Flask/Flask-RESTX (3), Celery (1), Echo (1), Node.js (1)</result>
+<usage><total_tokens>92693</total_tokens><tool_uses>74</tool_uses><duration_ms>66459</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>a76894d5b441c71c4</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find remaining GKE app endpoints 4" completed</summary>
+<result>Now let me compile all the information I've gathered. Let me create a comprehensive summary of all the APIs I've found:
+
+Based on my analysis of all 9 repositories, here is the complete API route/endpoint list:
+
+**1. advances-payflow**
+Framework: FastAPI
+Endpoints:
+- POST /advances/register-interest
+- POST /advances/request-otp
+- POST /advances/resend-otp
+- GET /advances/payment-request/confirm
+- POST /advances/payment-request
+- POST /advances/request-document (file upload)
+- GET /advances/payment-request/history/{payment_request_id}
+- GET /advances/payment-request/summary/{external_approval_id}
+- GET /health
+
+**2. backgroundcheck_api**
+Framework: FastAPI
+Endpoints:
+- GET / (root)
+- GET /health
+- GET /config
+- GET /hooks
+- GET /v1/custom_class
+- GET /v1/datasets
+- GET /v1/custom_types
+- POST /v1/custom_types
+- POST /v1/backgroundcheck/owner
+- POST /v1/backgroundcheck/owner_driver
+- POST /v1/backgroundcheck/holder
+- POST /v1/backgroundcheck/driver
+- POST /v1/backgroundcheck/register
+- POST /v1/backgroundcheck/{id}/qualify
+- GET /v1/backgroundcheck/{id}
+- GET /v1/backgroundcheck/{id}/pdf
+- GET /v1/backgroundcheck/{id}/detail
+- GET /v1/backgroundcheck/{id}/encode
+- POST /v1/identity_validation/start_flow_validation
+- POST /v1/identity_validation/process_data
+- GET /v1/identity_validation
+- PATCH /v1/identity_validation
+
+**3. bolsadecargabeta (micarga)**
+Framework: Django
+Endpoints:
+- GET /health (health_check)
+- GET / (list - trip_list)
+- GET /add (trip_add)
+- GET /take (trip_take)
+- GET /mexico/ (mexico_list)
+- GET /ecuador/ (ecuador_list)
+- GET /ecuador/add/ (ecuador_trip_add)
+- GET /ecuador/take/ (ecuador_trip_take)
+- GET /lagranruletalifters/ (christmas_landing)
+- GET /lagranruletalifters/{cc} (christmas_contest)
+- GET /verification (verification)
+- GET /verification_winner (verification_winner)
+- GET /update_prices (update_prices)
+- POST /add (create trip)
+- POST /take (assign trip)
+
+**4. geocoding-liftit-api**
+Framework: FastAPI
+Endpoints:
+- GET / (redirect to /docs)
+- GET /health
+- GET /v2/geocode
+- GET /v2/reversegeocode
+
+**5. integration_rndc**
+Framework: FastAPI
+Endpoints:
+- GET /health
+- GET /vehicle/report/{plate}
+- POST /manifest/service/{service_id}/manifest
+- GET /manifest/service/{service_id}/manifest
+- GET /manifest/service/enable/{service_id}
+- GET /manifest/service/record/{service_id}
+- GET /manifest/service/cancel/{service_id} (DELETE manifest)
+- POST /manifest/service/cancel (automatic cancel)
+- GET /manifest/service/cancel/orphans
+- POST /manifest/service/fulfill/
+- POST /manifest/service/fulfill/{service_id}
+- GET /manifest/manifest/acceptance
+- GET /manifest/manifest/acceptance/{service_id}
+- GET /manifest/manifest/manual
+- POST /manifest/manual
+- GET /manifest/manual/errors
+- GET /manifest/manifest/{service_id}
+- GET /manifest/service/{service_id}/unified-manifest
+- GET /invoice/file
+- POST /invoice/file (file upload)
+- GET /invoice/thirds
+- POST /invoice/manual
+- GET /invoice/filtered
+- GET /invoice/states/{invoice_id}
+- PATCH /invoice/{invoice_id}
+- DELETE /invoice/{invoice_id}
+- GET /invoice/state/file/{invoice_state_id}
+- GET /invoice/state/exceldata/{invoice_state_id}
+- GET /invoice/state/errors/{invoice_state_id}
+- GET /invoice/clients
+- GET /invoice/status/options
+- POST /invoice/powerofattorney
+- GET /invoice/file/remesas/{invoices}
+- GET /invoice/file/remesas
+- GET /invoice/file/helisa
+- GET /invoice/file/helisa/third-party
+- GET /invoice/service/lines
+- GET /invoice/saved
+- GET /credit/{invoice_id}
+- POST /credit/file
+- GET /credit/file/helisa
+- GET /credit/file/helisa/third-party
+- GET /remesa/rndc
+- GET /remesa/now
+
+**6. kong-integration-plugins**
+Framework: Lua/Kong Plugins (NOT REST API - these are API Gateway middleware plugins)
+Note: This is not a REST API but a collection of Kong middleware plugins for request/response transformation
+
+**7. optimizer-domain**
+Framework: FastAPI
+Endpoints:
+- GET / (redirect to /docs)
+- POST /api/v1/optimizations
+- POST /api/v1/advance_optimizer
+- GET /api/v1/advance_optimizer/{reference}
+- POST /api/v1/distance_time_matrix
+
+**8. parameters_service**
+Framework: FastAPI
+Endpoints:
+- GET /v1/hubs
+- GET /v1/hubs/{hub_id}/parameters
+- PUT /v1/hubs/{hub_id}/parameters
+- GET /v1/hubs/parameters
+- GET /v1/fleet/organization
+- GET /v1/fleet/hub/{hub_id}
+- PUT /v1/fleet/hub/{hub_id}
+
+**9. zones_service**
+Framework: FastAPI
+Endpoints:
+- GET /health
+- GET /v1/regions/{region_id}
+- GET /v1/regions_with_filters
+- GET /v1/get_region_by_ids
+- GET /v1/regions
+- GET /v1/regions_by_point
+- POST /v1/regions_by_point
+- GET /v1/zones
+- GET /v1/zones_by_organization
+- POST /v1/regions
+- PUT /v1/regions/{region_id}
+- DELETE /v1/regions/{region_id}
+- PUT /v1/regions/{region_id}/status
+- GET /v1/regions-similarity
+- GET /v1/region_type/{region_id}
+
+## Summary Table
+
+| Repo | Framework | Has File Upload | Has PUT/PATCH/DELETE |
+|------|-----------|-----------------|---------------------|
+| advances-payflow | FastAPI | Yes (request-document) | No |
+| backgroundcheck_api | FastAPI | No | Yes (PATCH /v1/identity_validation) |
+| bolsadecargabeta | Django | No | No |
+| geocoding-liftit-api | FastAPI | No | No |
+| integration_rndc | FastAPI | Yes (invoice/file, credit/file) | Yes (PATCH /invoice/{id}, DELETE /invoice/{id}) |
+| kong-integration-plugins | Lua/Kong | N/A | N/A |
+| optimizer-domain | FastAPI | No | No |
+| parameters_service | FastAPI | No | Yes (PUT endpoints) |
+| zones_service | FastAPI | No | Yes (PUT, DELETE endpoints) |
+
+**File uploads detected in:**
+- /home/jhonortiz/devops/advances-payflow/src/entrypoints/advances/advance_request.py (POST /advances/request-document)
+- /home/jhonortiz/devops/integration_rndc/src/routes/invoice.py (POST /invoice/file with base64 encoded file, POST /credit/file)
+
+**PUT/PATCH/DELETE operations:**
+- advances-payflow: None
+- backgroundcheck_api: PATCH /v1/identity_validation
+- parameters_service: PUT /v1/hubs/{hub_id}/parameters, PUT /v1/fleet/hub/{hub_id}
+- zones_service: PUT /v1/regions/{region_id}, PUT /v1/regions/{region_id}/status, DELETE /v1/regions/{region_id}
+- integration_rndc: PATCH /invoice/{invoice_id}, DELETE /invoice/{invoice_id}</result>
+<usage><total_tokens>96101</total_tokens><tool_uses>90</tool_uses><duration_ms>69214</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+<task-notification>
+<task-id>aa17ad3aeb756ef9f</task-id>
+<tool-use-id>toolu_01NdZqtjjcqUKQTGvNzT1gDZ</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Find remaining GKE app endpoints 1" completed</summary>
+<result>Perfect! Now I have a comprehensive view. Let me compile the complete endpoint report for all 7 repositories. Based on my analysis:
+
+## API Endpoint Report
+
+**1. integrations-domain | FastAPI | Multiple endpoints:**
+| Endpoint | HTTP Method | Has Upload |
+|----------|------------|-----------|
+| /api/v1/tms/transport_companies | GET | No |
+| /api/v1/tms/parameters | GET | No |
+| /api/v1/load_manifests | GET | No |
+| /api/v1/load_manifests/{manifest_id} | GET | No |
+| /api/v1/load_manifests | POST | No |
+| /api/v1/load_manifests/{manifest_id} | PUT | No |
+| /api/v1/load_manifests/{manifest_id} | DELETE | No |
+| /api/v1/tms/services | GET | No |
+| /api/v1/services/app_rating_and_lifter_efecty_update | POST | No |
+| /api/v1/services/sync_missing | POST | No |
+| /api/v1/proxy | POST | No |
+
+**2. notifications-domain | FastAPI | Multiple endpoints:**
+| Endpoint | HTTP Method | Has Upload |
+|----------|------------|-----------|
+| /api/v1/email/send | POST | No |
+| /api/v1/email/send/template | POST | No |
+| /api/v1/email/verify | POST | No |
+| /api/v1/email/block | POST | No |
+| /api/v1/email/ublock | POST | No |
+| /api/v1/sms/send | POST | No |
+| /api/v1/sms/send/scheduled | POST | No |
+| /api/v1/monitoring_alert | POST | No |
+| /api/v1/last_event | POST | No |
+| /api/v1 | GET | No |
+| /api/v1 | DELETE | No |
+| /api/v1/{id} | DELETE | No |
+| /api/v1 | PUT | No |
+| /api/v1/{id}/{read_status} | PUT | No |
+
+**3. documents-domain | FastAPI | File handling endpoints:**
+| Endpoint | HTTP Method | Has Upload |
+|----------|------------|-----------|
+| /api/v1/files/integration | POST | No |
+| /api/v1/excel_files | POST | No |
+| /api/v1/pdf_files | POST | No |
+| /api/v1/barcode | POST | No |
+| /api/v1/qr_code | POST | No |
+
+**4. docgenerator | Celery Tasks + Google Cloud Storage (No FastAPI routes)**
+- Uses Celery background tasks for document generation
+- Functions: task_build_doc, send_email_doc
+- Integrates with TemplateProcessor, GenerateFile, UploadFile (Google Cloud Storage)
+
+**5. docscan_service | FastAPI | Document scanning endpoints:**
+| Endpoint | HTTP Method | Has Upload |
+|----------|------------|-----------|
+| /api/v1/scan | POST | No |
+| /api/v1/simple_scan | POST | No |
+| /api/v1/scan/{document_id} | GET | No |
+
+**6. finance-domain | FastAPI | Financial transaction endpoints:**
+| Endpoint | HTTP Method | Has Upload |
+|----------|------------|-----------|
+| /api/v1/approval_request | POST | No |
+| /api/v1/approval_request | GET | No |
+| /api/v1/approval_request/{id} | GET | No |
+| /api/v1/approval_request/{id} | PUT | No |
+| /api/v1/approval_request/{id} | DELETE | No |
+| /api/v1/transaction_type | POST | No |
+| /api/v1/transaction_type | GET | No |
+| /api/v1/transaction_type/{id} | GET | No |
+| /api/v1/transaction_type/{id} | PUT | No |
+| /api/v1/transaction_type/{id} | DELETE | No |
+| /api/v1/liquidations | GET | No |
+| /api/v1/liquidations/{user_id}/details | GET | No |
+
+**7. fleet-domain | FastAPI | Fleet management endpoints:**
+| Endpoint | HTTP Method | Has Upload |
+|----------|------------|-----------|
+| /api/v1/fleet_request | GET | No |
+| /api/v1/fleet_request/{fleet_request_id} | GET | No |
+| /api/v1/fleet_request | POST | No |
+| /api/v1/fleet_request/{fleet_request_id}/service/assign | POST | No |
+| /api/v1/fleet_request/{fleet_request_id}/status/finish | POST | No |
+| /api/v1/fleet_request/{fleet_request_id}/status/{status} | POST | No |
+| /api/v1/fleet_request/{fleet_request_id} | PUT | No |
+| /api/v1/fleet_offer | GET | No |
+| /api/v1/fleet_offer/{fleet_offer_id} | GET | No |
+| /api/v1/fleet_offer | POST | No |
+| /api/v1/fleet_offer/{fleet_offer_id}/driver/response | POST | No |
+| /api/v1/fleet_offer_status | GET | No |
+
+## Summary
+
+- **Framework**: All 6 domain services use **FastAPI** (Python async framework). Only docgenerator uses **Celery** for background tasks.
+- **File Uploads**: None of the APIs have direct file upload endpoints (multipart/form-data)
+- **PUT/PATCH/DELETE**: All PUT and DELETE operations are present in finance-domain, fleet-domain, and integrations-domain
+- **Notable**: documents-domain and docscan_service handle document content but receive data via POST body (not multipart uploads)</result>
+<usage><total_tokens>92160</total_tokens><tool_uses>108</tool_uses><duration_ms>89333</duration_ms></usage>
+</task-notification>
+Full transcript available at: REDACTED.output
+
+---
+
+Procede con los cambios ejecuta tf-apply, pero no actives el modo bloqueo, debemos monitorear 2 semanas más para cubrir más escenarios, guarda en memoria que se debe volver a hacer el analisis profundo nuevamente con los nuevos hallazgos en 2 semanas
+
+---
+
+Cómo te puedo reactivar en la pŕoxima sesión de modo que no se confunda con algún otro tema que trabaje en este mismo repo?
