@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "7215f4033cba",
+  "session_id": "fae61bd3-4c31-401d-8671-58b54bf490dd",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T15:03:31.819737616Z",
+  "branch": "master",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/apps/load-balancer.tf",
+    "apps/apps/servicedesk.tf",
+    "apps/apps/vm.tf"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "801966c14ee7",
+  "token_usage": {
+    "input_tokens": 3837,
+    "cache_creation_tokens": 317661,
+    "cache_read_tokens": 2979574,
+    "output_tokens": 35282,
+    "api_call_count": 48
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T15:03:31.669271755Z",
+    "agent_lines": 45,
+    "human_added": 13,
+    "human_modified": 3,
+    "human_removed": 0,
+    "total_committed": 61,
+    "agent_percentage": 73.77049180327869
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/fae61bd3-4c31-401d-8671-58b54bf490dd.jsonl"
+}

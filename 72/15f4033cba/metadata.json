@@ -3,7 +3,7 @@
   "checkpoint_id": "7215f4033cba",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 3,
   "files_touched": [
     "apps/apps/.terraform.lock.hcl",
     "apps/apps/load-balancer.tf",
@@ -60,13 +60,20 @@
       "context": "/72/15f4033cba/6/context.md",
       "content_hash": "/72/15f4033cba/6/content_hash.txt",
       "prompt": "/72/15f4033cba/6/prompt.txt"
+    },
+    {
+      "metadata": "/72/15f4033cba/7/metadata.json",
+      "transcript": "/72/15f4033cba/7/full.jsonl",
+      "context": "/72/15f4033cba/7/context.md",
+      "content_hash": "/72/15f4033cba/7/content_hash.txt",
+      "prompt": "/72/15f4033cba/7/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 331,
-    "cache_creation_tokens": 864928,
-    "cache_read_tokens": 19195595,
-    "output_tokens": 33540,
-    "api_call_count": 241
+    "input_tokens": 4168,
+    "cache_creation_tokens": 1182589,
+    "cache_read_tokens": 22175169,
+    "output_tokens": 68822,
+    "api_call_count": 289
   }
 }
