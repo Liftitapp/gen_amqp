@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "6eb92b45429d",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/waf/.terraform.lock.hcl",
+    "sec/waf/CLAUDE.md",
+    "sec/waf/locals.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/6e/b92b45429d/0/metadata.json",
+      "transcript": "/6e/b92b45429d/0/full.jsonl",
+      "context": "/6e/b92b45429d/0/context.md",
+      "content_hash": "/6e/b92b45429d/0/content_hash.txt",
+      "prompt": "/6e/b92b45429d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 220652,
+    "cache_read_tokens": 2634856,
+    "output_tokens": 6361,
+    "api_call_count": 30
+  }
+}
