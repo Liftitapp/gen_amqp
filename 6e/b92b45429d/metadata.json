@@ -3,7 +3,7 @@
   "checkpoint_id": "6eb92b45429d",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 3,
   "files_touched": [
     "sec/waf/.terraform.lock.hcl",
     "sec/waf/CLAUDE.md",
@@ -51,13 +51,20 @@
       "context": "/6e/b92b45429d/5/context.md",
       "content_hash": "/6e/b92b45429d/5/content_hash.txt",
       "prompt": "/6e/b92b45429d/5/prompt.txt"
+    },
+    {
+      "metadata": "/6e/b92b45429d/6/metadata.json",
+      "transcript": "/6e/b92b45429d/6/full.jsonl",
+      "context": "/6e/b92b45429d/6/context.md",
+      "content_hash": "/6e/b92b45429d/6/content_hash.txt",
+      "prompt": "/6e/b92b45429d/6/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 120,
-    "cache_creation_tokens": 482654,
-    "cache_read_tokens": 6685286,
-    "output_tokens": 11581,
-    "api_call_count": 101
+    "input_tokens": 182,
+    "cache_creation_tokens": 655673,
+    "cache_read_tokens": 9615775,
+    "output_tokens": 42895,
+    "api_call_count": 147
   }
 }
