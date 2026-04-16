@@ -3,7 +3,7 @@
   "checkpoint_id": "765d2bec5f2d",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "sec/grafana-config/dashboards.tf",
     "sec/grafana-config/dashboards/cloud-run.json",
@@ -17,13 +17,20 @@
       "context": "/76/5d2bec5f2d/0/context.md",
       "content_hash": "/76/5d2bec5f2d/0/content_hash.txt",
       "prompt": "/76/5d2bec5f2d/0/prompt.txt"
+    },
+    {
+      "metadata": "/76/5d2bec5f2d/1/metadata.json",
+      "transcript": "/76/5d2bec5f2d/1/full.jsonl",
+      "context": "/76/5d2bec5f2d/1/context.md",
+      "content_hash": "/76/5d2bec5f2d/1/content_hash.txt",
+      "prompt": "/76/5d2bec5f2d/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 176,
-    "cache_creation_tokens": 154630,
-    "cache_read_tokens": 4808102,
-    "output_tokens": 57123,
-    "api_call_count": 53
+    "input_tokens": 247,
+    "cache_creation_tokens": 206080,
+    "cache_read_tokens": 23063079,
+    "output_tokens": 96499,
+    "api_call_count": 84
   }
 }
