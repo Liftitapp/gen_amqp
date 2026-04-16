@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "e4b6085be485",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/grafana-config/dashboards/gke.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/e4/b6085be485/0/metadata.json",
+      "transcript": "/e4/b6085be485/0/full.jsonl",
+      "context": "/e4/b6085be485/0/context.md",
+      "content_hash": "/e4/b6085be485/0/content_hash.txt",
+      "prompt": "/e4/b6085be485/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 176,
+    "cache_creation_tokens": 154630,
+    "cache_read_tokens": 4808102,
+    "output_tokens": 57123,
+    "api_call_count": 53
+  }
+}
