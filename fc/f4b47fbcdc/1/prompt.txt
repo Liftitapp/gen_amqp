@@ -1,0 +1,21 @@
+Retoma desde memoria
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Ya quedó aplicado en prod
+
+---
+
+En todos los aqmbientes
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Ve directo al cierre
