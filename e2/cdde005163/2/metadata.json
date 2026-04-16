@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "e2cdde005163",
+  "session_id": "5b418577-4885-4888-9afa-e9193f79fa5b",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-16T20:02:01.247991809Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "sec/grafana-config/dashboards.tf",
+    "sec/grafana-config/dashboards/load-balancer.json"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "9e7dbb49a48f",
+  "token_usage": {
+    "input_tokens": 71,
+    "cache_creation_tokens": 92269,
+    "cache_read_tokens": 2121494,
+    "output_tokens": 35676,
+    "api_call_count": 31
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-16T20:02:01.176940848Z",
+    "agent_lines": 0,
+    "human_added": 272,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 272,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/5b418577-4885-4888-9afa-e9193f79fa5b.jsonl"
+}
