@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "891612e65734",
+  "session_id": "3f9255fd-fac8-495a-bba8-bbc5ed7e52bf",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-16T15:32:14.726643668Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/ROADMAP.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/CONTEXT.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "3e7e2f6555eb",
+  "checkpoint_transcript_start": 281,
+  "transcript_lines_at_start": 281,
+  "token_usage": {
+    "input_tokens": 192,
+    "cache_creation_tokens": 359785,
+    "cache_read_tokens": 8442879,
+    "output_tokens": 59700,
+    "api_call_count": 58
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-16T15:32:14.43735649Z",
+    "agent_lines": 31,
+    "human_added": 280,
+    "human_modified": 67,
+    "human_removed": 0,
+    "total_committed": 378,
+    "agent_percentage": 8.201058201058201
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/3f9255fd-fac8-495a-bba8-bbc5ed7e52bf.jsonl"
+}
