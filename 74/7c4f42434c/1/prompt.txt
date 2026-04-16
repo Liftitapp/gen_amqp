@@ -1,0 +1,172 @@
+Retoma desde memoria
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Ya quedó aplicado en prod
+
+---
+
+En todos los aqmbientes
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Ve directo al cierre
+
+---
+
+Ahora, cuál es el siguiente paso?
+
+---
+
+No, era sobre #S27 Arquitectura de alertas del agente OpenFang Hand: cómo obtiene alertas desde GKE, Cloud Run y PostgreSQL, y con qué frecuencia (Apr 15, 4:28 PM)
+
+     #S28 Alert architecture design without Alertmanager using existing Grafana (Apache DevLake) + Cloud Monitoring + Sentry (Apr 15, 4:31 PM)
+
+     #S29 Integrar uptime-kuma y GitHub Actions como fuentes adicionales del agente de ops con LLM para Liftit (Apr 15, 4:34 PM)
+
+     #S30 Evaluación de Linkerd como fuente de observabilidad de performance en cluster GKE para agente conversacional de operaciones (Apr 15, 4:35 PM)
+
+---
+
+Respecto al gap, recuerdas que ya hay uno de apache devlake que está implementado?
+
+---
+
+Primero  entonces en Linear crea una actividad macro o proyecto de Linear de todo esto con los sub issues detallados de que se requiere, en la medida que vayamos solucionando, vamos cerrando los issue en linear debes crearlo en el equipo infrastructure, asignado a jhon.ortiz y asigna el label más adecuado
+
+---
+
+Ponlo todo en el ciclo 28
+
+---
+
+Si, arranca por TI-1412
+
+---
+
+Base directory for this skill: /home/jhonortiz/.claude/skills/gsd-ai-integration-phase
+
+<objective>
+Create an AI design contract (AI-SPEC.md) for a phase involving AI system development.
+Orchestrates gsd-framework-selector → gsd-ai-researcher → gsd-domain-researcher → gsd-eval-planner.
+Flow: Select Framework → Research Docs → Research Domain → Design Eval Strategy → Done
+</objective>
+
+<execution_context>
+@$HOME/.claude/get-shit-done/workflows/ai-integration-phase.md
+@$HOME/.claude/get-shit-done/references/ai-frameworks.md
+@$HOME/.claude/get-shit-done/references/ai-evals.md
+</execution_context>
+
+<context>
+Phase number: 7 — optional, auto-detects next unplanned phase if omitted.
+</context>
+
+<process>
+Execute @$HOME/.claude/get-shit-done/workflows/ai-integration-phase.md end-to-end.
+Preserve all workflow gates.
+</process>
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Ojo, recuerda que acordamos un agente local
+
+---
+
+1. OpenFang, 2. Valida en las conversaciones, creo que ya habíamos seleccionado algo, 3. vLLM, 4. La idea es que no fuese tan costoso pero sirva para este propósito
+
+---
+
+Si lo tomo spot, cómo garantizo que se vuelva a recrear la máquina? y si aplico actualizacione?
+
+---
+
+Con la opción 1 cuánto sería el Downtime?
+
+---
+
+Ahora, sin desviarnos del tema, si quisiera usar Claude, tocaría activar api con openfang, o con mi cuenta max de claude puedo?
+
+---
+
+Seguimos con MIG spot regional + PD pre-cacheado, documenta el proyecto GSD y la arquitectura de Linear
+
+---
+
+Pero en el Issue no veo los cambios del diseño
+
+---
+
+Ahora, en dónde va a estar openfang? en la misma máquina del agente de IA, y cómo se manejará la seguridad si se desea acceder a los servicios del api, en el caso de externos a la infra?
+
+---
+
+Creo que openfang debe actuar desacoplado en una VM, porque podría saturar al cluster de aplicaciones GKE no crees?
+
+---
+
+Los costos están desactualizados, la máquina e2-standar-4 vale 98 USD on demand la otra vale 250 en spot
+
+---
+
+Respecto a openfang, estás seguro que requiere todo ese hardware, ahora, respecto a vLLM funcionará bien?
+
+---
+
+el vLLM vale con 150 GB de disco SSD en spot 231.24 USD
+
+---
+
+[Request interrupted by user]
+
+---
+
+el vLLM vale con 150 GB de disco SSD en spot 231.24 USD sin schedule, debe estar 24/7
+
+---
+
+Si, actualiza todo lo necesario
+
+---
+
+Para qué necesitarías la cloudrun de slack, yo tengo un canal de slack y tengo el apikey
+
+---
+
+Y el agente de openfang, cómo se comunica con las diferentes fuentes y realizar las acciones preestablecidas?
+
+---
+
+Ojo que las db de postgres están en VM GCE
+
+---
+
+Si, pero para PostgreSQL (VM GCE) sería sólo User+password
+
+---
+
+Arranquemos con TI-1413
+
+---
+
+Phase 8 separado
+
+---
+
+Procede con Plan 08-01
+
+---
+
+Opción 1
