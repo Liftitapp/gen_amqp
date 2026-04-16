@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "765d2bec5f2d",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/grafana-config/dashboards.tf",
+    "sec/grafana-config/dashboards/cloud-run.json",
+    "sec/grafana-config/dashboards/compute-databases.json",
+    "sec/grafana-config/datasources.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/76/5d2bec5f2d/0/metadata.json",
+      "transcript": "/76/5d2bec5f2d/0/full.jsonl",
+      "context": "/76/5d2bec5f2d/0/context.md",
+      "content_hash": "/76/5d2bec5f2d/0/content_hash.txt",
+      "prompt": "/76/5d2bec5f2d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 176,
+    "cache_creation_tokens": 154630,
+    "cache_read_tokens": 4808102,
+    "output_tokens": 57123,
+    "api_call_count": 53
+  }
+}
