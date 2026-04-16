@@ -1,0 +1,13 @@
+retoma desde memoria
+
+---
+
+Para load balancer es mejor GCP o stackdriver?
+
+---
+
+Y si hay errores 500 se sabría cuál es el backend? teniendo en cuenta que un load balancer es usado por muchos servicios?
+
+---
+
+Lo quiero completo
