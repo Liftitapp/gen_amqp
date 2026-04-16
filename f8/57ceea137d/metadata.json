@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "f857ceea137d",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/08-grafana-observability-dashboards-v11/08-02-SUMMARY.md",
+    "sec/grafana-config/datasources.tf",
+    "sec/grafana-config/folders.tf",
+    "sec/grafana-config/locals.tf",
+    "sec/grafana-config/main.tf",
+    "sec/grafana-config/secrets/secrets.enc.yaml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f8/57ceea137d/0/metadata.json",
+      "transcript": "/f8/57ceea137d/0/full.jsonl",
+      "context": "/f8/57ceea137d/0/context.md",
+      "content_hash": "/f8/57ceea137d/0/content_hash.txt",
+      "prompt": "/f8/57ceea137d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 176,
+    "cache_creation_tokens": 154630,
+    "cache_read_tokens": 4808102,
+    "output_tokens": 57123,
+    "api_call_count": 53
+  }
+}
