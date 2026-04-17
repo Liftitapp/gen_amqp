@@ -1,0 +1,128 @@
+Retoma desde memoria
+
+---
+
+Debería ser con TI-1421 Runtime del agente no?, para ahí si instalar el agente o qué opinas?
+
+---
+
+Tienes razón en los contras, entonces qué debería seguir en el proceso de implementación, openfang?
+
+---
+
+Si
+
+---
+
+Si
+
+---
+
+Vamos con TI-1421 con /gsd-discuss-phase
+
+---
+
+Base directory for this skill: /home/jhonortiz/.claude/skills/gsd-discuss-phase
+
+<objective>
+Extract implementation decisions that downstream agents need — researcher and planner will use CONTEXT.md to know what to investigate and what choices are locked.
+
+**How it works:**
+1. Load prior context (PROJECT.md, REQUIREMENTS.md, STATE.md, prior CONTEXT.md files)
+2. Scout codebase for reusable assets and patterns
+3. Analyze phase — skip gray areas already decided in prior phases
+4. Present remaining gray areas — user selects which to discuss
+5. Deep-dive each selected area until satisfied
+6. Create CONTEXT.md with decisions that guide research and planning
+
+**Output:** `{phase_num}-CONTEXT.md` — decisions clear enough that downstream agents can act without asking the user again
+</objective>
+
+<execution_context>
+@$HOME/.claude/get-shit-done/workflows/discuss-phase.md
+@$HOME/.claude/get-shit-done/workflows/discuss-phase-assumptions.md
+@$HOME/.claude/get-shit-done/workflows/discuss-phase-power.md
+@$HOME/.claude/get-shit-done/templates/context.md
+</execution_context>
+
+<runtime_note>
+**Copilot (VS Code):** Use `vscode_askquestions` wherever this workflow calls `AskUserQuestion`. They are equivalent — `vscode_askquestions` is the VS Code Copilot implementation of the same interactive question API.
+</runtime_note>
+
+<context>
+Phase number: TI-1421 Runtime del agente (Parte 1): OpenFang + Slack E2E (sin GPU) — VM e2-medium con Docker Compose corriendo OpenFang (Rust Agent OS) + Phoenix observability, conectado a Slack via Socket Mode, usando una API LLM externa (Anthropic/OpenAI) como bootstrap provisional. El switch a vLLM local se hace en TI-1425 (Parte 2). Ver Linear TI-1421 y .planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/07-AI-SPEC.md secciones 2, 3, 4, 8, 11. (required)
+
+Context files are resolved in-workflow using `init phase-op` and roadmap/state tool calls.
+</context>
+
+<process>
+**Mode routing:**
+```bash
+DISCUSS_MODE=$(node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" config-get workflow.discuss_mode 2>/dev/null || echo "discuss")
+```
+
+If `DISCUSS_MODE` is `"assumptions"`: Read and execute @$HOME/.claude/get-shit-done/workflows/discuss-phase-assumptions.md end-to-end.
+
+If `DISCUSS_MODE` is `"discuss"` (or unset, or any other value): Read and execute @$HOME/.claude/get-shit-done/workflows/discuss-phase.md end-to-end.
+
+**MANDATORY:** The execution_context files listed above ARE the instructions. Read the workflow file BEFORE taking any action. The objective and success_criteria sections in this command file are summaries — the workflow file contains the complete step-by-step process with all required behaviors, config checks, and interaction patterns. Do not improvise from the summary.
+</process>
+
+<success_criteria>
+- Prior context loaded and applied (no re-asking decided questions)
+- Gray areas identified through intelligent analysis
+- User chose which areas to discuss
+- Each selected area explored until satisfied
+- Scope creep redirected to deferred ideas
+- CONTEXT.md captures decisions, not vague vision
+- User knows next steps
+</success_criteria>
+
+---
+
+/gsd-plan-phase TI-1421
+
+---
+
+Base directory for this skill: /home/jhonortiz/.claude/skills/gsd-plan-phase
+
+<objective>
+Create executable phase prompts (PLAN.md files) for a roadmap phase with integrated research and verification.
+
+**Default flow:** Research (if needed) → Plan → Verify → Done
+
+**Orchestrator role:** Parse arguments, validate phase, research domain (unless skipped), spawn gsd-planner, verify with gsd-plan-checker, iterate until pass or max iterations, present results.
+</objective>
+
+<execution_context>
+@$HOME/.claude/get-shit-done/workflows/plan-phase.md
+@$HOME/.claude/get-shit-done/references/ui-brand.md
+</execution_context>
+
+<runtime_note>
+**Copilot (VS Code):** Use `vscode_askquestions` wherever this workflow calls `AskUserQuestion`. They are equivalent — `vscode_askquestions` is the VS Code Copilot implementation of the same interactive question API. Do not skip questioning steps because `AskUserQuestion` appears unavailable; use `vscode_askquestions` instead.
+</runtime_note>
+
+<context>
+Phase number: TI-1421 (optional — auto-detects next unplanned phase if omitted)
+
+**Flags:**
+- `--research` — Force re-research even if RESEARCH.md exists
+- `--skip-research` — Skip research, go straight to planning
+- `--gaps` — Gap closure mode (reads VERIFICATION.md, skips research)
+- `--skip-verify` — Skip verification loop
+- `--prd <file>` — Use a PRD/acceptance criteria file instead of discuss-phase. Parses requirements into CONTEXT.md automatically. Skips discuss-phase entirely.
+- `--reviews` — Replan incorporating cross-AI review feedback from REVIEWS.md (produced by `/gsd-review`)
+- `--text` — Use plain-text numbered lists instead of TUI menus (required for `/rc` remote sessions)
+
+Normalize phase input in step 2 before any directory lookups.
+</context>
+
+<process>
+Execute the plan-phase workflow from @$HOME/.claude/get-shit-done/workflows/plan-phase.md end-to-end.
+Preserve all workflow gates (validation, research, planning, verification loop, routing).
+</process>
+
+---
+
+Commit planning artifacts — git add .planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-* y commit
