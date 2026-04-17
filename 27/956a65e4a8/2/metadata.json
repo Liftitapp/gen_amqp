@@ -1,0 +1,41 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "27956a65e4a8",
+  "session_id": "5b418577-4885-4888-9afa-e9193f79fa5b",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-17T21:23:24.925872293Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-01-PLAN.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-03-PLAN.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-06-PLAN.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-CONTEXT.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-02-PLAN.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-04-PLAN.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-05-PLAN.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-DISCUSSION-LOG.md",
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1421-PARTE-1-RESEARCH.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "581cbd7df614",
+  "checkpoint_transcript_start": 464,
+  "transcript_lines_at_start": 464,
+  "token_usage": {
+    "input_tokens": 73,
+    "cache_creation_tokens": 366745,
+    "cache_read_tokens": 2850685,
+    "output_tokens": 8087,
+    "api_call_count": 18
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-17T21:23:24.718962524Z",
+    "agent_lines": 5459,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 5459,
+    "agent_percentage": 100
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/5b418577-4885-4888-9afa-e9193f79fa5b.jsonl"
+}
