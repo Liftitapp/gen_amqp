@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "0750b8c2bf8b",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/firewall/fw-vpc.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/07/50b8c2bf8b/0/metadata.json",
+      "transcript": "/07/50b8c2bf8b/0/full.jsonl",
+      "context": "/07/50b8c2bf8b/0/context.md",
+      "content_hash": "/07/50b8c2bf8b/0/content_hash.txt",
+      "prompt": "/07/50b8c2bf8b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 176,
+    "cache_creation_tokens": 154630,
+    "cache_read_tokens": 4808102,
+    "output_tokens": 57123,
+    "api_call_count": 53
+  }
+}
