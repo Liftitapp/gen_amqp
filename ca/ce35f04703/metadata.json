@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "cace35f04703",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "packer/vllm/README.md",
+    "packer/vllm/files/prebuild.sh",
+    "packer/vllm/vllm.pkr.hcl"
+  ],
+  "sessions": [
+    {
+      "metadata": "/ca/ce35f04703/0/metadata.json",
+      "transcript": "/ca/ce35f04703/0/full.jsonl",
+      "context": "/ca/ce35f04703/0/context.md",
+      "content_hash": "/ca/ce35f04703/0/content_hash.txt",
+      "prompt": "/ca/ce35f04703/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 176,
+    "cache_creation_tokens": 154630,
+    "cache_read_tokens": 4808102,
+    "output_tokens": 57123,
+    "api_call_count": 53
+  }
+}
