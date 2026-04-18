@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "f38ada813e9c",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/CLAUDE.md",
+    "apps/ai/backend.tf",
+    "apps/ai/files/vllm-startup.sh",
+    "apps/ai/locals.tf",
+    "apps/ai/outputs.tf",
+    "apps/ai/providers.tf",
+    "apps/ai/remote-state.tf",
+    "apps/ai/versions.tf",
+    "apps/ai/vllm.tf",
+    "apps/ai/vm.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f3/8ada813e9c/0/metadata.json",
+      "transcript": "/f3/8ada813e9c/0/full.jsonl",
+      "context": "/f3/8ada813e9c/0/context.md",
+      "content_hash": "/f3/8ada813e9c/0/content_hash.txt",
+      "prompt": "/f3/8ada813e9c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 176,
+    "cache_creation_tokens": 154630,
+    "cache_read_tokens": 4808102,
+    "output_tokens": 57123,
+    "api_call_count": 53
+  }
+}
