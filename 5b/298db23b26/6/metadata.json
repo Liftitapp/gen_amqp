@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "5b298db23b26",
+  "session_id": "b6a96ade-62f4-4969-bfbd-244416e2ec54",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T23:03:09.581511547Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/ai/files/mcp-grafana/README.md",
+    "apps/ai/files/mcp-grafana/docker-compose-snippet.yml"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "1ea8c4a5d02a",
+  "transcript_identifier_at_start": "9a282b8e-dfcb-4aae-bd39-1a7ad80ed3e2",
+  "checkpoint_transcript_start": 728,
+  "transcript_lines_at_start": 728,
+  "token_usage": {
+    "input_tokens": 55,
+    "cache_creation_tokens": 33709,
+    "cache_read_tokens": 9218923,
+    "output_tokens": 17556,
+    "api_call_count": 40
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T23:03:09.275107898Z",
+    "agent_lines": 0,
+    "human_added": 156,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 156,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/b6a96ade-62f4-4969-bfbd-244416e2ec54.jsonl"
+}
