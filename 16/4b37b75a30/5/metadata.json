@@ -1,0 +1,37 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "164b37b75a30",
+  "session_id": "985fc25c-d951-465b-9c51-5838263ee153",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T17:31:46.948830806Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/TI-1425-RUNBOOK.md",
+    "apps/ai/files/docker-compose-litellm-snippet.yml",
+    "apps/ai/files/litellm-config.yaml",
+    "apps/ai/monitoring.tf"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "ff8a60c7e455",
+  "transcript_identifier_at_start": "0fe88a09-ddb7-4781-ae86-5ad21e080989",
+  "checkpoint_transcript_start": 1067,
+  "transcript_lines_at_start": 1067,
+  "token_usage": {
+    "input_tokens": 2249,
+    "cache_creation_tokens": 380859,
+    "cache_read_tokens": 14999741,
+    "output_tokens": 62645,
+    "api_call_count": 47
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T17:31:46.574395295Z",
+    "agent_lines": 0,
+    "human_added": 635,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 635,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/985fc25c-d951-465b-9c51-5838263ee153.jsonl"
+}
