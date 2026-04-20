@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "b06457c2652a",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/07-AI-SPEC.md",
+    "apps/ai/CLAUDE.md",
+    "apps/ai/files/vllm-startup.sh",
+    "apps/ai/outputs.tf",
+    "apps/ai/vllm.tf",
+    "iam/service-accounts/services.tf",
+    "org/projects/projects.tf",
+    "packer/vllm/README.md",
+    "sec/firewall/fw-vpc.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/b0/6457c2652a/0/metadata.json",
+      "transcript": "/b0/6457c2652a/0/full.jsonl",
+      "context": "/b0/6457c2652a/0/context.md",
+      "content_hash": "/b0/6457c2652a/0/content_hash.txt",
+      "prompt": "/b0/6457c2652a/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 176,
+    "cache_creation_tokens": 154630,
+    "cache_read_tokens": 4808102,
+    "output_tokens": 57123,
+    "api_call_count": 53
+  }
+}
