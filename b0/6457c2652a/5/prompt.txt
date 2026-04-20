@@ -1,0 +1,73 @@
+Retomemos desde memoria
+
+---
+
+a
+
+---
+
+Sigue sin funcionar la máquina vLLM
+
+---
+
+Entonces creo que será necesario cambiar de VM a Cloudrun, pero primero quisiera saber desventajas?
+
+---
+
+Quiero la a, pero explícame, cómo lo soluciona
+
+---
+
+Si
+
+---
+
+Si
+
+---
+
+Sigue sin funcionar la VM
+
+---
+
+Con on demand t4 quedaría en 409 USD al mes no?
+
+---
+
+L4 en spot tiene el mismo problema, recuerda que fue la primera opción y nunca logró subirporque no habían recursos
+
+---
+
+Y con AWS cómo sería el ejercicio?
+
+---
+
+Pero en AWS yo si tengo infra de la empresa, por ende no hay pérdida de soberanía, ya la cuestión es si Bedrock podría interactuar con la Infra de GCP
+
+---
+
+Pero el que interactua con la Infra es openfang con las instrucciones de Bedrock?
+
+---
+
+Ahora, cuál sería la opción de GCP equivalente a bedrock y el costo
+
+---
+
+Valida por favor los precios reales de vertex ai, con un modelo que cumpla los requerimientos
+
+---
+
+Adicional, valida según el alcance de todo el proyecto, el consumo mensual, teniendo en cuenta cada característica que quiero aplicar
+
+---
+
+Ahora, existe alguna forma de implementar cosas que ahorren tokens como rtk y caveman en openfang?
+
+---
+
+Entonces quiero levantar la restricción de self-hosted para la IA, pero el runtime inference debe ser GCP, ahora, esos precios es que me diste es el LLM completo con el runtime inference?
+
+---
+
+Si, actualiza todo el proyecto gsd, el de linearm el AI-SPEC, ejecutar el terraform destroy del LLM local, packer y para activar el servicio de vertex mira en devops-tf-infrastructure/org/projects, ajusta el sa creado para openfang
