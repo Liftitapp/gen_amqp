@@ -3,7 +3,7 @@
   "checkpoint_id": "83ef4338e45a",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 2,
+  "checkpoints_count": 3,
   "files_touched": [
     "apps/ai/files/mcp-gke/Dockerfile",
     "apps/ai/files/mcp-gke/README.md",
@@ -53,13 +53,20 @@
       "context": "/83/ef4338e45a/5/context.md",
       "content_hash": "/83/ef4338e45a/5/content_hash.txt",
       "prompt": "/83/ef4338e45a/5/prompt.txt"
+    },
+    {
+      "metadata": "/83/ef4338e45a/6/metadata.json",
+      "transcript": "/83/ef4338e45a/6/full.jsonl",
+      "context": "/83/ef4338e45a/6/context.md",
+      "content_hash": "/83/ef4338e45a/6/content_hash.txt",
+      "prompt": "/83/ef4338e45a/6/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 8409,
-    "cache_creation_tokens": 4627590,
-    "cache_read_tokens": 396553530,
-    "output_tokens": 1201657,
-    "api_call_count": 1444
+    "input_tokens": 8486,
+    "cache_creation_tokens": 4664455,
+    "cache_read_tokens": 406437946,
+    "output_tokens": 1225092,
+    "api_call_count": 1481
   }
 }
