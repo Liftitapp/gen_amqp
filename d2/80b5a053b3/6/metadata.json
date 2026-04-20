@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "d280b5a053b3",
+  "session_id": "b6a96ade-62f4-4969-bfbd-244416e2ec54",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T22:55:04.153851992Z",
+  "branch": "master",
+  "checkpoints_count": 4,
+  "files_touched": [
+    "apps/ai/files/mcp-gcp-monitoring/Dockerfile",
+    "apps/ai/files/mcp-gcp-monitoring/README.md",
+    "apps/ai/files/mcp-gcp-monitoring/app.py",
+    "apps/ai/files/mcp-gcp-monitoring/requirements.txt",
+    "iam/permissions/permissions-openfang-monitoring.tf"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "2184bbf199de",
+  "transcript_identifier_at_start": "9a282b8e-dfcb-4aae-bd39-1a7ad80ed3e2",
+  "token_usage": {
+    "input_tokens": 291,
+    "cache_creation_tokens": 230307,
+    "cache_read_tokens": 18071599,
+    "output_tokens": 72651,
+    "api_call_count": 151
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T22:55:03.871131991Z",
+    "agent_lines": 308,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 308,
+    "agent_percentage": 100
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/b6a96ade-62f4-4969-bfbd-244416e2ec54.jsonl"
+}
