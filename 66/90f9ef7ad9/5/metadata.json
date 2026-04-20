@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "6690f9ef7ad9",
+  "session_id": "985fc25c-d951-465b-9c51-5838263ee153",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T20:11:55.889720332Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/ai/files/deploy-litellm.sh",
+    "apps/ai/files/litellm-config.yaml"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "94f4cd631eb1",
+  "transcript_identifier_at_start": "0fe88a09-ddb7-4781-ae86-5ad21e080989",
+  "checkpoint_transcript_start": 1542,
+  "transcript_lines_at_start": 1542,
+  "token_usage": {
+    "input_tokens": 60,
+    "cache_creation_tokens": 57467,
+    "cache_read_tokens": 10816438,
+    "output_tokens": 25395,
+    "api_call_count": 25
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T20:11:54.907464481Z",
+    "agent_lines": 0,
+    "human_added": 49,
+    "human_modified": 2,
+    "human_removed": 0,
+    "total_committed": 49,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/985fc25c-d951-465b-9c51-5838263ee153.jsonl"
+}
