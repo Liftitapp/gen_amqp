@@ -1,0 +1,131 @@
+Retoma desde memoria
+
+---
+
+1. TI-1416 — Cloud Monitoring MCP
+
+---
+
+A
+
+---
+
+A1
+
+---
+
+Ya apliqué Terraform IAM — grant monitoring.viewer to OpenFang SA in 8 GCP projects manualmente
+
+---
+
+Monitoreo_infraestructura  [5:14 PM]
+Para poder obtener la latencia del backend service-domain, necesito el ID del proyecto de GCP. Por favor, indícame cuál es.
+NEWJhon Alexander Ortiz Castaño (CO)  [5:14 PM]
+@Monitoreo_infraestructura Cuál es la latencia del backend service-domain de prod-apps-454414? (edited) 
+Monitoreo_infraestructura  [5:14 PM]
+[Task completed — the agent executed tools but did not produce a text summary.]
+
+---
+
+Creo que no respondió, actualicé la configuración de slack para permitir chat privado con el bot
+
+---
+
+Le escribí por privado y por el canal pero nada
+
+---
+
+Entonces por lo que veo no se le pueden hacer muchas preguntas
+
+---
+
+Está bien reducir tool count
+
+---
+
+Resume TI-1416 validation: openfang was stopped due to Vertex AI 429 loop after IAM mcp.toolUser grant. Quota window should be clear by now. Steps: (1) ssh openfang 'cd /opt/openfang && sudo docker compose up -d openfang', (2) wait 15s, (3) check logs for slack connected + no new 429, (4) ask user to retry query from Slack.
+
+---
+
+Le envié por privado @Monitoreo_integraciones Cuál es la latencia del backend service-domain de prod-apps-454414? pero no responde
+
+---
+
+Se la envié por mensaje privado pero nada
+
+---
+
+Me gustaría que fuese más inteligente dado que con la pregunta que le hice
+
+---
+
+Se me ocurre que se podría conectar a las mismas fuentes de Grafana
+
+---
+
+La A estaría bien, entonces podríamos quitar el MCP de GCP y reemplazarlo por Grafana no crees?
+
+---
+
+La A estaría bien, entonces el MCP de GCP quedaría sólo para hacer restart de pods en gke
+
+---
+
+Procede con el cierre y luego con TI-1417
+
+---
+
+Ya lo guardé como GRAFANA_TOKEN en /opt/openfang/.env
+
+---
+
+B
+
+---
+
+Ya quedó
+
+---
+
+Si, dale
+
+---
+
+Vamos con opción D
+
+---
+
+En mensaje privado debo taguearlo
+
+---
+
+Monitoreo_integraciones  [6:53 PM]
+Aquí están los 12 issues de error sin resolver en producción de las últimas 24 horas en Sentry para la organización liftit:
+
+1.  BACKOFFICE-API-2N8: DataError: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(255) (840 eventos, último hace 49 min)
+2.  BACKOFFICE-API-2DK: InternalError: (raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (psycopg2.errors.RaiseException) This vehicle is already assigned to a person (24 eventos, último hace 50 min)
+3.  BACKOFFICE-API-204: AuthError: ({'code': 'unauthorized', 'description': 'user role has not authorization for this resource'}, 401) (11 eventos, último hace 40 min)
+4.  BACKOFFICE-API-1YY: RuntimeError: Working outside of request context. (11 eventos, último hace 1 hora)
+5.  LMS-LIFTERS-DOMAIN-4X: <unlabeled event> (3 eventos, último hace 6 horas)
+
+Puedes ver todos los resultados en Sentry: https://liftit.sentry.io/issues/?query=is%3Aunresolved+level%3Aerror+environment%3Aproduction
+Jhon Alexander Ortiz Castaño (CO)  [6:53 PM]
+@Monitoreo_integraciones ¿cuál es la p95 de latencia del backend production-apps?
+Monitoreo_integraciones  [6:54 PM]
+No puedo encontrar un dashboard de Grafana con "production-apps latency" o "backend latency". Tampoco pude obtener datos directamente usando un PromQL genérico para la latencia del backend.
+
+Para poder ayudarte, ¿podrías indicarme si "production-apps" se refiere a un dashboard o panel específico en Grafana, o a un tipo de recurso de GCP en particular (ej. un servicio de GKE, Cloud Run, o un nombre de servicio de backend de un balanceador de carga)?
+Jhon Alexander Ortiz Castaño (CO)  [6:54 PM]
+@Monitoreo_integraciones ¿cuál es la p95 de latencia del backend service-domain en el ambiente prod?
+Monitoreo_integraciones  [6:54 PM]
+No puedo obtener la latencia del backend service-domain directamente. La métrica de latencia de backends de Google Cloud Monitoring (`loadbalancing.googleapis.com/https/backend_latencies`) no expone una etiqueta que identifique directamente "service-domain".
+
+Para poder ayudarte, ¿podrías especificar cómo se identifica "service-domain" dentro de la infraestructura de GCP (por ejemplo, el nombre exacto del servicio de backend, el nombre del balanceador de carga, o si es un servicio de Cloud Run/GKE con un nombre específico)? O, si lo ves en Grafana, ¿cuál es el nombre del dashboard o panel donde aparece esta métrica?
+[6:54 PM]No puedo obtener la latencia del backend service-domain directamente. La métrica de latencia de backends de Google Cloud Monitoring (`loadbalancing.googleapis.com/https/backend_latencies`) no expone una etiqueta que identifique directamente "service-domain".
+
+Para poder ayudarte, ¿podrías especificar cómo se identifica "service-domain" dentro de la infraestructura de GCP (por ejemplo, el nombre exacto del servicio de backend, el nombre del balanceador de carga, o si es un servicio de Cloud Run/GKE con un nombre específico)? O, si lo ves en Grafana, ¿cuál es el nombre del dashboard o panel donde aparece esta métrica?
+Jhon Alexander Ortiz Castaño (CO)  [6:55 PM]
+@Monitoreo_integraciones Reinicia el deployment auth-domain en prod (edited) 
+Monitoreo_integraciones  [6:56 PM]
+Mis permisos actuales son solo de lectura y diagnóstico. Para reiniciar auth-domain desde tu terminal:kubectl -n default rollout restart deployment/auth-domain --context lms-gke-prod
+¿Querés que investigue por qué podría necesitar restart (logs, events, rollout status)?
