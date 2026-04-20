@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "46e68d437e73",
+  "session_id": "985fc25c-d951-465b-9c51-5838263ee153",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T21:48:05.93713352Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/ai/files/mcp-sentry/Dockerfile",
+    "apps/ai/files/mcp-sentry/README.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "53d502af76a1",
+  "transcript_identifier_at_start": "0fe88a09-ddb7-4781-ae86-5ad21e080989",
+  "checkpoint_transcript_start": 1874,
+  "transcript_lines_at_start": 1874,
+  "token_usage": {
+    "input_tokens": 1834,
+    "cache_creation_tokens": 104992,
+    "cache_read_tokens": 32990394,
+    "output_tokens": 69927,
+    "api_call_count": 56
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T21:48:04.68532778Z",
+    "agent_lines": 0,
+    "human_added": 116,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 116,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/985fc25c-d951-465b-9c51-5838263ee153.jsonl"
+}
