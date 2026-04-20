@@ -1,0 +1,25 @@
+Retomemos desde memoria
+
+---
+
+a
+
+---
+
+Sigue sin funcionar la máquina vLLM
+
+---
+
+Entonces creo que será necesario cambiar de VM a Cloudrun, pero primero quisiera saber desventajas?
+
+---
+
+Quiero la a, pero explícame, cómo lo soluciona
+
+---
+
+Si
+
+---
+
+Si
