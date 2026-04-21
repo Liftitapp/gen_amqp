@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "6257b5107c23",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "apps/ai/files/openfang-kuma-trigger/Dockerfile",
+    "apps/ai/files/openfang-kuma-trigger/README.md",
+    "apps/ai/files/openfang-kuma-trigger/app.py",
+    "apps/ai/files/openfang-kuma-trigger/requirements.txt",
+    "apps/gke/files/linkerd-proxy-podmonitoring.yaml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/62/57b5107c23/0/metadata.json",
+      "transcript": "/62/57b5107c23/0/full.jsonl",
+      "context": "/62/57b5107c23/0/context.md",
+      "content_hash": "/62/57b5107c23/0/content_hash.txt",
+      "prompt": "/62/57b5107c23/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 15514,
+    "cache_creation_tokens": 1419716,
+    "cache_read_tokens": 140869204,
+    "output_tokens": 323895,
+    "api_call_count": 347
+  }
+}
