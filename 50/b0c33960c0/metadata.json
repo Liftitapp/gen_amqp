@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "50b0c33960c0",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/files/agents/grafana-query/agent.toml",
+    "apps/ai/files/skills/cloudrun-search-playbook/SKILL.md",
+    "apps/ai/files/skills/red-metrics-playbook/SKILL.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/50/b0c33960c0/0/metadata.json",
+      "transcript": "/50/b0c33960c0/0/full.jsonl",
+      "context": "/50/b0c33960c0/0/context.md",
+      "content_hash": "/50/b0c33960c0/0/content_hash.txt",
+      "prompt": "/50/b0c33960c0/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 15585,
+    "cache_creation_tokens": 2091044,
+    "cache_read_tokens": 153965967,
+    "output_tokens": 341153,
+    "api_call_count": 368
+  }
+}
