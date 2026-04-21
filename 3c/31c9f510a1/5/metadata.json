@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "3c31c9f510a1",
+  "session_id": "3f9255fd-fac8-495a-bba8-bbc5ed7e52bf",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-21T21:28:16.073435098Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/ai/files/agents/triage-orchestrator/agent.toml",
+    "apps/ai/files/skills/correlate-incident/SKILL.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "d799388a9ff2",
+  "transcript_identifier_at_start": "c3f1c294-0836-4ddb-a177-b16b868d70f4",
+  "checkpoint_transcript_start": 2515,
+  "transcript_lines_at_start": 2515,
+  "token_usage": {
+    "input_tokens": 941,
+    "cache_creation_tokens": 1704038,
+    "cache_read_tokens": 134377555,
+    "output_tokens": 383622,
+    "api_call_count": 348
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-21T21:28:15.22642545Z",
+    "agent_lines": 114,
+    "human_added": 45,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 159,
+    "agent_percentage": 71.69811320754717
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/3f9255fd-fac8-495a-bba8-bbc5ed7e52bf.jsonl"
+}
