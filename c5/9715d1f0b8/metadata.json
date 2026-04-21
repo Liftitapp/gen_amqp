@@ -3,7 +3,7 @@
   "checkpoint_id": "c59715d1f0b8",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "apps/ai/files/MULTI-AGENT-SPEC.md"
   ],
@@ -35,13 +35,20 @@
       "context": "/c5/9715d1f0b8/3/context.md",
       "content_hash": "/c5/9715d1f0b8/3/content_hash.txt",
       "prompt": "/c5/9715d1f0b8/3/prompt.txt"
+    },
+    {
+      "metadata": "/c5/9715d1f0b8/4/metadata.json",
+      "transcript": "/c5/9715d1f0b8/4/full.jsonl",
+      "context": "/c5/9715d1f0b8/4/context.md",
+      "content_hash": "/c5/9715d1f0b8/4/content_hash.txt",
+      "prompt": "/c5/9715d1f0b8/4/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 18007,
-    "cache_creation_tokens": 3156727,
-    "cache_read_tokens": 283695492,
-    "output_tokens": 684743,
-    "api_call_count": 983
+    "input_tokens": 18151,
+    "cache_creation_tokens": 3776810,
+    "cache_read_tokens": 294471946,
+    "output_tokens": 777106,
+    "api_call_count": 1032
   }
 }
