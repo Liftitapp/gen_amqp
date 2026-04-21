@@ -1,0 +1,17 @@
+Unknown command: /retoma
+
+---
+
+retoma desde memoria
+
+---
+
+En ssh dora, en los scripts en el .env está el pat de github que puede servir, sino usando el mcp de github crea 1 que no expire con lo que necesites
+
+---
+
+REDACTED
+
+---
+
+Inicia
