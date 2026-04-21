@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "0a399397e50c",
+  "session_id": "21512b06-ab88-4358-9190-e6f325a1fc03",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-21T18:38:09.323637547Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/files/agent-assistant.toml.template",
+    "apps/gke/files/linkerd-proxy-podmonitoring.yaml"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "e6ade720ba1f",
+  "token_usage": {
+    "input_tokens": 15437,
+    "cache_creation_tokens": 1359842,
+    "cache_read_tokens": 111958595,
+    "output_tokens": 276462,
+    "api_call_count": 300
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-21T18:38:08.506715062Z",
+    "agent_lines": 0,
+    "human_added": 31,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 31,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/21512b06-ab88-4358-9190-e6f325a1fc03.jsonl"
+}
