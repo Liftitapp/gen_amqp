@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "31187a2e415a",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/ai/files/agent-assistant.toml.template",
+    "apps/ai/files/mcp-postgres/Dockerfile",
+    "apps/ai/files/mcp-postgres/README.md",
+    "apps/ai/files/openfang-config.toml.template"
+  ],
+  "sessions": [
+    {
+      "metadata": "/31/187a2e415a/0/metadata.json",
+      "transcript": "/31/187a2e415a/0/full.jsonl",
+      "context": "/31/187a2e415a/0/context.md",
+      "content_hash": "/31/187a2e415a/0/content_hash.txt",
+      "prompt": "/31/187a2e415a/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 15352,
+    "cache_creation_tokens": 791300,
+    "cache_read_tokens": 78830012,
+    "output_tokens": 241340,
+    "api_call_count": 240
+  }
+}
