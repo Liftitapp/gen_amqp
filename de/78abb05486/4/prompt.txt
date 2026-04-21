@@ -1,0 +1,991 @@
+Unknown command: /retoma
+
+---
+
+retoma desde memoria
+
+---
+
+En ssh dora, en los scripts en el .env está el pat de github que puede servir, sino usando el mcp de github crea 1 que no expire con lo que necesites
+
+---
+
+REDACTED
+
+---
+
+Inicia
+
+---
+
+No respondió nada, valida logs
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Antes de continuar, creo que es conveniente mejorar nuestra estrategia de uso de agentes, creo que por cada herramienta, debería haber 1 agente openfang, y un agente de openfang que enrute al agente que tiene la herramienta especifica como un orquestador
+
+---
+
+Creo que es conveniente si o si, multiagente para escalar y es una de las principales características de openfang, entonces un agente especialista de sentry, uno de gke, uno de GCP logs , etc, adicional es conveniente que cada agente tenga el MCP y skills específicos de su enfoque para lograr ser eficientes con los recursos
+
+---
+
+No arregles nada y hagamos lo del multiagente, primero la arquitectura y con investigación profunda de openfang, de manera que optimicemos token
+
+---
+
+<task-notification>
+<task-id>a5840ec57dcd0d31c</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Deep research OpenFang multi-agent" completed</summary>
+<result>I have enough. Let me compile the final comprehensive report.
+
+---
+
+# OpenFang Multi-Agent Architecture — Research Report
+
+**Scope:** RightNow-AI/openfang repo on main (current release track v0.6.0, production-grade features landed in v0.5.x / v0.6.0). Note: OpenFang has evolved dramatically since v0.2.3 that you run in production — the primitives below are in current main, so plan to upgrade before designing on them.
+
+Source files are cited with the repo-relative path. Since you asked for tf-infrastructure findings, these are upstream OpenFang paths (not in your working directory).
+
+---
+
+## (A) Multi-agent daemon model
+
+**Finding: YES — one kernel / daemon hosts many agents natively. This is the whole point of the kernel design.**
+
+1. **Single daemon hosts N agents.** `crates/openfang-kernel/src/kernel.rs` owns the `AgentRegistry` (DashMap, concurrent, lock-free) alongside `AgentScheduler`, `CapabilityManager`, `EventBus`, `Supervisor`, `WorkflowEngine`, `TriggerEngine`, `BackgroundExecutor`, `WasmSandbox`, `ModelCatalog`, `SkillRegistry`, `AuthManager`. The CLI and Tauri desktop either auto-attach to a running daemon (HTTP health ping) or boot an in-process kernel.
+2. **Agents are loaded from `agents/&lt;name&gt;/agent.toml`.** Repo ships 30 pre-built agents under `agents/` (orchestrator, assistant, ops, coder, researcher, analyst, architect, security-auditor, debugger, test-engineer, planner, writer, doc-writer, devops-lead, email-assistant, social-media, customer-support, sales-assistant, recruiter, meeting-assistant, data-scientist, translator, tutor, health-tracker, personal-finance, travel-planner, home-automation, legal-assistant, hello-world, langchain-code-reviewer). Kernel boot step 12–14: "Load all agents from SQLite. Re-register in memory (registry, capabilities, scheduler). Set state to Running."
+3. **`agent.toml` verbatim schema** (confirmed on `agents/orchestrator/agent.toml` and `agents/ops/agent.toml`):
+
+```toml
+name = "orchestrator"
+version = "0.1.0"
+description = "..."
+author = "openfang"
+module = "builtin:chat"   # or wasm:path, python:path
+
+[model]
+provider = "default"       # gemini | deepseek | groq | openai | anthropic | default
+model = "default"
+api_key_env = "DEEPSEEK_API_KEY"
+max_tokens = 8192
+temperature = 0.3
+system_prompt = """..."""
+
+[[fallback_models]]
+provider = "default"
+model = "default"
+api_key_env = "GROQ_API_KEY"
+
+[schedule]
+continuous  = { check_interval_secs = 120 }   # OR
+periodic    = { cron = "every 5m" }           # OR
+proactive   = { conditions = ["event:agent_spawned"] }
+
+[resources]
+max_llm_tokens_per_hour = 500000
+
+[capabilities]
+tools         = ["agent_send", "agent_spawn", "agent_list", ...]
+memory_read   = ["*"]
+memory_write  = ["*"]      # or ["self.*"]
+shell         = ["docker *", "git *", ...]
+agent_spawn   = true
+agent_message = ["*"]
+```
+
+4. **There IS a `list_agents` API.** The `openfang-api` crate exposes 76 Axum endpoints including `/api/agents`. Programmatically, the `agent_list` builtin tool reflects the same `AgentRegistry`. So yes — one agent can enumerate others.
+
+---
+
+## (B) Agent-to-agent communication primitives
+
+**Finding: built-in agent-to-agent is first class via 4 tools + A2A protocol + Workflow Engine. No new `delegate()` needed.**
+
+### Three coexisting mechanisms
+
+1. **Direct in-process call via builtin tools** — `crates/openfang-runtime/src/tool_runner.rs` (≈line 280):
+   ```rust
+   "agent_send"  =&gt; tool_agent_send(input, kernel).await,
+   "agent_spawn" =&gt; tool_agent_spawn(input, kernel, caller_agent_id).await,
+   "agent_list"  =&gt; tool_agent_list(kernel),
+   "agent_kill"  =&gt; tool_agent_kill(input, kernel),
+   ```
+   `tool_agent_send` (≈1040–1068) delegates to `kernel_handle.send_to_agent(agent_id, message)`. **Critical semantics**: callee sees ONLY the passed message string — *not* the caller's session history. The callee runs in its own session. Caller context is NOT automatically forwarded. You must manually stuff context into the message.
+
+   Recursion bounded by `MAX_AGENT_CALL_DEPTH = 5` via the `AGENT_CALL_DEPTH` task-local cell. Deeper chains are rejected with: *"Inter-agent call depth exceeded (max 5). A-&gt;B-&gt;C chain is too deep. Use the task queue instead."*
+
+2. **A2A (Agent-to-Agent) protocol** — `crates/openfang-runtime/src/a2a.rs`. JSON-RPC 2.0 over HTTP, compatible with Google's A2A / agent-card standard. OpenFang is both server (publishes Agent Cards at `/.well-known/agent.json`, accepts `POST /a2a/tasks/send`) and client (`A2aClient`). Task lifecycle: `Submitted → Working → InputRequired|Completed|Failed|Cancelled`, tracked in `A2aTaskStore` (1000-slot bounded). Used for cross-*framework* / cross-process agent interop — overkill for same-daemon use.
+
+3. **Workflow Engine** — `docs/workflows.md` + `crates/openfang-kernel/src/workflow.rs`. Declarative pipelines register via `POST /api/workflows`. Modes: `sequential`, `fan_out`, `collect`, `conditional`, `loop`. Output passes via `{{input}}` and named `output_var`. Error modes: `fail` / `skip` / `retry` (with `max_retries`).
+
+### Supervisor / orchestrator support
+
+- There IS a `Supervisor` subsystem in the kernel (boot step 7), primarily for lifecycle / restart supervision of background agents.
+- The `orchestrator` agent ships as the canonical delegation agent — it is *a prompt pattern*, not a framework primitive. `agents/orchestrator/agent.toml` prompts it to do `agent_list → agent_send → synthesize`. Capabilities: `tools = ["agent_send", "agent_spawn", "agent_list", "agent_kill", "memory_store", "memory_recall", "file_read", "file_write"]`, `agent_spawn = true`, `agent_message = ["*"]`.
+- No hierarchical tree like CrewAI/AutoGen — it's flat registry + per-call depth counter.
+
+### Context passing: B does NOT see A's session. You have three options:
+- Put the context in the `agent_send` message body (what orchestrator does).
+- Use the **shared memory namespace** — fixed agent ID `00000000-...01` — and have both ends read/write (`memory_read = ["*"]`).
+- Use **`CanonicalSession` (schema v5)**: same user across channels gets compacted summary injected into system prompt of whichever agent replies.
+
+---
+
+## (C) Channels and routing (Slack specifically)
+
+**Finding: OpenFang has a real `AgentRouter` with a 4-tier priority that DOES support multi-agent routing — but NOT on per-Slack-app-ID (one bot token is bound to one adapter instance globally).**
+
+### Router priority (confirmed from `crates/openfang-channels/src/router.rs`)
+1. **Bindings** (most specific → least specific)
+2. **Direct routes** (channel + user ID)
+3. **User defaults**
+4. **System / channel default**
+
+### `AgentBinding.match_rule` fields
+```
+channel:     Option&lt;String&gt;   // channel-type: "slack" | "telegram" | ...
+account_id:  Option&lt;String&gt;   // bot/account ID within that channel
+peer_id:     Option&lt;String&gt;   // user ID / DM target
+guild_id:    Option&lt;String&gt;   // workspace/server/guild
+roles:       Vec&lt;String&gt;      // user role match
+```
+`binding_matches()`: all specified fields must match; for `roles`, any-of.
+
+### Slack adapter specifics (`crates/openfang-channels/src/slack.rs` + `docs/channel-adapters.md`)
+Config schema:
+```toml
+[channels.slack]
+bot_token_env   = "SLACK_BOT_TOKEN"
+app_token_env   = "SLACK_APP_TOKEN"
+allowed_channels = []
+default_agent   = "ops"
+
+[channels.slack.overrides]
+model              = "..."              # per-channel model override
+system_prompt      = "..."
+dm_policy          = "respond"          # respond | allowed_only | ignore
+group_policy       = "mention_only"     # all | mention_only | commands_only | ignore
+rate_limit_per_user= 10
+threading          = true
+output_format      = "slack_mrkdwn"
+```
+
+### Key capability gaps for your use case
+1. **One Slack adapter instance = one bot token = one `default_agent`.** The adapter struct holds a *single* `app_token`/`bot_token` pair. Multiple Slack App IDs → different agents is **NOT supported by a single adapter instance**. Workaround: run two Slack bridges (two App IDs) each configured with its own `default_agent`; or use router bindings below.
+2. **Router bindings CAN override default_agent per Slack channel / user / role.** Since `match_rule` supports `channel="slack"`, `account_id=&lt;bot&gt;`, `guild_id=&lt;workspace&gt;`, you can map:
+   - Slack workspace X (guild_id) → agent A
+   - Slack user Y (peer_id) → agent B
+   - Specific role Z → agent C
+3. **`group_policy = "mention_only"`** is a **per-channel filter** applied in the adapter *before* any agent runs — zero LLM cost for ignored messages. It does NOT filter across agents (there's no "multiple agents race for first responder" behavior).
+4. **No first-responder / election mechanism.** Router resolves deterministically to *exactly one* agent per incoming message. `resolve_broadcast()` exists and returns a `Vec&lt;(String, Option&lt;AgentId&gt;)&gt;` but is opt-in and only for broadcast peers configured in `BroadcastConfig`.
+5. **Mention-pattern routing**: the Slack adapter flags `was_mentioned` in metadata, but the router doesn't match on mention text. You would have to customize router bindings or have the receiving agent self-route via `agent_send`.
+
+### Per-user cross-channel identity
+```toml
+[[users]]
+name = "Alice"
+role = "owner"
+
+[users.channel_bindings]
+telegram = "123456"
+slack    = "U0ABCDEFG"
+```
+This plus `CanonicalSession` gives Alice a unified conversation state across channels.
+
+---
+
+## (D) MCP server scoping — THE TOKEN FILTER POINT
+
+**Finding: MCP servers are GLOBAL at the kernel level; there is NO built-in per-agent MCP allowlist. But per-agent `capabilities.tools` DOES act as a filter — it's just not documented and not an obvious lever. The real tool assembly happens in `kernel.rs::available_tools_with_registry()`.**
+
+### Where MCP is configured
+**Global only**, in `openfang.toml` (daemon config):
+```toml
+[[mcp_servers]]
+name         = "github"
+timeout_secs = 30
+env          = ["GITHUB_PERSONAL_ACCESS_TOKEN"]
+
+[mcp_servers.transport]
+type    = "stdio"    # or "sse"
+command = "npx"
+args    = ["-y", "@modelcontextprotocol/server-github"]
+```
+There is **no `[[mcp_servers]]` in `agent.toml`**. The `docs/configuration.md` explicitly states per-agent MCP is not supported.
+
+### Connection model
+- Kernel boot step 16: "Background connect to configured MCP servers. Namespace tools as `mcp_{server}_{tool}`. Store connections in `kernel.mcp_connections`."
+- Fields on `Kernel` (from `kernel.rs`):
+  ```rust
+  pub mcp_tools:       std::sync::Mutex&lt;Vec&lt;ToolDefinition&gt;&gt;,
+  pub mcp_connections: tokio::sync::Mutex&lt;Vec&lt;McpConnection&gt;&gt;,
+  ```
+- One pool of stdio/SSE connections, shared across all agents.
+
+### Critical: tool assembly before the LLM call
+`crates/openfang-kernel/src/kernel.rs::send_message_streaming()` calls:
+```rust
+let tools = self.available_tools_with_registry(agent_id, Some(&amp;skill_snapshot));
+let tools = entry.mode.filter_tools(tools);
+// ...
+run_agent_loop_streaming(
+    &amp;manifest, &amp;message_owned, &amp;mut session, &amp;memory,
+    driver, &amp;tools, kernel_handle, tx,
+    Some(&amp;skill_snapshot),
+    Some(&amp;kernel_clone.mcp_connections),
+    ...
+).await;
+```
+Inside `agent_loop.rs` (≈line 840):
+```rust
+let request = CompletionRequest {
+    model:   api_model,
+    messages: messages.clone(),
+    tools:   available_tools.to_vec(),   // &lt;-- goes straight to the LLM
+    max_tokens: manifest.model.max_tokens,
+    ...
+};
+```
+And (≈line 950) an in-loop allowlist is derived from whatever was passed:
+```rust
+let allowed_tool_names: Vec&lt;String&gt; =
+    available_tools.iter().map(|t| t.name.clone()).collect();
+```
+
+### Answer to your critical token question
+- The full, definitive body of `available_tools_with_registry` wasn't visible in any fetched excerpt (file is 7 695 lines). What's observable is:
+  1. The function takes `agent_id` and a `skill_snapshot`.
+  2. The manifest's `[capabilities] tools = [...]` list is the canonical per-agent tool declaration — it's the ONLY field on `agent.toml` that lists tools by name, so `available_tools_with_registry` almost certainly filters the global pool (builtin + MCP + skill) against `manifest.capabilities.tools`. Confirming corollary: the `ops` agent has `tools = ["shell_exec", "file_read", "file_list"]` — and the architecture doc explicitly says "Capability-based security: each agent grants only its authorized tools."
+  3. After that, `entry.mode.filter_tools(tools)` applies the sub-agent depth policy from `crates/openfang-runtime/src/tool_policy.rs`:
+     ```rust
+     const SUBAGENT_DENY_ALWAYS: &amp;[&amp;str] = &amp;[
+         "cron_create", "cron_cancel",
+         "schedule_create", "schedule_delete",
+         "hand_activate", "hand_deactivate",
+         "process_start",
+     ];
+     const SUBAGENT_DENY_LEAF: &amp;[&amp;str] = &amp;["agent_spawn", "agent_kill"];
+     ```
+     `filter_tools_by_depth(tools, depth, max_depth)`: depth 0 → unrestricted; depth &gt; 0 → strip `DENY_ALWAYS`; depth ≥ max−1 → additionally strip `DENY_LEAF`.
+
+**So the token-optimization lever for your design is: the `[capabilities] tools = [...]` array on each agent's manifest.** If MCP tool names (`mcp_github_*`, `mcp_postgres_*`, etc.) are NOT listed there, they are filtered out before being serialized into the LLM request. This is essentially what you need — but you must explicitly enumerate every MCP tool name by its namespaced form. The kernel does NOT have an "mcp_servers = [github]" convenience on agents; you'd need to list each `mcp_github_list_repos`, `mcp_github_create_pr`, etc.
+
+**Gap to confirm in-code before locking the design:** I could not fetch the exact `available_tools_with_registry` body in this pass (file too long, WebFetch hit summarization limits). Before the final architectural call, pull that function directly (`grep -n "fn available_tools_with_registry" crates/openfang-kernel/src/kernel.rs`) and verify it filters `self.mcp_tools` against `manifest.capabilities.tools`. If it DOESN'T, then *every* agent currently receives *every* MCP tool in the LLM call — and you'd need a PR upstream or a monkey-patched filter.
+
+---
+
+## (E) Skills
+
+**Finding: Skills exist and are per-agent-referenced by name, but they do NOT currently bundle MCP server references. They're a tool-packaging primitive, not an MCP-scope primitive.**
+
+From `crates/openfang-skills/` + `docs/skill-development.md`:
+
+- **Skill unit** = `skill.toml` + entry-point code (Python / WASM / Node.js / prompt-only).
+- **`skill.toml` schema**:
+  ```toml
+  [skill]
+  name = "web-summarizer"
+  version = "0.1.0"
+  description = "..."
+  author = "..."
+  license = "MIT"
+  tags = ["..."]
+
+  [runtime]
+  type  = "python"    # python | wasm | node | builtin
+  entry = "./main.py"
+
+  [[tools.provided]]
+  name         = "summarize_url"
+  description  = "..."
+  input_schema = { ... }   # JSON Schema
+
+  [requirements]
+  tools        = ["web_fetch"]
+  capabilities = ["net:*"]
+  ```
+- **60 bundled skills** compiled via `include_str!()`. Plus user skills loaded at boot step 10 and an optional "FangHub" marketplace.
+- **Referenced per-agent:** `agent.toml` has `skills = ["web-summarizer", "data-analyzer"]`. At spawn, kernel merges skill tools and prompt snippets into the agent's available-tools set. Also layered as: bundled → global → workspace (later wins on dup).
+- **Reusable across agents** — yes, by name.
+- **Skills bundling MCP server refs**: **NOT supported.** The docs make no mention of MCP inside skill.toml. If you want "mcp_servers on a skill," you'd extend the skill format upstream.
+- **Workspace-aware skill snapshot** exists (see `skill_snapshot` variable threaded into `run_agent_loop_streaming`) — different workspaces can present different skill sets without rebuilds.
+
+### Practical takeaway for your design
+If you want a neat "Postgres bundle" or "GKE bundle" primitive, you can't express it as a skill-that-pulls-in-an-MCP-server today. Closest approximation is a skill that wraps native builtins + a constrained prompt. For MCP scoping you remain at the `capabilities.tools` level.
+
+---
+
+## (F) Conversation / session state
+
+From architecture doc + `openfang-memory` crate:
+
+- **Per-agent session**: "Each agent has a session containing its message history (user/assistant/tool use/tool result/image). Sessions track context-window token counts. Persisted to SQLite, restored on reboot." One SQLite DB, multiple session rows, keyed by agent.
+- **Per-agent KV memory**: `memory_store` / `memory_recall` — scoped to the agent, `memory_write = ["self.*"]` by default.
+- **Shared memory namespace** (agent_id `00000000-...01`): cross-agent data sharing. Your router → specialist design can push the user's original message there; specialist reads it with `memory_recall`.
+- **CanonicalSession (schema v5)**: per-user cross-channel context, compacted summary injected into system prompt at the next turn.
+- **`usage_events` table** (per agent + per model): token counts, cost, metering. Good for debugging token blowouts post-migration.
+- **Knowledge graph** (optional): entities + typed relations per agent.
+
+**For router+specialist design:**
+- Option 1 (simplest): router stuffs the user's original message verbatim into `agent_send` body. No shared state needed.
+- Option 2: router writes original message + metadata to shared memory under a request-id key, calls `agent_send` with just the key; specialist does `memory_recall`.
+- Option 3: use `CanonicalSession` so that specialist agent already has the user's prior turns without explicit transfer — but only works if both agents reply to the *same user*, which they do in your Slack use case.
+
+---
+
+## (G) Examples / existing patterns for multi-agent
+
+1. **Built-in `orchestrator` agent** (`agents/orchestrator/agent.toml`, full text quoted under §A) — documents the exact delegation prompt pattern RightNow uses.
+2. **`docs/workflows.md`** — 4 fully worked multi-agent configs:
+   - Sequential: code-review-pipeline (code-reviewer → security-auditor → writer) with `output_var` handoff.
+   - Fan-out + collect: brainstorm (writer || architect || analyst → collect → orchestrator synthesizes).
+   - Conditional: research-and-write with substring-match fact-check branch.
+   - Loop with `until = "APPROVED"` and `max_iterations = 4`.
+3. **`docs/mcp-a2a.md`** — A2A server/client pattern, Agent Cards, task submission JSON.
+4. **`docs/architecture.md`** — complete boot sequence, lifecycle, message flow (RBAC → channel policy → quota → registry lookup → module dispatch → agent loop → usage recording).
+5. **Triggers** (`POST /api/triggers`) — `pattern = "lifecycle" | "system" | "memory_update" | {"content_match": {"substring":"error"}}`. Useful for "fire specialist on a specific event" rather than routing by prompt.
+6. **Tests**: I did not enumerate integration tests but the kernel ships `AgentScheduler` with hourly quota tests and a supervisor test harness.
+
+---
+
+## (H) Token optimization mechanisms
+
+Confirmed present:
+
+1. **Per-agent `capabilities.tools` allowlist** — THE primary token lever. Lists of MCP tools included vs excluded directly shrink the schema payload per request. See §D.
+2. **Fallback models** (`[[fallback_models]]`) — when primary rate-limits, auto-reroute. Good for your 200K TPM Vertex hit: set Groq/Gemini Flash as fallback.
+3. **Quota enforcement** (`max_llm_tokens_per_hour`) — per agent. Can pre-empt hitting Vertex TPM.
+4. **Channel overrides for `model` and `system_prompt`** — you can point Slack DM traffic at a cheaper model than Slack mentions, etc.
+5. **Auto-compaction**: sessions compact on demand; `CanonicalSession` compaction injects summaries.
+6. **Context budget** (`crates/openfang-runtime/src/context_budget.rs`): budgets session tokens before the LLM call.
+7. **Sub-agent depth tool stripping** (`SUBAGENT_DENY_ALWAYS`, `SUBAGENT_DENY_LEAF`): at depth &gt; 0 sub-agents automatically lose cron/schedule/hand/process tools; at leaf depth they also lose `agent_spawn` / `agent_kill`. Safety, not token-savings, but does shrink the tool-schema payload for callees.
+8. **Per-channel rate limit** (`rate_limit_per_user`) — throttles before hitting the LLM.
+9. **Hand policies / `group_policy = "mention_only"`** — filters before LLM. Zero tokens for ignored messages.
+10. **`[resources] max_concurrent_tools`** — caps parallel tool execution; indirectly reduces retried/duplicated calls.
+
+Confirmed ABSENT:
+
+- **Dynamic / lazy MCP tool loading**: no "only attach Postgres tools if user mentions database" — the tool list is assembled once per request based on static manifest, not query-aware.
+- **Automatic schema compression / summarization of tool descriptions**: not present. Each tool's full `description` + JSON Schema goes in the request every turn.
+- **Per-agent MCP server selection**: not present. Only per-agent *tool-name* selection via `capabilities.tools`.
+
+---
+
+## Architectural implications for your router+specialist migration
+
+Concrete, actionable:
+
+1. **Router = new agent `dispatcher` with minimal tools**: `["agent_send", "agent_list", "memory_store"]` plus shared-memory write. Prompt: classify domain, hand off via `agent_send(target, original_message + context)`. Under 5 tools in its LLM call → tiny token footprint.
+2. **Specialists** (one per MCP domain): each agent.toml lists ONLY its domain's MCP tools in `capabilities.tools`:
+   - `specialist-gke` → `tools = ["mcp_gke_*", "agent_send", "memory_recall"]` (with explicit names, no wildcard support observed)
+   - `specialist-postgres` → `tools = ["mcp_postgres_*", ...]`
+   - etc.
+   If you observe that `capabilities.tools` DOES NOT actually filter the LLM payload (verify `available_tools_with_registry` directly), you'll need to patch `kernel.rs` with a filter there — it's a ~20-line change.
+3. **Slack routing**: one Slack bridge, `default_agent = "dispatcher"`. Keep `group_policy = "mention_only"`. The dispatcher reads the mention, does `agent_send` to the right specialist. All specialists stay "unreachable from Slack directly" which is your desired isolation.
+4. **Context passing**: put the user's message in the `agent_send` body. Don't rely on session transfer — it doesn't exist.
+5. **Depth guard**: `MAX_AGENT_CALL_DEPTH = 5`. Your router → specialist is depth 1 → well under the limit. Sub-delegation by specialists is still possible up to 4 more levels.
+6. **Per-bot-ID Slack routing (if needed later)**: use router `AgentBinding` with `channel = "slack"`, `account_id = "&lt;bot&gt;"` to route different App IDs to different dispatcher instances — but this requires extending your OpenFang config with bindings (docs don't ship a TOML example for this — you'd need to read `router.rs::load_bindings` and figure out the shape, or use the API).
+7. **Upgrade path**: you're on v0.2.3; main is v0.6.0 with:
+   - v0.5.7: multi-instance Hands (upstream Hands are autonomous action loops — relevant if you plan multi-instance sidecars like your approval bot + main agent)
+   - v0.6.0: Fan-out Cron (multi-destination delivery), Skill Templates (config injection), unified Command Registry (32 slash commands)
+   Schedule an upgrade before committing to this design — some primitives above (Canonical Session, workspace-aware skill snapshot, multi-instance Hands) may not be in 0.2.3.
+
+---
+
+## Open items that need direct source inspection before final decision
+
+1. **EXACT body of `Kernel::available_tools_with_registry`** in `crates/openfang-kernel/src/kernel.rs`. Confirm it filters `self.mcp_tools` against `manifest.capabilities.tools`. If it doesn't, file a PR or local patch before rolling out.
+2. **Shape of `AgentBinding` TOML config**. The struct exists in `router.rs` but `configuration.md` doesn't document a `[[router.bindings]]` TOML section. Likely loaded via `/api/router/bindings` REST endpoint — grep `openfang-api` for the route.
+3. **Does `entry.mode.filter_tools` just apply `filter_tools_by_depth` or also something else?** `mode` is likely `AgentMode::Top | Subagent { depth, max_depth }`.
+4. **How does skill `[requirements] tools`** interact with agent `[capabilities] tools`? If a skill requires `web_fetch` but the agent doesn't grant it, does spawn fail? (Likely yes, but verify.)
+
+If you want, I can pull the `available_tools_with_registry` function body as the next step — that's the single most load-bearing unknown in this design.</result>
+<usage><total_tokens>72673</total_tokens><tool_uses>42</tool_uses><duration_ms>400070</duration_ms></usage>
+</task-notification>
+
+---
+
+Si
+
+---
+
+<task-notification>
+<task-id>a26ec2f6be022db64</task-id>
+<tool-use-id>toolu_01VJbn7oGV2Bgey5mB43oNaG</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Verify capabilities.tools filter in OpenFang kernel" completed</summary>
+<result>Confirmed — `agent_loop.rs` passes `available_tools` straight into `CompletionRequest.tools` without extra filtering. Tool naming is `mcp_{server}_{tool}` (lowercase normalized). Now I have everything.
+
+---
+
+## Answer
+
+**YES.** `Kernel::available_tools_with_registry()` filters the global MCP tool pool against `manifest.capabilities.tools` before returning. On `main` (v0.6.0), Step 3 (lines 5611-5638) first narrows MCP tools by `manifest.mcp_servers` (server-level allowlist), then — if `capabilities.tools` is non-empty and doesn't contain `"*"` — applies an exact-name filter: `!declared_tools.iter().any(|d| d == &amp;t.name)` → `continue`. The same predicate is applied to builtin and skill tools (Steps 1 and 2). `agent_loop.rs` passes the returned `Vec&lt;ToolDefinition&gt;` directly into `CompletionRequest.tools` (line 431/434 and 1639/1642) with no further additions — so `capabilities.tools` is the definitive LLM-payload allowlist.
+
+### Key code (main, lines 5535-5638, abbreviated)
+
+```rust
+let declared_tools: Vec&lt;String&gt; = entry.as_ref()
+    .map(|e| e.manifest.capabilities.tools.clone())
+    .unwrap_or_default();
+
+let tools_unrestricted =
+    declared_tools.is_empty() || declared_tools.iter().any(|t| t == "*");
+
+// builtins
+let mut all_tools = if !tools_unrestricted {
+    all_builtins.into_iter()
+        .filter(|t| declared_tools.iter().any(|d| d == &amp;t.name))
+        .collect()
+} else { /* profile / all */ };
+
+// skills
+for skill_tool in skill_tools {
+    if !tools_unrestricted &amp;&amp; !declared_tools.iter().any(|d| d == &amp;skill_tool.name) {
+        continue;
+    }
+    all_tools.push(...);
+}
+
+// mcp
+for t in mcp_candidates {
+    if !tools_unrestricted &amp;&amp; !declared_tools.iter().any(|d| d == &amp;t.name) {
+        continue;
+    }
+    all_tools.push(t);
+}
+```
+
+### Bullets
+
+- **If YES — how to specify on agent.toml**: Use `capabilities.tools = ["..."]` with **exact full names only**. No wildcards or prefixes (`"mcp_github_*"` will NOT match — the predicate is `d == &amp;t.name`, strict equality). The only recognized wildcard is the literal single-element `"*"` which means "all tools". MCP names must be the namespaced form `mcp_{server}_{tool}` lowercased/normalized (see `crates/openfang-runtime/src/mcp.rs` lines 338-395 — dashes/dots/spaces become `_`). Empty or missing `capabilities.tools` → unrestricted (all tools). There are two additional orthogonal filters applied AFTER: `tool_allowlist` / `tool_blocklist` (case-insensitive exact match, lines 5640-5665). `mcp_servers` still applies as a coarser server-level gate: if set, only tools whose server matches survive into the declared-tools filter.
+
+- **Version difference (v0.2.3 vs main)**: **Different behavior — CRITICAL for you.** v0.2.3 `available_tools` (single function, line 3900) does NOT read `manifest.capabilities.tools` at all. Filtering is driven by `ToolProfile` (builtin tiers) plus `Capability::ToolInvoke(name)` / `Capability::ToolAll` from the runtime capability system (lines 3979-3995). MCP tools are added via `mcp_servers` allowlist only (lines 3957-3977) — there is no per-tool-name filter on MCP. So in your prod version, declaring `capabilities.tools = ["mcp_github_list_commits"]` has NO EFFECT on MCP payload; the agent still receives every tool from every allowlisted MCP server. To get the per-name MCP filter you must upgrade past v0.2.3 (feature landed in the rewrite that introduced `available_tools_with_registry`). Until then, the lever is `mcp_servers` (coarse, server-level) plus `ToolInvoke` capability grants at runtime.
+
+- **Minimal patch for v0.2.3** if upgrading isn't viable: mirror main's Step 3 by reading `e.manifest.capabilities.tools` into `declared_tools` near line 3905, computing `tools_unrestricted`, and inside the `if let Ok(mcp_tools) = self.mcp_tools.lock()` block replace the `extend` calls with a loop that additionally checks `if tools_unrestricted || declared_tools.iter().any(|d| d == &amp;t.name)`. ~15 line diff, no new types.
+
+### Relevant files
+- `/tmp/kernel_main.rs` lines 5506-5679 (main, `available_tools_with_registry`)
+- `/tmp/kernel_023.rs` lines 3900-3996 (v0.2.3, `available_tools`)
+- `/tmp/agent_loop_main.rs` lines 203, 431-434, 1401, 1639-1642 (tools pass-through to LLM)
+- `/tmp/mcp_main.rs` lines 338-395 (`format_mcp_tool_name`, `normalize_name`, `extract_mcp_server`)</result>
+<usage><total_tokens>36386</total_tokens><tool_uses>11</tool_uses><duration_ms>62295</duration_ms></usage>
+</task-notification>
+
+---
+
+Ojo, estás iterando sobre una versión incorrecta de openfanga, tenemos instalado la 0.5.9
+
+---
+
+<task-notification>
+<task-id>ab1c5d27dfe3dfac4</task-id>
+<tool-use-id>toolu_01KojcFdfBd5zGCo1k4TTAnR</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Verify v0.5.9 capabilities.tools MCP filter" completed</summary>
+<result>Confirmed. The `tools` vec goes through `entry.mode.filter_tools(tools)` (likely a no-op or mode gate) then into `CompletionRequest { tools: available_tools.to_vec(), ... }` via agent_loop at line 412/1622/1919. Clean pass-through.
+
+Here are the findings:
+
+- **Tag used**: `v0.5.9` (exists on GitHub, fetched successfully)
+- **Function name found**: `available_tools_with_registry` YES (line 5291), `available_tools` YES (line 5280, thin wrapper delegating to `_with_registry` with `None`)
+- **Called from**: kernel's own `send_message_streaming` / `run_agent_loop_streaming` at lines 1916 and 2469, passing a workspace-aware skill snapshot
+- **MCP filter by `capabilities.tools` name-level**: **YES**
+- **Empty `capabilities.tools` → default**: **ALL tools** (unrestricted). Line 5330: `let tools_unrestricted = declared_tools.is_empty() || declared_tools.iter().any(|t| t == "*");` — empty list OR `"*"` both mean "no restriction".
+- **Agent_loop pass-through clean?**: YES. Kernel builds `tools` → applies `entry.mode.filter_tools(tools)` (mode gate, not name filter) → passes as `&amp;[ToolDefinition]` into agent_loop, which at line 412 assigns `tools: available_tools.to_vec()` directly into `CompletionRequest`. No additions.
+
+**Key proof slice** (lines 5320-5331 declaration + 5396-5423 MCP filter):
+
+```rust
+// Extract the agent's declared tool list from capabilities.tools.
+// This is the primary mechanism: only send declared tools to the LLM.
+let declared_tools: Vec&lt;String&gt; = entry
+    .as_ref()
+    .map(|e| e.manifest.capabilities.tools.clone())
+    .unwrap_or_default();
+
+let tools_unrestricted =
+    declared_tools.is_empty() || declared_tools.iter().any(|t| t == "*");
+
+// ... Step 3: Add MCP tools (filtered by agent's MCP server allowlist,
+// then by declared tools).
+if let Ok(mcp_tools) = self.mcp_tools.lock() {
+    let mcp_candidates: Vec&lt;ToolDefinition&gt; = if mcp_allowlist.is_empty() {
+        mcp_tools.iter().cloned().collect()
+    } else {
+        let normalized: Vec&lt;String&gt; = mcp_allowlist
+            .iter().map(|s| openfang_runtime::mcp::normalize_name(s)).collect();
+        mcp_tools.iter()
+            .filter(|t| openfang_runtime::mcp::extract_mcp_server(&amp;t.name)
+                .map(|s| normalized.iter().any(|n| n == s))
+                .unwrap_or(false))
+            .cloned().collect()
+    };
+    for t in mcp_candidates {
+        // If agent declares specific tools, only include matching MCP tools
+        if !tools_unrestricted &amp;&amp; !declared_tools.iter().any(|d| d == &amp;t.name) {
+            continue;
+        }
+        all_tools.push(t);
+    }
+}
+```
+
+**Verdict**: v0.5.9 sits on the "main" side of the spectrum — it has the full per-tool exact-name MCP filter (`declared_tools.iter().any(|d| d == &amp;t.name)`). Same semantics applied uniformly to builtins (line 5344), skill tools (line 5386), and MCP tools (line 5418). A multi-agent design on v0.5.9 **can** use `capabilities.tools = ["mcp_github_list_commits"]` as its token lever — no patch/upgrade needed. Caveat: leaving `capabilities.tools` empty means "all tools", not "none", so every sub-agent must declare explicitly to benefit. Also note `tool_allowlist`/`tool_blocklist` apply AFTER as additional filters (Step 4, lines 5437-5450), and `ToolAll` capability grant is a no-op in the filter path (it doesn't bypass `declared_tools`).
+
+Files referenced: `/tmp/kernel_v059.rs` (line 5280-5464), `/tmp/agent_loop_v059.rs` (line 409-412).</result>
+<usage><total_tokens>35629</total_tokens><tool_uses>10</tool_uses><duration_ms>53771</duration_ms></usage>
+</task-notification>
+
+---
+
+Ahora, también debemos tener unas premisas para un mejor diágnóstico, es decir como un flujo de troubleshooting, no tener case-sensitive,  escenario 1: uptime-kuma reporta que service-domain da error 5XX, eso activa al agente orquestador que debe enrutar al agente gke que es del ambiente gke de prod (siempre proyecto gcp prod-apps-454414), entonces la primera acción es revisar los logs de gke de esa aplicación donde el namespace se llama parecido, se debe filtrar por deployment y analizar logs, dando una posible solución, si la solución es restart pod, pedir la aprobación para hacerlo, ahora si la aplicación reportada no está en gke, proceder a investigar los logs de GCP para encontrar cloudrun, diagnósticar y sugerir solución, ahora si uptime-kuma reporta lms db prod, entonces usa el agente de postgres para diagnósticar el problema y proponer solución, ahora, la solicitud puede venir de un chat de slack de un usuario que indica que está fallando una aplicación, siempre revisar primero gke, en todos los escenarios si se encuentra la aplicación sea gke o cloudrun, y en los logs se ve algo relacionado con la db, involucrar al agente postgres
+
+---
+
+Piensa como un arquitecto cloud, SRE, Devops, con todas las herramientas que hemos implementado, cuál es la estrategia más  adecuada de troubleshooting que sea óptima con el consumo de tokens, y que ayude rápidamente a diagnósticar
+
+---
+
+Está perfecto, v2 es más rápido y ahorra más tokens
+
+---
+
+Quiero los agents + 9 skill completos en 1 issue
+
+---
+
+Ejecutar TI-1433 en orden de los 7 commits atómicos del SPEC §13. Empezar por triage-orchestrator + skill-correlate-incident (path crítico). El resto de specialists pueden implementarse en
+   paralelo si hay múltiples pases.
+
+---
+
+<task-notification>
+<task-id>a696b3248c211d228</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Verify skills Python contract v0.5.9" completed</summary>
+<result>Now I have everything needed. Let me compose the final answer.
+
+---
+
+# OpenFang v0.5.9 — Python Skills Contract (Blueprint)
+
+## A. Skill.toml schema
+
+**Full example (from scaffold template, `crates/openfang-cli/src/main.rs:3778-3801`):**
+
+```toml
+[skill]
+name = "my-skill"
+version = "0.1.0"
+description = "..."
+author = ""
+license = "MIT"
+tags = []
+
+[runtime]
+type = "python"       # "python" | "node" | "shell" | "wasm" | "builtin" | "promptonly"
+entry = "src/main.py" # path relative to skill dir
+
+[[tools.provided]]
+name = "my_skill"
+description = "..."
+input_schema = { type = "object", properties = { input = { type = "string" } }, required = ["input"] }
+
+[requirements]
+tools = []            # vector of built-in tool names
+capabilities = []     # vector of capability strings
+```
+
+**Required fields** (parsed in `crates/openfang-skills/src/lib.rs:104-125`): only `[skill].name` is strictly required. Every other field has `#[serde(default)]`:
+- `version` defaults to `"0.1.0"`
+- `description`, `author`, `license`, `tags` default to empty
+- `[runtime]` defaults to `PromptOnly` with empty `entry`
+- `[tools]`, `[requirements]`, `prompt_context`, `source` all default
+
+**`[[tools.provided]]`** (`lib.rs:86-94`): fields are `name: String`, `description: String`, `input_schema: serde_json::Value`. The input_schema is **raw JSON Schema** passed verbatim to the LLM — no OpenFang-specific transformation.
+
+**`[requirements]`** (`lib.rs:96-103`): `tools: Vec&lt;String&gt;`, `capabilities: Vec&lt;String&gt;`. **Neither is enforced at load time.** Registry loader (`registry.rs:208-231`) only parses TOML and inserts — no validation against host tool set. Declarative-only/documentation.
+
+## B. Python entry_point API
+
+**There is NO dispatch function — the whole script runs on every tool call.** The Rust loader (`crates/openfang-skills/src/loader.rs:54-175`) spawns `python3 &lt;entry&gt;` as a subprocess per invocation.
+
+**Scaffold template main.py (`cli/src/main.rs:3808-3825`):**
+```python
+#!/usr/bin/env python3
+import json, sys
+
+def main():
+    payload = json.loads(sys.stdin.read())
+    tool_name = payload["tool"]
+    input_data = payload["input"]
+    result = {"result": f"Processed: {input_data.get('input', '')}"}
+    print(json.dumps(result))
+
+if __name__ == "__main__":
+    main()
+```
+
+**Contract:**
+- Read a single JSON line from **stdin**: `{"tool": "&lt;name&gt;", "input": &lt;object&gt;}` (loader.rs:70-73)
+- Write a single JSON value to **stdout**. If not valid JSON, loader wraps as `{"result": "&lt;stdout&gt;"}` (loader.rs:166-174)
+- CWD is the skill directory (loader.rs:86)
+- Exit code != 0 → `SkillToolResult { output: {"error": stderr}, is_error: true }` (loader.rs:155-162)
+- Dispatch by `tool_name` yourself — one script can expose multiple tools via `[[tools.provided]]` entries.
+
+**No runtime object injected. No MCP access. No agent access.** The subprocess environment is **wiped** via `cmd.env_clear()` (loader.rs:90); only `PATH`, `HOME`, and `PYTHONIOENCODING=utf-8` are preserved (lines 92-103). No API keys, no credentials, no MCP session handle.
+
+**Sync only.** One stdin read, one stdout write. No streaming, no callbacks.
+
+**Errors:** either raise (non-zero exit → stderr is surfaced as error) or return `{"error": "..."}` in the JSON. Both work; raising is simpler.
+
+The `sdk/python/openfang_sdk.py` file is for **agents** (`[module]`-level), not skills. Don't use it for skills — the contract is different (agents use `OPENFANG_MESSAGE` env vars; skills use JSON-on-stdin).
+
+## C. Naming and loading
+
+**Tool name the LLM sees is LITERALLY `[[tools.provided]].name`** — unprefixed, unnamespaced (`kernel.rs:5384-5394` copies `skill_tool.name` straight into the `ToolDefinition` sent to the LLM; `registry.rs:283-292` `find_tool_provider` matches on exact string). No dashes-to-underscores, no `skill_` prefix. The skill author owns uniqueness; collisions with built-in/MCP tool names lose to built-ins (tool_runner.rs:513, skills are "Fallback 2").
+
+**Skill manifest `name` is the registry key** (`registry.rs:218-227`) — also unnormalized. So `[skill] name = "correlate-incident"` stays `"correlate-incident"`.
+
+**Disk paths** (kernel.rs:273-274, 815-817, 1904-1906):
+1. **Bundled**: `include_str!` compiled into binary (`crates/openfang-skills/src/bundled.rs`)
+2. **Global**: `$OPENFANG_HOME/skills/&lt;name&gt;/skill.toml` (default `$OPENFANG_HOME=~/.openfang` or `/data` in Docker)
+3. **Workspace**: `&lt;agent_workspace&gt;/skills/&lt;name&gt;/skill.toml` — overrides global with same name
+
+**Agent.toml reference** (`crates/openfang-types/src/agent.rs:456-458`):
+```toml
+skills = ["correlate-incident", "slo-burn-rate"]
+```
+Plain manifest name. **Empty array or missing = ALL skills visible to the agent** (comment line 456: "empty = all skills available"). Unknown skill name: **hard fail** when set via API `set_agent_skills` (`kernel.rs:3116-3128`), but at **boot/load time the allowlist is just a filter** — unknown names silently produce no tools (`registry.rs:269-275`: filters by `names.contains(name)`, missing names = no match).
+
+## D. Testing
+
+**There is no `openfang skill test` CLI command.** The scaffold prints "Test locally: openfang skill test" (cli/main.rs:3843) but it's a lie — the `SkillCommands` enum (cli/main.rs:346-366) only has `Install | List | Remove | Search | Create`. No test subcommand.
+
+**No bundled Python skills ship with tests.** All 60 bundled skills are pure SKILL.md (prompt-only) — zero Python examples. Verify:
+```
+crates/openfang-skills/bundled/terraform/  →  only SKILL.md
+crates/openfang-skills/bundled/prometheus/ →  only SKILL.md
+```
+(every one of the 60 dirs, confirmed against bundled.rs:10-N `include_str!` list).
+
+**To unit-test a skill yourself:**
+```bash
+echo '{"tool":"my_tool","input":{"foo":"bar"}}' | python3 src/main.py
+```
+Mirrors the Rust loader exactly. Wrap in pytest, feed fixtures via stdin.
+
+## E. Runtime
+
+**Python** (Dockerfile lines 19-26): `python3`, `python3-pip`, `python3-venv` from `rust:1-slim-bookworm` (Debian Bookworm) → Python **3.11**. Loader picks first of `python3`, `python` in PATH (loader.rs:259-272). Minimum version documented as 3.8+ (loader.rs:78-79).
+
+**pip packages**: possible but NOT automated. There is no `requirements.txt` convention — the loader does **not** run `pip install` before `python3 &lt;entry&gt;`. Skills must either use stdlib only, or ship a vendored `venv/` and shebang-hack, or the operator manually `pip install`s deps into the container. **No isolation per-skill.**
+
+**Env vars**: see Part B — `env_clear()` means `os.environ` is nearly empty. Only `PATH`, `HOME`, `PYTHONIOENCODING`. **If your skill needs `GCP_PROJECT`, `DATABASE_URL`, etc., pass them in `input`, not env vars.**
+
+## Blockers (concrete, block shipping a skill TODAY)
+
+1. **No secret/credential plumbing.** `env_clear()` in loader.rs:90 drops everything. For 9 skills that likely touch GCP/Postgres/Linear, credentials must be passed in `input` on every call (the agent/LLM has to supply them) — or you must patch the loader.
+2. **No MCP access from inside skills.** Skills are leaf subprocesses; they cannot reuse the agent's Postgres MCP, Linear MCP, etc. Any skill that "queries Postgres MCP" has to re-implement the query directly with psycopg2/etc. Plan accordingly.
+3. **No dependency manager.** Skills with non-stdlib deps (psycopg2, google-cloud-*, requests) require manual `pip install` inside the openfang container (or Dockerfile patch). Stdlib-only is the safe default; `urllib.request` instead of `requests`.
+4. **Tool namespace is flat and global.** `[[tools.provided]].name` must not collide with ANY built-in tool or MCP tool, else built-in wins silently (tool_runner.rs:513 "Fallback 2"). Prefix names manually (e.g., `ops_correlate_incident`).
+5. **No `skill test` CLI.** Develop with `echo '...' | python3 main.py`. Install loop is `openfang skill install &lt;path&gt;` → daemon hot-reloads via `POST /api/skills/reload` (cli/main.rs:3674-3688). Iterate outside openfang first.
+6. **Stable mode freeze.** Registry can be frozen at boot (registry.rs:50-53, kernel.rs:837-838); subsequent `skill install` errors. Verify production isn't Stable before pushing a fix.
+7. **Unknown skill in agent.toml silently loads zero tools.** The allowlist path (`registry.rs:269-275`) filters by manifest name without warning. Typo in `skills = ["..."]` → agent gets no tools from that skill and you'll debug blind.
+8. **Subprocess-per-call latency.** Every LLM tool-call forks `python3`. Cold import of heavy libs (google-cloud-*, pandas) on every call. Keep skills lean; cache nothing.
+9. **stdout must be pure JSON.** Any `print()` debug line breaks JSON parse → loader wraps entire stdout as `{"result": "&lt;garbled&gt;"}` (loader.rs:167-174). Use `print(..., file=sys.stderr)` for logs; that stderr only surfaces on non-zero exit.
+
+**Key source files for reference (absolute paths once cloned):**
+- `crates/openfang-skills/src/lib.rs` — manifest structs
+- `crates/openfang-skills/src/loader.rs` — Python/Node/Shell subprocess contract (lines 54-175 for Python)
+- `crates/openfang-skills/src/registry.rs` — load paths, workspace override (lines 114-205, 305-394)
+- `crates/openfang-runtime/src/tool_runner.rs:513-538` — dispatch from LLM tool call to skill
+- `crates/openfang-kernel/src/kernel.rs:5291-5394` — tool list assembly sent to LLM
+- `crates/openfang-types/src/agent.rs:456-458` — `skills = [..]` field in agent.toml
+- `crates/openfang-cli/src/main.rs:3761-3848` — scaffold template (use this as your starter)
+- `Dockerfile:18-26` — Python 3.11 availability</result>
+<usage><total_tokens>87980</total_tokens><tool_uses>61</tool_uses><duration_ms>257789</duration_ms></usage>
+</task-notification>
+
+---
+
+Has una investigación profunda sobre los skill en la versión actual de openfang 0.5.9, seguramente hay otros skills que si sirvan y seguramente cada agente con su skill puede llamar al MCP correcto
+
+---
+
+<task-notification>
+<task-id>a04b75a17fb6ee844</task-id>
+<tool-use-id>toolu_01JboFecUHDz5ni9jGjcZoHh</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Agent "Deep skills research v0.5.9 orchestration patterns" completed</summary>
+<result>I have enough. The critical evidence is in place. Let me assemble the final report with citations.
+
+---
+
+# Deep research on OpenFang v0.5.9 skills
+
+## A. The 6 runtime types — what each can do
+
+The enum in `crates/openfang-skills/src/lib.rs` L51-66:
+
+```rust
+pub enum SkillRuntime {
+    Python, Wasm, Node, Shell, Builtin, #[default] PromptOnly,
+}
+```
+
+Dispatch is in `crates/openfang-skills/src/loader.rs` L24-50 (`execute_skill_tool`):
+
+| Runtime | How it loads | Contract |
+|---|---|---|
+| `Python` | `tokio::process::Command::new("python3")` → pipes JSON via stdin → reads stdout | Script reads `{"tool","input"}` from stdin, writes JSON to stdout |
+| `Node` | Same pattern, `node &lt;entry&gt;` | Identical stdin/stdout JSON contract |
+| `Shell` | `bash -s &lt;entry&gt;` via stdin pipe | Same JSON-over-stdin |
+| `Wasm` | Returns `RuntimeNotAvailable("WASM skill runtime not yet implemented")` — L34-36 | **Not implemented in v0.5.9** |
+| `Builtin` | Returns `RuntimeNotAvailable("Builtin skills are handled by the kernel directly")` — L37-39 | Escape hatch comment only; no kernel code matches on `Runtime::Builtin` anywhere. Grep confirms: no `Runtime::Builtin` branch exists outside this error path |
+| `PromptOnly` | Returns a static `"note"` JSON reminding the LLM to use built-in tools — L40-49 | **No code runs at call time**. The work happens earlier, at prompt assembly |
+
+**Key answer — `builtin` runtime has NO MCP access.** It is a dead branch that errors out. The kernel never dispatches to it. It's reserved for future compiled-in skills.
+
+**Shell runtime CAN run arbitrary commands** — `bash -s &lt;entry&gt;` with `env_clear()` but `PATH` preserved (L345-351). Nothing prevents `curl http://mcp-sentry:7002/mcp`.
+
+**WASM is sandboxed — but not usable.** Stubbed out in v0.5.9.
+
+## B. Network access from skills — the critical hypothesis
+
+**Verdict: YES. Skill Python/Node/Shell subprocesses CAN HTTP-call MCP sidecars via Docker DNS.** No kernel-level isolation exists.
+
+Evidence from `loader.rs` L86-118 (Python path):
+
+```rust
+let mut cmd = tokio::process::Command::new(&amp;python);
+cmd.arg(&amp;script_path).current_dir(skill_dir)
+   .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped());
+cmd.env_clear();                                 // ← wipes env vars ONLY
+if let Ok(path) = std::env::var("PATH") { cmd.env("PATH", path); }
+if let Ok(home) = std::env::var("HOME") { cmd.env("HOME", home); }
+cmd.env("PYTHONIOENCODING", "utf-8");
+```
+
+What `env_clear()` does **not** do:
+- Does NOT create a network namespace
+- Does NOT call `unshare(CLONE_NEWNET)`
+- Does NOT apply seccomp
+- Does NOT chroot or mount tmpfs
+- Does NOT remove `/etc/resolv.conf`, Unix sockets, or Docker network access
+
+I searched the entire fetched tree for `unshare|namespace|netns|CLONE_NEWNET|seccomp|network_access|net_isolate|disable_network` — the only hits are the string "namespace" as a comment in `kernel.rs` L6003 ("fixed UUID so all agents read/write to the same namespace") and MCP tool name namespacing in `mcp_runtime.rs`. **No network isolation code exists.**
+
+Conclusion: a Python skill doing `urllib.request.urlopen("http://mcp-postgres:7006/mcp", ...)` will resolve via the container's `/etc/resolv.conf`, hit the Docker bridge DNS, and succeed. `env_clear()` only blocks credential leakage via env vars — it does not block sockets.
+
+This invalidates the earlier spike's conclusion. Network is kernel-level and skills inherit it.
+
+## C. The 61 bundled skills — what they actually do
+
+Source: `crates/openfang-skills/src/bundled.rs` ships 61 skills (`assert_eq!(skills.len(), 61)` L199) via `include_str!("../bundled/&lt;name&gt;/SKILL.md")`.
+
+**All 61 are prompt-only.** Proof: `test_all_bundled_skills_parse` L203-236 asserts for every bundled skill:
+
+```rust
+assert!(manifest.prompt_context.is_some(), "Bundled skill '{}' has no prompt context", name);
+```
+
+The loader `convert_skillmd_str` (openclaw_compat) always produces `runtime_type = PromptOnly` with the markdown body placed into `prompt_context`.
+
+Representative samples I fetched — all are pure Markdown with YAML frontmatter `name:` + `description:` followed by a system-prompt-style document:
+
+- **sentry** (`bundled/sentry/SKILL.md`) — 52 lines of "Key Principles", "SDK Setup", "Triage Workflow" prose. No code, no tools.
+- **postgres-expert** — 38 lines on EXPLAIN, index types, pitfalls. Prose only.
+- **docker, github, kubernetes, terraform, aws, gcp, sql-analyst, prometheus, linux-networking** — same shape.
+
+**No bundled skill declares `[[tools.provided]]` with its own name**, and none has a Python/Node/Shell entry. They are all reference manuals for the LLM. When the LLM calls a tool the skill "provides," dispatch lands in L40-49 of loader.rs and returns the static `"note"` — it's a soft hint that the LLM should use real built-in tools.
+
+## D. `promptonly` runtime semantics
+
+Two things happen for a `PromptOnly` skill:
+
+1. **At prompt assembly** (`crates/openfang-runtime/src/prompt_builder.rs` L22-24, L107-110, L318-329):
+
+```rust
+pub skill_summary: String,         // "- web-search: Search the web\n- git-expert: ..."
+pub skill_prompt_context: String,  // concatenated bundled markdowns
+
+// Section 5 — Skills
+if !ctx.skill_summary.is_empty() || !ctx.skill_prompt_context.is_empty() {
+    sections.push(build_skills_section(&amp;ctx.skill_summary, &amp;ctx.skill_prompt_context, ...));
+}
+```
+
+The markdown body is **concatenated into the system prompt**, capped at 2000 chars per `cap_str(prompt_context, 2000)`.
+
+2. **At tool call time** — returns the static `"note"` (loader.rs L43-48).
+
+So prompt-only does **NOT** dynamically add tools to the allowlist or reveal MCP tools. It's purely a system-prompt injection. The LLM is expected to use existing built-in tools or MCP tools that were already in scope.
+
+The kernel assembles these via `build_skill_summary_from` and `collect_prompt_context_from` — `kernel.rs` L1949-1955, L2510-2516. Only skills in the agent's `manifest.skills` allowlist are included.
+
+## E. The Hand concept — the actual answer
+
+A **Hand** (`crates/openfang-hands/src/lib.rs`) is a packaged, curated autonomous agent. It is **not** a subclass of Skill — it spawns a full agent with its own `AgentManifest`.
+
+Key field in `HandDefinition` L359-395:
+
+```rust
+pub struct HandDefinition {
+    pub id, pub name, pub description, pub category, pub icon,
+    pub tools: Vec&lt;String&gt;,        // tool allowlist for the spawned agent
+    pub skills: Vec&lt;String&gt;,       // skill allowlist
+    pub mcp_servers: Vec&lt;String&gt;,  // ← MCP allowlist
+    pub requires: Vec&lt;HandRequirement&gt;,
+    pub settings: Vec&lt;HandSetting&gt;,
+    pub agent: HandAgentConfig,    // full agent manifest (model, system_prompt, module)
+    pub dashboard: HandDashboard,
+    pub skill_content: Option&lt;String&gt;,  // bundled SKILL.md injected into system prompt
+}
+```
+
+Activation (`kernel.rs` L3420 `activate_hand` through L3669) constructs an `AgentManifest` where:
+- `skills: def.skills.clone()` (L3508)
+- `mcp_servers: def.mcp_servers.clone()` (L3509) — **Hand instances have scoped MCP access**
+- User settings become a prompt block appended to `system_prompt` (L3533-3539)
+- Required env vars are tracked in `hand_allowed_env` metadata (L3553-3558)
+- Skill content is appended to system prompt under `## Reference Knowledge` (L3560-3566)
+
+**Hand answer**: a Hand spawns a full agent — it inherits the normal LLM agent loop, with MCP tools exposed via the standard `mcp_{server}_{tool}` namespace (`tool_runner.rs` L484-511). A Hand is the intended pattern for "stateful, long-running, scoped-tools agent." Tools `hand_activate` and `hand_deactivate` (`tool_runner.rs` L369, L2413, L2464) are how another agent spawns or tears down a Hand instance. `HandInstance` (L419) supports `instance_name` for multi-instance since v0.5.7.
+
+## F. Agent module types — beyond `builtin:chat`
+
+The kernel dispatches on `manifest.module` prefix (`kernel.rs` L1675-1693):
+
+```rust
+let result = if entry.manifest.module.starts_with("wasm:") {
+    self.execute_wasm_agent(...)
+} else if entry.manifest.module.starts_with("python:") {
+    self.execute_python_agent(&amp;entry, agent_id, message).await
+} else {
+    // Default: LLM agent loop (builtin:chat or any unrecognized module)
+    self.execute_llm_agent(...)
+};
+```
+
+So three module values exist:
+
+1. `builtin:chat` (default) — runs the full LLM agent loop with tools, MCP, skills, etc.
+2. `wasm:&lt;path&gt;` — WASM module agent (alternate to LLM-based). `execute_wasm_agent` at L2221.
+3. `python:&lt;path&gt;` — Python subprocess agent. `execute_python_agent` at L2305 → delegates to `openfang_runtime::python_runtime::run_python_agent`.
+
+**Crucial finding**: `python:` agents do NOT go through the LLM loop. They receive the raw user message on stdin (`python_runtime.rs` L140-146):
+
+```rust
+let input = serde_json::json!({
+    "type": "message", "agent_id": ..., "message": ..., "context": ...,
+});
+```
+
+They write a single `{"type": "response", "text": ...}` back. **There is no tool-use protocol.** The Python script does not get access to `agent_send`, `memory_store`, or MCP tools through the kernel. It runs in isolation with `env_clear()` + PATH + HOME + PYTHONPATH/VIRTUAL_ENV preserved (L160-200), plus allowed_env_vars from manifest capabilities (L196-200).
+
+BUT — same as skill subprocess — **network is NOT isolated**. A `python:` agent absolutely CAN call MCP sidecars directly over HTTP. It just has to implement its own MCP client (or LLM client, or whatever). The `langchain-code-reviewer` agent (`agents/langchain-code-reviewer/agent.py`) is a good example — it's a full LangChain app that talks to OpenAI/DeepSeek/Ollama directly, bypassing the kernel's LLM driver.
+
+## G. Manifest fields we might have missed
+
+Full `SkillManifest` is in `lib.rs` L104-123:
+
+```rust
+pub struct SkillManifest {
+    pub skill: SkillMeta,
+    #[serde(default)] pub runtime: SkillRuntimeConfig,
+    #[serde(default)] pub tools: SkillTools,
+    #[serde(default)] pub requirements: SkillRequirements,
+    #[serde(default)] pub prompt_context: Option&lt;String&gt;,
+    #[serde(default)] pub source: Option&lt;SkillSource&gt;,
+}
+
+pub struct SkillRequirements {
+    pub tools: Vec&lt;String&gt;,          // built-in tools this skill needs
+    pub capabilities: Vec&lt;String&gt;,   // e.g. "NetConnect(*)" — DECLARATIVE ONLY
+}
+```
+
+**There is no `env`, `secrets`, `network_access`, or per-skill MCP allowlist field.** `[requirements]` is purely declarative — nothing in the loader or kernel gates subprocess spawn on those capabilities. I grepped for `requirements.capabilities` use — no enforcement code.
+
+So `capabilities = ["NetConnect(*)"]` in skill.toml is documentation-only. It doesn't unlock or block anything.
+
+## H. Recommended pattern — the actual answer
+
+Given the architecture (orchestrator + 5 specialist agents, each needing specific MCP + deterministic classification), here's my ranked recommendation:
+
+### 1. Primary — agents with scoped `mcp_servers`, `tools`, and bundled prompt-only skills (RECOMMENDED)
+
+Each specialist = a standard `builtin:chat` agent with:
+- `mcp_servers = ["sentry", "postgres", "grafana"]` — narrow allowlist (`kernel.rs` L3509)
+- `skills = ["sentry", "postgres-expert", "sre-playbook"]` — custom prompt-only skills you author that encode the classification/triage playbook
+- `tools = ["mcp_sentry_*", "mcp_postgres_*", "memory_recall", "event_publish"]`
+
+The bundled skill pattern is exactly this: domain-specific prose + LLM reasoning over whitelisted MCP tools. You're already doing it — see TI-1418 Kuma trigger + TI-1429 hot-fix where token budget matters. Prompt-only scales cleanly.
+
+### 2. Secondary — Hands for stateful / long-running specialists
+
+If a specialist needs scheduling, dashboard metrics, or multi-instance, wrap it as a Hand (`HAND.toml` with `mcp_servers` allowlist, `tools`, `settings`, `skill_content`). `collector` and `infisical-sync` bundled Hands are your templates. You already have triggers + continuous schedule plumbing.
+
+### 3. Deterministic correlation → custom `python:` agent (avoid for orchestrator)
+
+Don't use this for the orchestrator. A `python:` agent is stdin/stdout isolated — no tool-use protocol. It can HTTP-call MCPs directly, but you lose the token-accounted audit trail, the kernel's retry/compactor/approval, and interop with `agent_send`. Use it only for truly deterministic pipelines (e.g., a compute-heavy classifier that has to run without an LLM), spawned as a **sibling** agent that the orchestrator messages via `agent_send`.
+
+### 4. AVOID — Python/Shell skills HTTP-calling MCPs
+
+Technically works (network is open). But:
+- Every skill invocation spawns a subprocess (200-500ms overhead)
+- You lose the kernel's namespaced `mcp_{server}_{tool}` routing, approvals, and audit
+- No streaming
+- You'd re-implement the MCP JSON-RPC client by hand
+- Bundled MCP servers already do OAuth, health (`extensions/src/health.rs`), credential vault — skipping them defeats the design
+
+### 5. AVOID — `builtin` runtime
+
+Dead branch. Returns `RuntimeNotAvailable`.
+
+---
+
+**Bottom line**: The previous spike's "skills cannot access MCP" was technically correct in intent but overgeneralized the mechanism. Skills in OpenFang are authoring seams for **LLM context** (prompt-only) or **stdin/stdout subprocess tools** (Python/Node/Shell). MCP access is a first-class agent-manifest concept (`mcp_servers` allowlist → kernel connects → tools routed as `mcp_{server}_{tool}` by `tool_runner.rs`). The right composition is: scoped-MCP agent + prompt-only skills for playbook + Hand wrapper if stateful. Do not try to tunnel MCP through skills.
+
+Key files (absolute paths in the cloned repo would be):
+- `crates/openfang-skills/src/lib.rs` (manifest types, L48-66 runtime enum, L93-101 requirements)
+- `crates/openfang-skills/src/loader.rs` (dispatch L24-50, Python L86-118 showing no net isolation)
+- `crates/openfang-skills/src/bundled.rs` (61 bundled, all prompt-only per L199 test)
+- `crates/openfang-hands/src/lib.rs` (HandDefinition L359-395 with mcp_servers field)
+- `crates/openfang-kernel/src/kernel.rs` (module dispatch L1675-1693, hand activation L3420-3669)
+- `crates/openfang-runtime/src/tool_runner.rs` (MCP dispatch L482-512, skill fallback L514-537)
+- `crates/openfang-runtime/src/prompt_builder.rs` (skill_prompt_context injection L22-24, L318-329)
+- `crates/openfang-runtime/src/python_runtime.rs` (python: module protocol, env_clear L160)</result>
+<usage><total_tokens>92437</total_tokens><tool_uses>48</tool_uses><duration_ms>214575</duration_ms></usage>
+</task-notification>
+
+---
+
+Ve con el nuevo patrón nativo de openfang
+
+---
+
+Si
+
+---
+
+Continua con el commit 7
+
+---
+
+Opción A
