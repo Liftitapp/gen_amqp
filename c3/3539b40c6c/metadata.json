@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "c33539b40c6c",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/files/agents/postgres-deep/agent.toml",
+    "apps/ai/files/skills/pg-health-playbook/SKILL.md",
+    "apps/ai/files/skills/sql-safety/SKILL.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/c3/3539b40c6c/0/metadata.json",
+      "transcript": "/c3/3539b40c6c/0/full.jsonl",
+      "context": "/c3/3539b40c6c/0/context.md",
+      "content_hash": "/c3/3539b40c6c/0/content_hash.txt",
+      "prompt": "/c3/3539b40c6c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 15585,
+    "cache_creation_tokens": 2091044,
+    "cache_read_tokens": 153965967,
+    "output_tokens": 341153,
+    "api_call_count": 368
+  }
+}
