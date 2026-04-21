@@ -3,7 +3,7 @@
   "checkpoint_id": "2ea421f5dd57",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 0,
+  "checkpoints_count": 1,
   "files_touched": [
     "apps/ai/files/agent-assistant.toml.template",
     "apps/ai/files/openfang-config.toml.template"
@@ -15,13 +15,20 @@
       "context": "/2e/a421f5dd57/0/context.md",
       "content_hash": "/2e/a421f5dd57/0/content_hash.txt",
       "prompt": "/2e/a421f5dd57/0/prompt.txt"
+    },
+    {
+      "metadata": "/2e/a421f5dd57/1/metadata.json",
+      "transcript": "/2e/a421f5dd57/1/full.jsonl",
+      "context": "/2e/a421f5dd57/1/context.md",
+      "content_hash": "/2e/a421f5dd57/1/content_hash.txt",
+      "prompt": "/2e/a421f5dd57/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 14941,
-    "cache_creation_tokens": 264246,
-    "cache_read_tokens": 10009049,
-    "output_tokens": 47552,
-    "api_call_count": 64
+    "input_tokens": 15117,
+    "cache_creation_tokens": 418876,
+    "cache_read_tokens": 14817151,
+    "output_tokens": 104675,
+    "api_call_count": 117
   }
 }
