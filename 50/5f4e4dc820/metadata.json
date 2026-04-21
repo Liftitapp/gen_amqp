@@ -3,7 +3,7 @@
   "checkpoint_id": "505f4e4dc820",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 2,
+  "checkpoints_count": 4,
   "files_touched": [
     "apps/ai/files/agent-assistant.toml.template",
     "apps/ai/files/mcp-logging/Dockerfile",
@@ -54,13 +54,20 @@
       "context": "/50/5f4e4dc820/5/context.md",
       "content_hash": "/50/5f4e4dc820/5/content_hash.txt",
       "prompt": "/50/5f4e4dc820/5/prompt.txt"
+    },
+    {
+      "metadata": "/50/5f4e4dc820/6/metadata.json",
+      "transcript": "/50/5f4e4dc820/6/full.jsonl",
+      "context": "/50/5f4e4dc820/6/context.md",
+      "content_hash": "/50/5f4e4dc820/6/content_hash.txt",
+      "prompt": "/50/5f4e4dc820/6/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 8409,
-    "cache_creation_tokens": 4627590,
-    "cache_read_tokens": 396553530,
-    "output_tokens": 1201657,
-    "api_call_count": 1444
+    "input_tokens": 8539,
+    "cache_creation_tokens": 4678999,
+    "cache_read_tokens": 414375484,
+    "output_tokens": 1231110,
+    "api_call_count": 1494
   }
 }
