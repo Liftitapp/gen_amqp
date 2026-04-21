@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "c840086f102c",
+  "session_id": "21512b06-ab88-4358-9190-e6f325a1fc03",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-21T15:49:36.934946757Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/files/agent-assistant.toml.template"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "d418cb8a6a79",
+  "token_usage": {
+    "input_tokens": 15086,
+    "cache_creation_tokens": 606233,
+    "cache_read_tokens": 29533268,
+    "output_tokens": 121290,
+    "api_call_count": 129
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-21T15:49:36.432906146Z",
+    "agent_lines": 0,
+    "human_added": 73,
+    "human_modified": 8,
+    "human_removed": 0,
+    "total_committed": 73,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/21512b06-ab88-4358-9190-e6f325a1fc03.jsonl"
+}
