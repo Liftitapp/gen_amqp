@@ -3,7 +3,7 @@
   "checkpoint_id": "3c31c9f510a1",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "apps/ai/files/agents/triage-orchestrator/agent.toml",
     "apps/ai/files/skills/correlate-incident/SKILL.md"
@@ -36,13 +36,20 @@
       "context": "/3c/31c9f510a1/3/context.md",
       "content_hash": "/3c/31c9f510a1/3/content_hash.txt",
       "prompt": "/3c/31c9f510a1/3/prompt.txt"
+    },
+    {
+      "metadata": "/3c/31c9f510a1/4/metadata.json",
+      "transcript": "/3c/31c9f510a1/4/full.jsonl",
+      "context": "/3c/31c9f510a1/4/context.md",
+      "content_hash": "/3c/31c9f510a1/4/content_hash.txt",
+      "prompt": "/3c/31c9f510a1/4/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 18007,
-    "cache_creation_tokens": 3156727,
-    "cache_read_tokens": 283695492,
-    "output_tokens": 684743,
-    "api_call_count": 983
+    "input_tokens": 18420,
+    "cache_creation_tokens": 4424805,
+    "cache_read_tokens": 314563010,
+    "output_tokens": 888998,
+    "api_call_count": 1156
   }
 }
