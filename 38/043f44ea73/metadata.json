@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "38043f44ea73",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/files/agents/github-query/agent.toml",
+    "apps/ai/files/skills/deploy-correlation-playbook/SKILL.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/38/043f44ea73/0/metadata.json",
+      "transcript": "/38/043f44ea73/0/full.jsonl",
+      "context": "/38/043f44ea73/0/context.md",
+      "content_hash": "/38/043f44ea73/0/content_hash.txt",
+      "prompt": "/38/043f44ea73/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 15585,
+    "cache_creation_tokens": 2091044,
+    "cache_read_tokens": 153965967,
+    "output_tokens": 341153,
+    "api_call_count": 368
+  }
+}
