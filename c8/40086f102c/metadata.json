@@ -5,7 +5,8 @@
   "branch": "master",
   "checkpoints_count": 1,
   "files_touched": [
-    "apps/ai/files/agent-assistant.toml.template"
+    "apps/ai/files/agent-assistant.toml.template",
+    "apps/ai/files/openfang-slack-approver/app.py"
   ],
   "sessions": [
     {
@@ -14,13 +15,20 @@
       "context": "/c8/40086f102c/0/context.md",
       "content_hash": "/c8/40086f102c/0/content_hash.txt",
       "prompt": "/c8/40086f102c/0/prompt.txt"
+    },
+    {
+      "metadata": "/c8/40086f102c/1/metadata.json",
+      "transcript": "/c8/40086f102c/1/full.jsonl",
+      "context": "/c8/40086f102c/1/context.md",
+      "content_hash": "/c8/40086f102c/1/content_hash.txt",
+      "prompt": "/c8/40086f102c/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 15086,
-    "cache_creation_tokens": 606233,
-    "cache_read_tokens": 29533268,
-    "output_tokens": 121290,
-    "api_call_count": 129
+    "input_tokens": 15262,
+    "cache_creation_tokens": 760863,
+    "cache_read_tokens": 34341370,
+    "output_tokens": 178413,
+    "api_call_count": 182
   }
 }
