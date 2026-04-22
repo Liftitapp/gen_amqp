@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "a0e7727dae10",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/ai/files/docker-compose-litellm-snippet.yml",
+    "apps/ai/files/litellm-config.yaml",
+    "apps/ai/files/litellm-hooks/cache_injector.py",
+    "apps/ai/files/openfang-config.toml.template"
+  ],
+  "sessions": [
+    {
+      "metadata": "/a0/e7727dae10/0/metadata.json",
+      "transcript": "/a0/e7727dae10/0/full.jsonl",
+      "context": "/a0/e7727dae10/0/context.md",
+      "content_hash": "/a0/e7727dae10/0/content_hash.txt",
+      "prompt": "/a0/e7727dae10/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 137,
+    "cache_creation_tokens": 127263,
+    "cache_read_tokens": 9004403,
+    "output_tokens": 51560,
+    "api_call_count": 87
+  }
+}
