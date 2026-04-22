@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "b37c0df17415",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/files/litellm-config.yaml",
+    "apps/ai/files/openfang-config.toml.template"
+  ],
+  "sessions": [
+    {
+      "metadata": "/b3/7c0df17415/0/metadata.json",
+      "transcript": "/b3/7c0df17415/0/full.jsonl",
+      "context": "/b3/7c0df17415/0/context.md",
+      "content_hash": "/b3/7c0df17415/0/content_hash.txt",
+      "prompt": "/b3/7c0df17415/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 213,
+    "cache_creation_tokens": 185782,
+    "cache_read_tokens": 17115555,
+    "output_tokens": 78802,
+    "api_call_count": 133
+  }
+}

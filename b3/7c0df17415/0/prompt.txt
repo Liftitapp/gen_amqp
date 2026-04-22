@@ -1,0 +1,36 @@
+retoma desde memoria
+
+---
+
+Mira la respuesta que dieron: 
+Hello, John.
+
+I hope you're doing well. My name is Marose from the Google Cloud Platform Support team and I'm here to assist you on your request for the project prod-apps-454414: with the following values:
+
+=== Quota Requested ===
+Name:  GenerateContentRequestsPerMinutePerProjectPerRegionPerBaseModel
+base_model: gemini-2.5-flash 
+Region: us-east1
+Desired Quota: 200
+
+After reviewing your request, we are unable to proceed with the quota increase. As advised by our System engineers, gemini-2.5-flash is now available through Standard PayGo, which distributes on-demand capacity among all queries being processed by Google Cloud services. This capability means that you no longer need to submit quota increase requests (QIRs), simplifying your workflow.
+
+We also recommend utilizing Provisioned Throughput which will allow you to allocate dedicated resources to ensure consistent and predictable performance for AI model inference. It provides automatic scaling and granular control over request capacity (RPS), ideal for handling high-volume workloads. This ensures reliable, low-latency responses during peak demand.
+
+We hope this information is helpful and guides you through the next steps. Let us know if you have any other questions/concerns about this request. We will keep this case open while we wait for your feedback but please know that this will be automatically closed if we won't receive any response from you within the next 48 hours. We appreciate your patience and understanding.
+
+Sincerely,
+
+Marose on behalf of Cloud Platform Quota Team
+
+---
+
+No responder nada, diagnóstica la causa del 429 con investigación profunda ultrathink
+
+---
+
+Arranca con 2, luego 3, 4, 5 6 y descarta 1
+
+---
+
+Ahora, cómo puedo probar que todo funcione?
