@@ -3,7 +3,7 @@
   "checkpoint_id": "a0e7727dae10",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 0,
+  "checkpoints_count": 1,
   "files_touched": [
     "apps/ai/files/docker-compose-litellm-snippet.yml",
     "apps/ai/files/litellm-config.yaml",
@@ -17,13 +17,20 @@
       "context": "/a0/e7727dae10/0/context.md",
       "content_hash": "/a0/e7727dae10/0/content_hash.txt",
       "prompt": "/a0/e7727dae10/0/prompt.txt"
+    },
+    {
+      "metadata": "/a0/e7727dae10/1/metadata.json",
+      "transcript": "/a0/e7727dae10/1/full.jsonl",
+      "context": "/a0/e7727dae10/1/context.md",
+      "content_hash": "/a0/e7727dae10/1/content_hash.txt",
+      "prompt": "/a0/e7727dae10/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 137,
-    "cache_creation_tokens": 127263,
-    "cache_read_tokens": 9004403,
-    "output_tokens": 51560,
-    "api_call_count": 87
+    "input_tokens": 15722,
+    "cache_creation_tokens": 2218307,
+    "cache_read_tokens": 162970370,
+    "output_tokens": 392713,
+    "api_call_count": 455
   }
 }
