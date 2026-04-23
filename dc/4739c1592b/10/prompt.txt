@@ -1,0 +1,29 @@
+retoma desde memoria
+
+---
+
+Con todo al mismo tiempo
+
+---
+
+TI-1443  ya lo hice en slack
+
+---
+
+Ahora, me gustaría monitorear las demás bases de datos, pero la de qa y stg están en otras VPC se podría lograr?
+
+---
+
+Haslo como lo hiciste con lmsprod, estos son los host ssh lmsread lmsbi dbtools dbauth dbbi dbsha lmsqa lmsstg
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+lmsqa y lmsstg si tienen usuario que es el mismo de prod, dime cómo te entrego las contraseñas, para las demás bases, crea el mismo usuario y pass de prod
+
+---
+
+en /tmp/dbpwd están qa: y staging:
