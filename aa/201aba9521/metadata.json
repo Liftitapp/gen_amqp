@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "aa201aba9521",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/grafana-config/dashboards/waf.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/aa/201aba9521/0/metadata.json",
+      "transcript": "/aa/201aba9521/0/full.jsonl",
+      "context": "/aa/201aba9521/0/context.md",
+      "content_hash": "/aa/201aba9521/0/content_hash.txt",
+      "prompt": "/aa/201aba9521/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 245,
+    "cache_creation_tokens": 575484,
+    "cache_read_tokens": 19255191,
+    "output_tokens": 89594,
+    "api_call_count": 145
+  }
+}
