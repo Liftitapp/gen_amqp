@@ -1,0 +1,227 @@
+Retoma desde memoria
+
+---
+
+Si
+
+---
+
+b ultrathink
+
+---
+
+B ultrathink
+
+---
+
+Y si actualizamos a la última versión de openfang?
+
+---
+
+Sigamos tu recomendación ultrathink
+
+---
+
+Pero es que openfang soporta multimodelo no?
+
+---
+
+Migremos y punto
+
+---
+
+Hay que hacer las cosas completas y correctas aunque se demoren más, lo más conveniente es usar openfang (sin hacer fork) directo con vertex ai, y pues la máquina donde está ya tiene permisos de usar la IA
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+La idea es quitar totalmente litelLM, no entiendo para qué quieres mantenerlo
+
+---
+
+Investiga profundamente si openfang se puede conectar con vertexai y qué debemos hacer para lograrlo si es posible teniendo encuenta la infra actual
+
+---
+
+Camino 2
+
+---
+
+retoma ultrathink
+
+---
+
+Sigue
+
+---
+
+[Request interrupted by user]
+
+---
+
+Espera, no modifiques el código de openfang no quiero contribuir
+
+---
+
+si ultrathink
+
+---
+
+Si
+
+---
+
+Hagamos el rename service y limpieza de imagenes de docker sin uso en esa máquina, me preocupa la seguridad de todo lo implementado
+
+---
+
+[Request interrupted by user]
+
+---
+
+Ahora, en el repositorio tf-infrastructure/apps/ai limpia lo que no está implementado
+
+---
+
+has git push, luego, cómo puedo probar que todo funcione?
+
+---
+
+Hice la prueba en slack directo Jhon Alexander Ortiz Castaño (CO)  [11:28 AM]
+@Monitoreo_integraciones valida si hay bloqueos en la db de producción
+Monitoreo_integraciones  [11:28 AM]
+No se encontraron bloqueos en la base de datos de producción. La columna waiting no existe en pg_stat_activity, por lo que no pude usar ese filtro.
+
+---
+
+Actualiza el skill para postgres 17
+
+---
+
+Ya le pregunté pero no ha respondido
+
+---
+
+[Request interrupted by user]
+
+---
+
+Creo que es conveniente buscar un skill más adecuado de postgres
+
+---
+
+Acabó de ocurrir un problema con la aplicación backoffice-api, le pedí al bot que revisará los logs de la aplicación y dijo que no había errores pero si los había, donde service-domain le respondió 502 a backoffice api y había otro error en otro pod, creo que faltan más skills de gke y de logs
+
+---
+
+[Request interrupted by user]
+
+---
+
+Espera, y los skill actuales de gke y de logs de GCP son construidos por ti?, no usaste los que ya existen por fuera o los que ya existen en clawhub de openfang?
+
+---
+
+Si
+
+---
+
+Jhon Alexander Ortiz Castaño (CO)  [11:51 AM]
+@Monitoreo_integraciones valida el error 503 de backoffice api en gke en producción hace 15 a 25 minutos
+Monitoreo_integraciones  [11:51 AM]
+No se encontraron logs de error 503 para backoffice-api en el cluster lms-gke-prod en el rango de tiempo de 16:26 a 16:36 UTC del 23 de abril de 2026.
+
+Te sugiero revisar Sentry para ver si hay errores 503 registrados allí, ya que los logs de infraestructura no muestran incidencias.
+[11:52 AM]No se encontraron logs de error 503 para backoffice-api en el cluster lms-gke-prod en el rango de tiempo solicitado (hace 15 a 25 minutos).
+
+Te sugiero revisar Sentry para ver si hay errores 503 registrados allí, ya que los logs de infraestructura no muestran incidencias para ese período.
+
+---
+
+[Request interrupted by user]
+
+---
+
+Si quieres tú, usando el MCP de GCP comprueba lo de backoffice-api
+
+---
+
+Si quieres tú, usando el MCP de GCP comprueba lo de backoffice-api
+
+---
+
+[Request interrupted by user]
+
+---
+
+haslo tu mismo desde local, no tienes que hacerlo desde el container
+
+---
+
+Entonces si escriben mal el nombre de la aplicación, siempre primero debe listar todos los deployments, sino existe, validar en cloudrun con variantes, ahora, si de da un código de error, es mejor que revise con 5XX o 4XX o como aplique
+
+---
+
+Entonces si escriben mal el nombre de la aplicación, siempre primero debe listar todos los deployments, sino existe, validar en cloudrun con variantes, ahora, si de da un código de error, es mejor que revise con 5XX o 4XX o como aplique ¿qué opinas sinceramente?, la idea es que si ve algo en el log relacionado con la db de una relacione y le pida al agente de db que investigue la causa raíz
+
+---
+
+También puede pasar que al ver los logs de una aplicación gke, la causa sea el consumo de otra app gke u otra cloudrun, la idea es que encadene bien cómo lo haría yo
+
+---
+
+1. Si el error es específico de db (eso se ve en log) si puedes llamar a postgres-deep, también puede pasar que reportan lentitud de la aplicación, lo primero que yo hago es revisar db que no haya bloqueos o consumo alto de recursos de la máquina de db, luego ahí si voy a k8s a mirar consumo de recursos y logs
+
+---
+
+1. Si el error es específico de db (eso se ve en log) si puedes llamar a postgres-deep, también puede pasar que reportan lentitud de la aplicación, lo primero que yo hago es revisar db que no haya bloqueos o consumo alto de recursos de la máquina de db, luego ahí si voy a k8s a mirar consumo de recursos y logs 2. 2 estaría bien. 3.Cuando el chain vertical es ambiguo 4. Todo lo crítico está en gke. 5. Formato como el de arriba
+
+---
+
+Dale
+
+---
+
+Mira que le pedí que mirará si había bloqueos, los había pero dice que no Jhon Alexander Ortiz Castaño (CO)  [12:12 PM]
+@Monitoreo_integraciones valida los bloqueos de la db de producción y las causas
+Monitoreo_integraciones  [12:12 PM]
+No se encontraron bloqueos en la base de datos de producción. La consulta ejecutada no arrojó ningún resultado, lo que indica que actualmente no hay transacciones bloqueadas.
+
+Las causas comunes de bloqueos en PostgreSQL suelen ser:
+*   Transacciones de larga duración: Una transacción que mantiene bloqueos sobre filas o tablas por un período prolongado.
+*   Deadlocks: Dos o más transacciones se bloquean mutuamente esperando recursos que la otra tiene.
+*   Consultas mal optimizadas: Consultas que escanean grandes volúmenes de datos o realizan operaciones costosas sin índices adecuados.
+*   Falta de índices: Operaciones que requieren bloqueos a nivel de tabla porque no pueden usar índices para acceder a filas específicas.
+*   Contención de recursos: Múltiples transacciones intentando modificar la misma fila o tabla simultáneamente.
+
+Dado que no se encontraron bloqueos, no hay causas específicas que investigar en este momento.
+[12:12 PM]No se encontraron bloqueos en la base de datos de producción. La consulta ejecutada no arrojó ningún resultado, lo que indica que actualmente no hay transacciones bloqueadas.
+
+Las causas comunes de bloqueos en PostgreSQL suelen ser:
+*   Transacciones de larga duración: Una transacción que mantiene bloqueos sobre filas o tablas por un período prolongado.
+*   Deadlocks: Dos o más transacciones se bloquean mutuamente esperando recursos que la otra tiene.
+*   Consultas mal optimizadas: Consultas que escanean grandes volúmenes de datos o realizan operaciones costosas sin índices adecuados.
+*   Falta de índices: Operaciones que requieren bloqueos a nivel de tabla porque no pueden usar índices para acceder a filas específicas.
+*   Contención de recursos: Múltiples transacciones intentando modificar la misma fila o tabla simultáneamente.
+
+Dado que no se encontraron bloqueos, no hay causas específicas que investigar en este momento. Si sospechas que hay bloqueos que mi consulta no detectó, puedo intentar una consulta más exhaustiva.
+NEWJhon Alexander Ortiz Castaño (CO)  [12:13 PM]
+@Monitoreo_integraciones valida los bloqueos de la db de producción y las causas
+Monitoreo_integraciones  [12:13 PM]
+No se encontraron bloqueos en la base de datos de producción. La consulta ejecutada no arrojó ningún resultado, lo que indica que actualmente no hay transacciones bloqueadas.
+
+Las causas comunes de bloqueos en PostgreSQL suelen ser:
+*   Transacciones de larga duración: Una transacción que mantiene bloqueos sobre filas o tablas por un período prolongado.
+*   Deadlocks: Dos o más transacciones se bloquean mutuamente esperando recursos que la otra tiene.
+*   Consultas mal optimizadas: Consultas que escanean grandes volúmenes de datos o realizan operaciones costosas sin índices adecuados.
+*   Falta de índices: Operaciones que requieren bloqueos a nivel de tabla porque no pueden usar índices para acceder a filas específicas.
+*   Contención de recursos: Múltiples transacciones intentando modificar la misma fila o tabla simultáneamente.
+
+Dado que no se encontraron bloqueos, no hay causas específicas que investigar en este momento. Si sospechas que hay bloqueos que mi consulta no detectó, puedo intentar una consulta más exhaustiva.
+
+---
+
+Si
