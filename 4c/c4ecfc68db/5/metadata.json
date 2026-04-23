@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "4cc4ecfc68db",
+  "session_id": "6b0a88c2-fd6d-4822-8fae-2d664d93c00e",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-23T23:10:34.377437892Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "sec/grafana-config/dashboards/aiops-agent.json",
+    "sec/observability/CLAUDE.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "3c58190f62bd",
+  "checkpoint_transcript_start": 1583,
+  "transcript_lines_at_start": 1583,
+  "token_usage": {
+    "input_tokens": 31,
+    "cache_creation_tokens": 16571,
+    "cache_read_tokens": 5889455,
+    "output_tokens": 14754,
+    "api_call_count": 11
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-23T23:10:33.763030341Z",
+    "agent_lines": 0,
+    "human_added": 200,
+    "human_modified": 3,
+    "human_removed": 0,
+    "total_committed": 200,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/6b0a88c2-fd6d-4822-8fae-2d664d93c00e.jsonl"
+}
