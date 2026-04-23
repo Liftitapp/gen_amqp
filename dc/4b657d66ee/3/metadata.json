@@ -1,0 +1,47 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "dc4b657d66ee",
+  "session_id": "31c88396-c87e-4dd6-8951-d6cb8c5f6993",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-23T16:25:09.366536822Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/ai/files/litellm-hooks/cache_injector.py",
+    "apps/ai/files/mcp-gcp-monitoring/app.py",
+    "apps/ai/files/openfang-config.toml.template",
+    "apps/ai/CLAUDE.md",
+    "apps/ai/files/agent-assistant.toml.template",
+    "apps/ai/files/vertex-adapter/proxy.py",
+    "apps/ai/files/vertex-adapter/requirements.txt",
+    "apps/ai/files/litellm-config.yaml",
+    "apps/ai/files/mcp-gcp-monitoring/Dockerfile",
+    "apps/ai/files/mcp-gcp-monitoring/README.md",
+    "apps/ai/files/mcp-gcp-monitoring/requirements.txt",
+    "apps/ai/files/deploy-litellm.sh",
+    "apps/ai/files/docker-compose-litellm-snippet.yml",
+    "apps/ai/files/vertex-adapter/Dockerfile"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "9772acb31898",
+  "transcript_identifier_at_start": "fb0f76d6-d354-47e0-8951-5a1cc224f0ee",
+  "checkpoint_transcript_start": 791,
+  "transcript_lines_at_start": 791,
+  "token_usage": {
+    "input_tokens": 1238,
+    "cache_creation_tokens": 404011,
+    "cache_read_tokens": 13784897,
+    "output_tokens": 72344,
+    "api_call_count": 114
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-23T16:25:09.124773013Z",
+    "agent_lines": 0,
+    "human_added": 0,
+    "human_modified": 476,
+    "human_removed": 672,
+    "total_committed": 0,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/31c88396-c87e-4dd6-8951-d6cb8c5f6993.jsonl"
+}

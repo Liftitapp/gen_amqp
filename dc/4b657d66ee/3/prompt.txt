@@ -1,0 +1,136 @@
+abrir TI-1421-PARTE-1-01-PLAN.md y ejecutar tasks manualmente
+
+---
+
+Pero hay que montar primero la vm usando terraform y con rockylinux 9 con terraform en devops/tf-infrastructure/apps/ai siguiendo el patrón de vms que hay en devops/tf-infrastructure/apps/apps, creo que no necesita load balancer entonces por ahora va sin eso
+
+---
+
+Opción B, cuando yo cree la máquina te digo cómo ingresar
+
+---
+
+1. prod, 2. las 2 cosas, 3. ai-infra-orchestator, apps/ai/ con archivos tf directos
+
+---
+
+1. prod, 2. ambas cosas , 3. ai-infra-orchestator, apps/ai/ con archivos tf directos
+
+---
+
+1. ai-infra-orchestrator 2. Openfang no consume casi recursos, deja la máquina planeada. 3. Disk: pd-ssd 50 GB, us-east1-b
+
+---
+
+Si
+
+---
+
+│ Error: Unsupported attribute
+│
+│   on outputs.tf line 8, in output "ai_vm_self_links":
+│    8:   value       = { for k, v in module.ai-vm : k => v.self_link }
+│
+│ This object does not have an attribute named "self_link".
+
+---
+
+Listo, el acceso es ssh openfang
+
+---
+
+Si
+
+---
+
+A
+
+---
+
+A1
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+<task-notification>
+<task-id>brjqc975p</task-id>
+<tool-use-id>toolu_015jf2TF5xUYjW5Jax6EZJZD</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Background command "Start OpenFang docker build in background on VM" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+Check OpenFang docker build progress on VM via SSH and report status. If still running, schedule another wakeup. If finished (success or failure), proceed accordingly.
+
+---
+
+Guarda en memoria, mañana retomo
