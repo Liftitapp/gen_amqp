@@ -84,13 +84,20 @@
       "context": "/bb/17dc353553/10/context.md",
       "content_hash": "/bb/17dc353553/10/content_hash.txt",
       "prompt": "/bb/17dc353553/10/prompt.txt"
+    },
+    {
+      "metadata": "/bb/17dc353553/11/metadata.json",
+      "transcript": "/bb/17dc353553/11/full.jsonl",
+      "context": "/bb/17dc353553/11/context.md",
+      "content_hash": "/bb/17dc353553/11/content_hash.txt",
+      "prompt": "/bb/17dc353553/11/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 22273,
-    "cache_creation_tokens": 12928537,
-    "cache_read_tokens": 796571068,
-    "output_tokens": 2326354,
-    "api_call_count": 2561
+    "input_tokens": 26992,
+    "cache_creation_tokens": 14247360,
+    "cache_read_tokens": 916602574,
+    "output_tokens": 2701640,
+    "api_call_count": 2940
   }
 }
