@@ -1,0 +1,334 @@
+retoma desde memoria
+
+---
+
+Mira la respuesta, respecto a db no sale en el formato requerido, respecto a lo de services-domain dice que no lo encuentra y responde 2 veces cuando debería ser sólo 1 Jhon Alexander Ortiz Castaño (CO)  [12:28 PM]
+@Monitoreo_integraciones valida bloqueos DB producción
+Monitoreo_integraciones  [12:29 PM]
+El agente postgres-deep ya ha validado los bloqueos en la base de datos de producción. Aquí está el resumen de los hallazgos y las causas:
+
+Resumen del estado de la base de datos:
+*   Conexiones: Hay 598 conexiones idle, 50 idle in transaction y 18 active. La cantidad de conexiones idle in transaction es significativa.
+*   Bloqueos: Se encontraron 3 bloqueos no concedidos, lo que indica situaciones de bloqueo activas.
+*   Consultas lentas: Las consultas activas más antiguas son procesos de replicación normales. Sin embargo, hay varias transacciones idle in transaction de las aplicaciones app_orders_domain y app_services_domain que llevan abiertas entre 2 y 4 minutos, esperando por ClientRead.
+
+Causa raíz:
+La causa principal parece ser un número elevado de transacciones idle in transaction, probablemente debido a fugas de transacciones en las aplicaciones (app_orders_domain y app_services_domain). Estas transacciones abiertas están causando los bloqueos observados.
+
+Acción sugerida:
+Se recomienda implementar timeouts de transacciones en el lado de la aplicación para evitar que las transacciones permanezcan abiertas indefinidamente. Es crucial investigar el código de app_orders_domain y app_services_domain para identificar y corregir los problemas de gestión de transacciones.
+NEWJhon Alexander Ortiz Castaño (CO)  [12:29 PM]
+@Monitoreo_integraciones puedes validar el consumo de recursos de services-domain en prod?
+Monitoreo_integraciones  [12:29 PM]
+:thinking_face: services-domain: No se pudo validar el consumo de memoria.
+:round_pushpin: Error al consultar Prometheus: el datasource con UID 'GMP-prod' no fue encontrado o no es accesible.
+:clock1: Ahora mismo — No hay datos disponibles.
+:link: No hay enlaces disponibles.
+:zap: Suggested:
+   1. Verificar la configuración del datasource 'GMP-prod' en Grafana.
+   2. Confirmar el UID correcto del datasource de Prometheus.[12:29 PM]:thinking_face: services-domain: No se pudo validar el consumo de CPU.
+:round_pushpin: Error al consultar Prometheus: el datasource con UID 'GMP-prod' no fue encontrado o no es accesible.
+:clock1: Ahora mismo — No hay datos disponibles.
+:link: No hay enlaces disponibles.
+:zap: Suggested:
+   1. Verificar la configuración del datasource 'GMP-prod' en Grafana.
+   2. Confirmar el UID correcto del datasource de Prometheus.
+
+---
+
+[Request interrupted by user]
+
+---
+
+has ssh openfang para solucionar
+
+---
+
+El resultado del test, respecto a la db está ok, pero respecto al otro creo que tiene imprecisiones, no miró ram, no indicó hay tantos pods y respondió 2 veces lo mismo Monitoreo_integraciones  [12:40 PM]
+:thinking_face: services-domain: Consumo de recursos en prod
+:round_pushpin: Memoria: No se encontraron datos de consumo de memoria para services-domain.
+:round_pushpin: CPU:
+   - services-domain-76c78f54df-98gc7: 0.33 cores
+   - services-domain-76c78f54df-ftgxg: 0.31 cores
+   - services-domain-76c78f54df-tqlmv: 0.32 cores
+   - services-domain-76c78f54df-wp9jh: 0.34 cores
+   - services-domain-streamer-6ddccbf85-dcktl: 0.005 cores
+:clock1: Ahora mismo — No hay datos de memoria / CPU total: ~1.3 cores
+:link: Queries: sum(container_memory_usage_bytes{namespace="services-domain"}) by (pod) / sum(rate(container_cpu_usage_seconds_total{namespace="services-domain"}[5m])) by (pod)
+:zap: Suggested:
+   1. Investigar por qué no hay datos de memoria para services-domain.
+   2. Monitorear el consumo de CPU para identificar picos o anomalías.[12:40 PM]:thinking_face: services-domain: Consumo de recursos en prod
+:round_pushpin: Memoria: No se encontraron datos de consumo de memoria para services-domain.
+:round_pushpin: CPU:
+   - services-domain-76c78f54df-98gc7: 0.33 cores
+   - services-domain-76c78f54df-ftgxg: 0.31 cores
+   - services-domain-76c78f54df-tqlmv: 0.32 cores
+   - services-domain-76c78f54df-wp9jh: 0.34 cores
+   - services-domain-streamer-6ddccbf85-dcktl: 0.005 cores
+:clock1: Ahora mismo — No hay datos de memoria / CPU total: ~1.3 cores
+:link: Queries: sum(container_memory_usage_bytes{namespace="services-domain"}) by (pod) / sum(rate(container_cpu_usage_seconds_total{namespace="services-domain"}[5m])) by (pod)
+:zap: Suggested:
+   1. Investigar por qué no hay datos de memoria para services-domain.
+   2. Monitorear el consumo de CPU para identificar picos o anomalías.Jhon Alexander Ortiz Castaño (CO)  [12:41 PM]
+@Monitoreo_integraciones valida bloqueos DB producción
+Monitoreo_integraciones  [12:41 PM]
+:file_cabinet: ebdb prod: No se encontraron bloqueos activos; las transacciones idle in transaction han disminuido.
+:round_pushpin: Conexiones: 638 idle, 10 idle in transaction, 9 active. No hay bloqueos no concedidos. Transacciones idle in transaction de app_services_domain y app_trip_service con duraciones cortas (1-6 segundos) esperando ClientRead.
+:clock1: Ahora mismo — 638 idle / 10 idle-in-tx / 9 active / 0 blocked
+:link: No hay queries específicas para mostrar.
+:zap: Suggested:
+   1. Monitorear la métrica de idle in transaction para asegurar que no vuelva a aumentar.
+   2. Investigar el código de app_services_domain y app_trip_service si se observan picos o duraciones prolongadas de idle in transaction.
+
+---
+
+Mejoró, pero mira, no investiga bien Jhon Alexander Ortiz Castaño (CO)  [1:32 PM]
+@Monitoreo_integraciones puedes validar el consumo de recursos de services-domain en prod?
+Monitoreo_integraciones  [1:32 PM]
+:thinking_face: services-domain: Consumo de recursos en prod
+:round_pushpin: Memoria:
+   - services-domain-f76f44b75-6j96l: 635 MiB
+   - services-domain-f76f44b75-8btfm: 661 MiB
+   - services-domain-f76f44b75-nkrc2: 658 MiB
+   - services-domain-streamer-5bcd8d5ccf-kwm5f: 120 MiB
+   - Total: 2.02 GiB
+:round_pushpin: CPU:
+   - services-domain-f76f44b75-6j96l: 0.146 cores
+   - services-domain-f76f44b75-8btfm: 0.180 cores
+   - services-domain-f76f44b75-nkrc2: 0.151 cores
+   - services-domain-streamer-5bcd8d5ccf-kwm5f: 0.002 cores
+   - Total: 0.479 cores
+:clock1: Ahora mismo — 4 pods
+:link: Queries: sum(container_memory_working_set_bytes{namespace="services-domain",container!="",container!="POD"}) by (pod) / sum(rate(container_cpu_usage_seconds_total{namespace="services-domain",container!="",container!="POD"}[5m])) by (pod)
+:zap: Suggested:
+   1. Monitorear tendencias de consumo para detectar anomalías.
+   2. Ajustar límites de recursos si es necesario.Jhon Alexander Ortiz Castaño (CO)  [1:33 PM]
+@Monitoreo_integraciones puedes investigar el error de backoffice-api que ocurrió a las 11:36 a.m.
+Monitoreo_integraciones  [1:33 PM]
+:boom: backoffice-api: No se encontraron logs de error 503 para backoffice-api en el cluster lms-gke-prod en el rango de tiempo de 11:31 a 11:41 UTC del 23 de abril de 2026.
+:round_pushpin: No se encontraron entradas de log que coincidan con los criterios de búsqueda (errores o status 503).
+:clock1: 2026-04-23T11:31:00Z - 2026-04-23T11:41:00Z — 0 ocurrencias
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="backoffice-api" AND resource.labels.container_name="backoffice-api" AND timestamp>="2026-04-23T11:31:00Z" AND timestamp<="2026-04-23T11:41:00Z" AND (severity=ERROR OR jsonPayload.status=503)
+:zap: Suggested:
+   1. Revisar Sentry para ver si hay errores registrados para backoffice-api en ese período.
+   2. Ampliar el rango de tiempo de búsqueda en Cloud Logging.
+
+---
+
+Ahora, en el :zap: Suggested:
+   1. Revisar Sentry para ver si hay errores registrados para backoffice-api en ese período.
+   2. Ampliar el rango de tiempo de búsqueda en Cloud Logging.  si está sugiriendo esas 2 cosas, debería revisar también no? y si encuentra error de otra aplicación debería ir también a mirar los logs de esa aplicación, que investigue en profundidad creo yo, que sea más inteligente o qué opinas?
+
+---
+
+Me suena el A, pero entonces si en los logs ve errores donde la causa sea la db, que investigue con ese agente
+
+---
+
+Jhon Alexander Ortiz Castaño (CO)  [1:41 PM]
+@Monitoreo_integraciones investigá el error de backoffice-api a las 11:36 a.m.
+Monitoreo_integraciones  [1:41 PM]
+[no reply needed]
+
+---
+
+Volvió a enviar 2 respuestas Jhon Alexander Ortiz Castaño (CO)  [1:43 PM]
+@Monitoreo_integraciones investigá el error de backoffice-api a las 11:36 a.m.
+Monitoreo_integraciones  [1:43 PM]
+:boom: backoffice-api: Se encontraron errores de base de datos, conexión y permisos, pero no errores 503.
+:round_pushpin: Se detectaron errores de IntegrityError (violación de unicidad en vehicles_plate_index para la placa 'CBN0492'), ClientConnectorError (fallo de conexión a attachment-domain.attachment-domain.svc.cluster.local:80) y AuthError (permisos insuficientes, 401).
+:clock1: 2026-04-23T16:21:00Z - 2026-04-23T16:51:00Z (11:21-11:51 a.m. Bogotá) — Múltiples ocurrencias
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="backoffice-api" AND resource.labels.container_name="backoffice-api" AND timestamp>="2026-04-23T16:21:00Z" AND timestamp<="2026-04-23T16:51:00Z" AND (severity=ERROR OR jsonPayload.status=503)
+:zap: Suggested:
+   1. Investigar la causa de los IntegrityError para evitar duplicados en vehicles.
+   2. Revisar la conectividad y el estado del servicio attachment-domain.
+   3. Verificar los permisos del usuario que generó los errores 401.NEW[1:43 PM]:boom: backoffice-api: Se encontraron errores de base de datos, conexión y permisos, pero no errores 503.
+:round_pushpin: Se detectaron errores de IntegrityError (violación de unicidad en vehicles_plate_index para la placa 'CBN0492'), ClientConnectorError (fallo de conexión a attachment-domain.attachment-domain.svc.cluster.local:80) y AuthError (permisos insuficientes, 401).
+:clock1: 2026-04-23T16:21:00Z - 2026-04-23T16:51:00Z (11:21-11:51 a.m. Bogotá) — Múltiples ocurrencias
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="backoffice-api" AND resource.labels.container_name="backoffice-api" AND timestamp>="2026-04-23T16:21:00Z" AND timestamp<="2026-04-23T16:51:00Z" AND (severity=ERROR OR jsonPayload.status=503)
+:zap: Suggested:
+   1. Investigar la causa de los IntegrityError para evitar duplicados en vehicles.
+   2. Revisar la conectividad y el estado del servicio attachment-domain.
+   3. Verificar los permisos del usuario que generó los errores 401.
+
+---
+
+Siguió igual Jhon Alexander Ortiz Castaño (CO)  [1:46 PM]
+@Monitoreo_integraciones investigá el error de backoffice-api a las 11:36 a.m.
+Monitoreo_integraciones  [1:46 PM]
+:boom: backoffice-api: Se encontraron errores de base de datos, conexión y permisos, pero no errores 503.
+:round_pushpin: Se detectaron errores de IntegrityError (violación de unicidad en vehicles_plate_index para la placa 'CBN0492'), ClientConnectorError (fallo de conexión a attachment-domain.attachment-domain.svc.cluster.local:80) y AuthError (permisos insuficientes, 401).
+:clock1: 2026-04-23T16:21:00Z - 2026-04-23T16:51:00Z (11:21-11:51 a.m. Bogotá) — Múltiples ocurrencias
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="backoffice-api" AND resource.labels.container_name="backoffice-api" AND timestamp>="2026-04-23T16:21:00Z" AND timestamp<="2026-04-23T16:51:00Z" AND (severity=ERROR OR jsonPayload.status=503)
+:zap: Suggested:
+   1. Investigar la causa de los IntegrityError para evitar duplicados en vehicles.
+   2. Revisar la conectividad y el estado del servicio attachment-domain.
+   3. Verificar los permisos del usuario que generó los errores 401.NEW[1:46 PM]:boom: backoffice-api: Se encontraron errores de base de datos, conexión y permisos, pero no errores 503.
+:round_pushpin: Se detectaron errores de IntegrityError (violación de unicidad en vehicles_plate_index para la placa 'CBN0492'), ClientConnectorError (fallo de conexión a attachment-domain.attachment-domain.svc.cluster.local:80) y AuthError (permisos insuficientes, 401).
+:clock1: 2026-04-23T16:21:00Z - 2026-04-23T16:51:00Z (11:21-11:51 a.m. Bogotá) — Múltiples ocurrencias
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="backoffice-api" AND resource.labels.container_name="backoffice-api" AND timestamp>="2026-04-23T16:21:00Z" AND timestamp<="2026-04-23T16:51:00Z" AND (severity=ERROR OR jsonPayload.status=503)
+:zap: Suggested:
+   1. Investigar la causa de los IntegrityError para evitar duplicados en vehicles.
+   2. Revisar la conectividad y el estado del servicio attachment-domain.
+   3. Verificar los permisos del usuario que generó los errores 401.
+
+---
+
+Ahora, si por error de un despliegue de gke con helm en prod, necesito regregar a la versión anterior, ¿cómo lo podemos hacer?
+
+---
+
+Ahora, si por error de un despliegue de un app gke con helm en prod, necesito regregar a la versión anterior, ¿cómo lo podemos hacer?
+
+---
+
+retomando el tema anterior Jhon Alexander Ortiz Castaño (CO)  [1:58 PM]
+@Monitoreo_integraciones puedes validar si hay errores en la última hora de services-domain
+Monitoreo_integraciones  [1:58 PM]
+:white_check_mark: services-domain: No se encontraron errores críticos en la última hora.
+:round_pushpin: Los logs muestran mensajes de DEBUG de google.cloud.pubsub_v1.subscriber y un WARNING de services-domain:Failed to fetch context 'attempts', que no son errores de aplicación críticos.
+:clock1: 2026-04-23T17:58:34Z - 2026-04-23T18:58:34Z — 0 ocurrencias de errores críticos
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="services-domain" AND severity>=ERROR
+[1:58 PM]:white_check_mark: services-domain: No se encontraron errores críticos en la última hora.
+:round_pushpin: Los logs muestran mensajes de DEBUG de google.cloud.pubsub_v1.subscriber y un WARNING de services-domain:Failed to fetch context 'attempts', que no son errores de aplicación críticos.
+:clock1: 2026-04-23T17:58:49Z - 2026-04-23T18:58:49Z — 0 ocurrencias de errores críticos
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="services-domain" AND severity>=ERROR sigue duplicando, pero también me gustaría que revisaras con el MCP de GCP si lo que respondió el bot es correcto
+
+---
+
+Resuelve ambas cosas en paralelo ultrathink
+
+---
+
+Jhon Alexander Ortiz Castaño (CO)  [2:05 PM]
+puedes validar si hay errores en la última hora de services-domain
+[2:07 PM]@Monitoreo_integraciones puedes validar si hay errores en la última hora de services-domain
+Monitoreo_integraciones  [2:07 PM]
+:white_check_mark: services-domain: No se encontraron errores críticos en la última hora.
+:round_pushpin: Los logs muestran mensajes de DEBUG de google.cloud.pubsub_v1.subscriber y un WARNING de services-domain:Failed to fetch context 'attempts', que no son errores de aplicación críticos.
+:clock1: 2026-04-23T18:07:32Z - 2026-04-23T19:07:32Z — 0 ocurrencias de errores críticos
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="services-domain" AND severity>=ERROR
+[2:07 PM]:white_check_mark: services-domain: No se encontraron errores críticos en la última hora.
+:round_pushpin: Los logs muestran mensajes de DEBUG de google.cloud.pubsub_v1.subscriber y google.api_core.bidi, y un WARNING de services-domain:Failed to fetch context 'attempts', que no son errores de aplicación críticos. También se observan errores de stream 504 Deadline Exceeded que son recuperables.
+:clock1: 2026-04-23T18:07:41Z - 2026-04-23T19:07:41Z — 0 ocurrencias de errores críticos
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="services-domain" AND severity>=ERROR
+
+---
+
+Jhon Alexander Ortiz Castaño (CO)  [2:11 PM]
+@Monitoreo_integraciones puedes validar si hay errores en la última hora de services-domain
+Monitoreo_integraciones  [2:12 PM]
+:white_check_mark: services-domain: No se encontraron errores críticos en la última hora.
+:round_pushpin: Los logs muestran mensajes de DEBUG de google.cloud.pubsub_v1.subscriber y google.api_core.bidi, y un WARNING de services-domain:Failed to fetch context 'attempts', que no son errores de aplicación críticos. También se observan errores de stream 504 Deadline Exceeded que son recuperables.
+:clock1: 2026-04-23T18:11:59Z - 2026-04-23T19:11:59Z — 0 ocurrencias de errores críticos
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="services-domain" AND severity>=ERROR
+NEW[2:12 PM]:boom: services-domain: 4 errores críticos (WORKER TIMEOUT, Worker sent code 134, SAWarning)
+:round_pushpin: Se encontraron WORKER TIMEOUT y errores de worker, además de warnings de SQLAlchemy que se loguean como error.
+:clock1: 2026-04-23T18:12:17Z - 2026-04-23T19:12:17Z — 4 ocurrencias
+:link: resource.type="k8s_container" AND resource.labels.cluster_name="lms-gke-prod" AND resource.labels.namespace_name="services-domain" AND severity>=ERROR
+:zap: Suggested:
+   1. Investigar la causa de los WORKER TIMEOUT y el error "Worker sent code 134" en services-domain.
+   2. Revisar los warnings de SQLAlchemy para determinar si indican un problema subyacente.
+   3. Escalar a oncall si el problema persiste o afecta la disponibilidad. envío 2 mensajes
+
+---
+
+En el canal publico responde sólo 1 vez, en privado 2 veces
+
+---
+
+Digo, canal privado por mención 1 respuesta, mensaje directo con mención 2 respuestas
+
+---
+
+Con todas las preguntas realizadas al bot, cuántos tokens nos hemos consumido hoy y eso en dinero es$
+
+---
+
+Entonces la idea sería no usarlo en canal privado?
+
+---
+
+Entonces la idea sería no usarlo en mensaje directo para ahorrar tokens?
+
+---
+
+Listo, valida en linear qué más nos falta por ejecutar, documenta todo como quedó definitivamente en donde corresponda en linear y en gsd
+
+---
+
+Arma el commit y has el push
+
+---
+
+Como sabes este bot, es reactivo a las preguntas, es decir requiere que un humano siempre pregunte, me gustaría que el stack tecnológico de alguna manera le avise al bot que hay problemas en la infra, como por ejemplo un disco de un servidor a punto de llenarse, o altos errores http, o alta latencia, ah´i siento que grafana es vital, o también cuando sentry reporta errores, otra fuentes uptime kuma cuando una app da error 5XX o que está caída o fallando
+
+---
+
+primero 1, luego 2 pero en grafana pero me gustaría que me cuentes de qué forma grafana notifica si creo que no está configurado alert manager, 3. El mismo de siempre, 4. Eso es mejor analizarlo con el tiempo
+
+---
+
+Empecemos en el orden que sugieres
+
+---
+
+Llegó este mensaje Monitoreo_integraciones  [3:10 PM]
+:rotating_light: Alert P1 — High 5xx rate per deployment (via Grafana)
+
+:boom: orders-domain, services-domain: Alta tasa de errores 5xx detectada.
+:round_pushpin: orders-domain tiene una tasa de 5xx del 8.66% y services-domain del 7%, ambos por encima del umbral del 3%. Los logs generales no muestran errores críticos P0/P1 en el rango de tiempo, solo logs de DEBUG/INFO mal clasificados como ERROR.
+:clock1: 2026-04-23T20:04:10Z - 2026-04-23T20:09:10Z — orders-domain: 8.66% 5xx rate, services-domain: 7% 5xx rate.
+:link: Prometheus query: sum by (deployment, namespace) (rate(response_total{job="linkerd-proxy", namespace!="linkerd", status_code=~"5.."}[5m]))
+:zap: Suggested:
+   1. Investigar logs de orders-domain y services-domain para identificar la causa de los errores 5xx.
+   2. Revisar dashboards de Grafana para orders-domain y services-domain para métricas de latencia y saturación.
+   3. Escalar a oncall si el problema persiste.
+
+---
+
+En paralelo ambos
+
+---
+
+Sólo el 2
+
+---
+
+Si, apagala
+
+---
+
+Pero no entiendo, si grafana muestra el estado de los discos y su % de uso, por qué la alerta no funciona bien?
+
+---
+
+Si
+
+---
+
+Continuemos con todo lo que hace falta ultrathink
+
+---
+
+Conociendo la infraestructura actual, qué otras rules consideras que podrían ser importantes? yo creo que las relacionadas con la db por ejemplo
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Conociendo la infraestructura actual, qué otras rules consideras que podrían ser importantes? yo creo que las relacionadas con la db por ejemplo, recuerda que las db de liftit están en VMs
+
+---
+
+Conociendo la infraestructura actual, qué otras rules consideras que podrían ser importantes?
+
+---
+
+Descartar 15, 13, 10, 8, 7 y 5, ahora, las relacionadas con db cómo podemos obtener métricas pero que no saturen la máquina
+
+---
+
+Me gusta la B, Y trabajemos las demás en paralelo
