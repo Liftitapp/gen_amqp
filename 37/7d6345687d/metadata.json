@@ -3,7 +3,7 @@
   "checkpoint_id": "377d6345687d",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 11,
   "files_touched": [
     ".planning/phases/07-openfang-hand-agente-llm-de-ops-e-incidentes/SESSION-2026-04-23.md",
     "apps/ai/files/agents/assistant/agent.toml"
@@ -57,13 +57,20 @@
       "context": "/37/7d6345687d/6/context.md",
       "content_hash": "/37/7d6345687d/6/content_hash.txt",
       "prompt": "/37/7d6345687d/6/prompt.txt"
+    },
+    {
+      "metadata": "/37/7d6345687d/7/metadata.json",
+      "transcript": "/37/7d6345687d/7/full.jsonl",
+      "context": "/37/7d6345687d/7/context.md",
+      "content_hash": "/37/7d6345687d/7/content_hash.txt",
+      "prompt": "/37/7d6345687d/7/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 20423,
-    "cache_creation_tokens": 7803374,
-    "cache_read_tokens": 568691318,
-    "output_tokens": 1506340,
-    "api_call_count": 1838
+    "input_tokens": 20830,
+    "cache_creation_tokens": 8414251,
+    "cache_read_tokens": 600136717,
+    "output_tokens": 1648611,
+    "api_call_count": 2020
   }
 }
