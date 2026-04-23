@@ -3,7 +3,7 @@
   "checkpoint_id": "ac7c7a149c8c",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "apps/ai/files/openfang-slack-approver/app.py"
   ],
@@ -56,13 +56,20 @@
       "context": "/ac/7c7a149c8c/6/context.md",
       "content_hash": "/ac/7c7a149c8c/6/content_hash.txt",
       "prompt": "/ac/7c7a149c8c/6/prompt.txt"
+    },
+    {
+      "metadata": "/ac/7c7a149c8c/7/metadata.json",
+      "transcript": "/ac/7c7a149c8c/7/full.jsonl",
+      "context": "/ac/7c7a149c8c/7/context.md",
+      "content_hash": "/ac/7c7a149c8c/7/content_hash.txt",
+      "prompt": "/ac/7c7a149c8c/7/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 20423,
-    "cache_creation_tokens": 7803374,
-    "cache_read_tokens": 568691318,
-    "output_tokens": 1506340,
-    "api_call_count": 1838
+    "input_tokens": 20831,
+    "cache_creation_tokens": 8416697,
+    "cache_read_tokens": 600491819,
+    "output_tokens": 1649292,
+    "api_call_count": 2021
   }
 }
