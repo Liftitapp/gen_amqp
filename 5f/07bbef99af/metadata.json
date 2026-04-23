@@ -3,7 +3,7 @@
   "checkpoint_id": "5f07bbef99af",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "apps/ai/files/agents/assistant/agent.toml",
     "apps/ai/files/skills/incident-investigation-playbook/SKILL.md"
@@ -64,13 +64,20 @@
       "context": "/5f/07bbef99af/7/context.md",
       "content_hash": "/5f/07bbef99af/7/content_hash.txt",
       "prompt": "/5f/07bbef99af/7/prompt.txt"
+    },
+    {
+      "metadata": "/5f/07bbef99af/8/metadata.json",
+      "transcript": "/5f/07bbef99af/8/full.jsonl",
+      "context": "/5f/07bbef99af/8/context.md",
+      "content_hash": "/5f/07bbef99af/8/content_hash.txt",
+      "prompt": "/5f/07bbef99af/8/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 20750,
-    "cache_creation_tokens": 8342420,
-    "cache_read_tokens": 581106262,
-    "output_tokens": 1605499,
-    "api_call_count": 1940
+    "input_tokens": 20827,
+    "cache_creation_tokens": 8392665,
+    "cache_read_tokens": 597155075,
+    "output_tokens": 1641153,
+    "api_call_count": 1967
   }
 }
