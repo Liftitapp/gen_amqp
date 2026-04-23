@@ -3,7 +3,7 @@
   "checkpoint_id": "2442e7d1af79",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 3,
   "files_touched": [
     "apps/ai/files/embedding-proxy/Dockerfile",
     "apps/ai/files/embedding-proxy/proxy.py",
@@ -65,13 +65,20 @@
       "context": "/24/42e7d1af79/7/context.md",
       "content_hash": "/24/42e7d1af79/7/content_hash.txt",
       "prompt": "/24/42e7d1af79/7/prompt.txt"
+    },
+    {
+      "metadata": "/24/42e7d1af79/8/metadata.json",
+      "transcript": "/24/42e7d1af79/8/full.jsonl",
+      "context": "/24/42e7d1af79/8/context.md",
+      "content_hash": "/24/42e7d1af79/8/content_hash.txt",
+      "prompt": "/24/42e7d1af79/8/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 20750,
-    "cache_creation_tokens": 8342420,
-    "cache_read_tokens": 581106262,
-    "output_tokens": 1605499,
-    "api_call_count": 1940
+    "input_tokens": 21026,
+    "cache_creation_tokens": 9513314,
+    "cache_read_tokens": 612452404,
+    "output_tokens": 1840392,
+    "api_call_count": 2082
   }
 }
