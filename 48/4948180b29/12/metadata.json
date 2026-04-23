@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "484948180b29",
+  "session_id": "b6a96ade-62f4-4969-bfbd-244416e2ec54",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-23T21:50:07.331626315Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "sec/grafana-config/dashboards.tf",
+    "sec/grafana-config/dashboards/postgresql-databases.json"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "f39dad99c4a5",
+  "transcript_identifier_at_start": "d4fc4bcd-a489-437d-ad53-9acd84be10e6",
+  "checkpoint_transcript_start": 1607,
+  "transcript_lines_at_start": 1607,
+  "token_usage": {
+    "input_tokens": 653,
+    "cache_creation_tokens": 444067,
+    "cache_read_tokens": 76071780,
+    "output_tokens": 187951,
+    "api_call_count": 339
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-23T21:50:06.771587272Z",
+    "agent_lines": 0,
+    "human_added": 179,
+    "human_modified": 4,
+    "human_removed": 0,
+    "total_committed": 179,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/b6a96ade-62f4-4969-bfbd-244416e2ec54.jsonl"
+}
