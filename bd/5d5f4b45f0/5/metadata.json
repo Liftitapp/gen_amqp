@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "bd5d5f4b45f0",
+  "session_id": "6b0a88c2-fd6d-4822-8fae-2d664d93c00e",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-23T23:04:29.743615803Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "apps/ai/files/vertex-adapter/requirements.txt",
+    "sec/grafana-config/dashboards/aiops-agent.json",
+    "apps/ai/files/vertex-adapter/proxy.py"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "1feaf4d1fe55",
+  "checkpoint_transcript_start": 1460,
+  "transcript_lines_at_start": 1460,
+  "token_usage": {
+    "input_tokens": 35,
+    "cache_creation_tokens": 19001,
+    "cache_read_tokens": 7786586,
+    "output_tokens": 12055,
+    "api_call_count": 15
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-23T23:04:29.142126923Z",
+    "agent_lines": 0,
+    "human_added": 0,
+    "human_modified": 98,
+    "human_removed": 129,
+    "total_committed": 0,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/6b0a88c2-fd6d-4822-8fae-2d664d93c00e.jsonl"
+}
