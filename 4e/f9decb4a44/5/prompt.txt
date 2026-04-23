@@ -1,0 +1,162 @@
+retoma desde memoria
+
+---
+
+Con todo al mismo tiempo
+
+---
+
+TI-1443  ya lo hice en slack
+
+---
+
+Ahora, me gustaría monitorear las demás bases de datos, pero la de qa y stg están en otras VPC se podría lograr?
+
+---
+
+Haslo como lo hiciste con lmsprod, estos son los host ssh lmsread lmsbi dbtools dbauth dbbi dbsha lmsqa lmsstg
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+lmsqa y lmsstg si tienen usuario que es el mismo de prod, dime cómo te entrego las contraseñas, para las demás bases, crea el mismo usuario y pass de prod
+
+---
+
+en /tmp/dbpwd están qa: y staging:
+
+---
+
+Revisando el dashboard permite seleccionar el ambiente, pero en instance sólo muestra all, no muestra para ver db individual
+
+---
+
+Ahora el dashboard al seleccionar el ambiente no muestra las bases de ese ambiente
+
+---
+
+Funcionó, ahora continuemos con los demás issues de linear de este proyecto aunque creo que ya estaría completo para mí, lo que sigue es la documentación, primero es en mi drive crear un documento con buen formato acerca de toda la observabilidad implementada, otro documento también con buen formato llamado aiops con todo lo implementado de ia en la infraestructura y el roadmap futuro
+
+---
+
+Ahora, creo que falta un dashboard del agente iops, usando arizona no?
+
+---
+
+Estoy mirando Phoenix y no veo nada configurado
+
+---
+
+Si, procede, aunque me preocupa el consumo de recursos y espacio en disco
+
+---
+
+Vale la pena ese phoenix? o basta sólo con lo implementado?
+
+---
+
+2, eliminar totalmente
+
+---
+
+Qué necesitas para cerrar TI-1422 y TI14-23
+
+---
+
+Qué necesitas para cerrar TI-1422 y TI-1423
+
+---
+
+Del 1423 quita la parte del video y cierralo con lo que tu si puedes y el 1422 quitalo del proyecto y dejalo en backlog sin ciclo
+
+---
+
+CIerralo porque ya está hecho de otra forma no?
+
+---
+
+Ahora, debemos crear un dashboard en Grafana del WAF
+
+---
+
+Ese de los backend activos, quedó muy pequeño, El de policy también, creo que relevante mostrarlo, quiero que también haya como muestras de las detecciones para poder solucionar rápido
+
+---
+
+An unexpected error happened
+Details
+Error: "continuous-YlOrRd" not found in: fixed,shades,thresholds,palette-classic,palette-classic-by-name,continuous-GrYlRd,continuous-RdYlGr,continuous-BlYlRd,continuous-YlRd,continuous-BlPu,continuous-YlBl,continuous-blues,continuous-reds,continuous-greens,continuous-purples
+
+    at ip (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:17:168003)
+    at re (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:15:101361)
+    at i (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:197:3666)
+    at re (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:15:101361)
+    at div
+    at https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:17:219789
+    at https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:17:221804
+    at I (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:225:4258)
+    at R (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:211:9340)
+    at f (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:217:5177)
+    at div
+    at R (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:217:14247)
+    at div
+    at div
+    at Iv (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:17:220764)
+    at re (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:15:101361)
+    at h (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:197:13456)
+    at re (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:15:101361)
+    at div
+    at div
+    at n (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:159:50659)
+    at Ht (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:170:67425)
+    at div
+    at I (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:159:101519)
+    at qt (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:170:72203)
+    at re (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:15:101361)
+    at fv (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:17:214940)
+    at Cn (https://observability.liftit.co/public/build/210.af4b75cc10680788addc.js:1:2758)
+    at Go (https://observability.liftit.co/public/build/210.af4b75cc10680788addc.js:3:87257)
+    at Suspense
+    at y (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:12:152000)
+    at Pu (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:1561:78808)
+    at Du (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:1561:79461)
+    at x (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:243:4573)
+    at Mn (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:243:12202)
+    at div
+    at https://observability.liftit.co/public/build/7836.a82c814cd762dc40d7b8.js:1:155966
+    at main
+    at div
+    at div
+    at div
+    at Ah (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:1561:108870)
+    at wh (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:1561:113847)
+    at zh (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:1561:115005)
+    at c (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:289:201012)
+    at x (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:243:4573)
+    at Mn (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:243:12202)
+    at Sn (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:243:11535)
+    at dt (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:234:18353)
+    at x (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:5:196380)
+    at qt (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:243:41264)
+    at Lc (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:1561:115268)
+    at div
+    at g (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:294:68023)
+    at m (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:147:9131)
+    at p (https://observability.liftit.co/public/build/1904.08723fee28b7b7cd8e91.js:377:139748)
+    at C (https://observability.liftit.co/public/build/4499.13b7a1ee697383555053.js:176:36387)
+    at c (https://observability.liftit.co/public/build/7836.a82c814cd762dc40d7b8.js:24:12175)
+    at y (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:12:152000)
+    at s (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:12:152546)
+    at Ge (https://observability.liftit.co/public/build/4499.13b7a1ee697383555053.js:180:515)
+    at Gh (https://observability.liftit.co/public/build/8501.7ee342f9fee7ef26b7d1.js:1561:117285)
+
+---
+
+Policy WAF activa tiene scroll, la idea es que se vea completo, dejalo al final, el mapa geografico no muestra de dónde viene el tráfico
+
+---
+
+Top países por bloqueos (6h) — barras muestra es un número 90, pero eso no me dice nada
