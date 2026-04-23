@@ -1,0 +1,100 @@
+Retoma desde memoria
+
+---
+
+Si
+
+---
+
+b ultrathink
+
+---
+
+B ultrathink
+
+---
+
+Y si actualizamos a la última versión de openfang?
+
+---
+
+Sigamos tu recomendación ultrathink
+
+---
+
+Pero es que openfang soporta multimodelo no?
+
+---
+
+Migremos y punto
+
+---
+
+Hay que hacer las cosas completas y correctas aunque se demoren más, lo más conveniente es usar openfang (sin hacer fork) directo con vertex ai, y pues la máquina donde está ya tiene permisos de usar la IA
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+La idea es quitar totalmente litelLM, no entiendo para qué quieres mantenerlo
+
+---
+
+Investiga profundamente si openfang se puede conectar con vertexai y qué debemos hacer para lograrlo si es posible teniendo encuenta la infra actual
+
+---
+
+Camino 2
+
+---
+
+retoma ultrathink
+
+---
+
+Sigue
+
+---
+
+[Request interrupted by user]
+
+---
+
+Espera, no modifiques el código de openfang no quiero contribuir
+
+---
+
+si ultrathink
+
+---
+
+Si
+
+---
+
+Hagamos el rename service y limpieza de imagenes de docker sin uso en esa máquina, me preocupa la seguridad de todo lo implementado
+
+---
+
+[Request interrupted by user]
+
+---
+
+Ahora, en el repositorio tf-infrastructure/apps/ai limpia lo que no está implementado
+
+---
+
+has git push, luego, cómo puedo probar que todo funcione?
+
+---
+
+Hice la prueba en slack directo Jhon Alexander Ortiz Castaño (CO)  [11:28 AM]
+@Monitoreo_integraciones valida si hay bloqueos en la db de producción
+Monitoreo_integraciones  [11:28 AM]
+No se encontraron bloqueos en la base de datos de producción. La columna waiting no existe en pg_stat_activity, por lo que no pude usar ese filtro.
+
+---
+
+Actualiza el skill para postgres 17
