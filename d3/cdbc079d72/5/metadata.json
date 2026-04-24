@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "d3cdbc079d72",
+  "session_id": "6b0a88c2-fd6d-4822-8fae-2d664d93c00e",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-24T00:00:54.420221708Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "sec/grafana-config/folders.tf",
+    "sec/grafana-config/teams.tf"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "3fb57a0c966f",
+  "checkpoint_transcript_start": 2089,
+  "transcript_lines_at_start": 2089,
+  "token_usage": {
+    "input_tokens": 64,
+    "cache_creation_tokens": 21987,
+    "cache_read_tokens": 12480470,
+    "output_tokens": 15043,
+    "api_call_count": 19
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-24T00:00:53.665241984Z",
+    "agent_lines": 0,
+    "human_added": 45,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 45,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/6b0a88c2-fd6d-4822-8fae-2d664d93c00e.jsonl"
+}
