@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "95b8b156972a",
+  "session_id": "e4eac50b-6cca-4dd3-bcc0-99d32c26205d",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-24T01:05:08.008234997Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "CLAUDE.md",
+    "apps/ai/files/agents/README.md",
+    "apps/ai/files/skills/README.md",
+    "apps/ai/files/vertex-adapter/README.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "baff716416de",
+  "checkpoint_transcript_start": 452,
+  "transcript_lines_at_start": 452,
+  "token_usage": {
+    "input_tokens": 85,
+    "cache_creation_tokens": 46509,
+    "cache_read_tokens": 5808805,
+    "output_tokens": 21764,
+    "api_call_count": 40
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-24T01:05:07.820188619Z",
+    "agent_lines": 136,
+    "human_added": 5,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 141,
+    "agent_percentage": 96.45390070921985
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/e4eac50b-6cca-4dd3-bcc0-99d32c26205d.jsonl"
+}
