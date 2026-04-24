@@ -1,0 +1,13 @@
+Retoma proyecto waf
+
+---
+
+1
+
+---
+
+Aplica los 4 cambios, y activa el modo bloqueo sólo en qa y staging
+
+---
+
+Sólo qa y staging
