@@ -1,0 +1,29 @@
+retoma proyecto waf
+
+---
+
+Primero 1, luego y 3
+
+---
+
+Primero 1, luego 2 y por último 3
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Es terraform apply no opentofu
+
+---
+
+Y qué se destruye?
+
+---
+
+A entonces procede con el apply
+
+---
+
+Has commit y push
