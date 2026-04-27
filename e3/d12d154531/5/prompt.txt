@@ -1,0 +1,27 @@
+Retoma proyecto waf
+
+---
+
+1
+
+---
+
+Aplica los 4 cambios, y activa el modo bloqueo sólo en qa y staging
+
+---
+
+Sólo qa y staging
+
+---
+
+<task-notification>
+<task-id>bs16ezrm8</task-id>
+<tool-use-id>toolu_015iWGZZMZxRV8L8tVEerEGj</tool-use-id>
+<output-file>REDACTED.output</output-file>
+<status>completed</status>
+<summary>Background command "Contar GLPI traffic por proyecto" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+Puedes validar si hay bloqueos en qa o staging del waf
