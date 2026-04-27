@@ -1,0 +1,144 @@
+Explícame en detalle que hace openfang https://www.openfang.sh/
+
+---
+
+Pero por qué openfang requiere conectar a un agente como claude o openai
+
+---
+
+Mi caso de uso es, monitorear aplicaciones GKE, emitir alertas a slack de errores de aplicación, HTTP, sobrecarga, en ciertos casos poder reiniciar pods, monitorear bases de datos postgresql con sólo permisos de lectura para validar performance y emitir alertas, también emitir alertas para cloudrun
+
+---
+
+Y que yo le pueda preguntar a través de whatsapp si algo falla, o pedirle que reinicie un pod, o que refresque caché de redis en una VM
+
+---
+
+Reemplazo whatsapp por slack
+
+---
+
+Espera, hasme un resumen de todo lo que se debe implementar y el costo
+
+---
+
+Pero de qué forma el agente obtiene las alertas y con qué frecuencia desde GKE, Cloudrun, postgres?
+
+---
+
+Pero no tengo alertmanager o cómo lo logro, recuerda que tengo un grafana  de apache devlake
+
+---
+
+También tengo uptime-kuma como status-page, y github actions para deploy
+
+---
+
+En mi cluster de GKE tengo Linkerd que permitiría ver el perfomance no?
+
+---
+
+Ahora analiza mi cluster de gke de prod-apps-454414 para ver si está todo lo que se necesita o se debe activar algo?
+
+---
+
+Valida lo de ksm, cómo lo veo con k9s?
+
+---
+
+En el proyecto devops/tf-infrastructure/apps/gke  tengo la definición de clos cluster de gke de qa, stg y prod, en devops/tf-modules/gke, está el módulo, valida qué cambios se deben hacer
+
+---
+
+Ahora si crea la fase GSD, con los pasos muy detallados
+
+---
+
+Base directory for this skill: /home/jhonortiz/.claude/skills/gsd-add-phase
+
+<objective>
+Add a new integer phase to the end of the current milestone in the roadmap.
+
+Routes to the add-phase workflow which handles:
+- Phase number calculation (next sequential integer)
+- Directory creation with slug generation
+- Roadmap structure updates
+- STATE.md roadmap evolution tracking
+</objective>
+
+<execution_context>
+@$HOME/.claude/get-shit-done/workflows/add-phase.md
+</execution_context>
+
+<context>
+Arguments:  (phase description)
+
+Roadmap and state are resolved in-workflow via `init phase-op` and targeted tool calls.
+</context>
+
+<process>
+**Follow the add-phase workflow** from `@$HOME/.claude/get-shit-done/workflows/add-phase.md`.
+
+The workflow handles all logic including:
+1. Argument parsing and validation
+2. Roadmap existence checking
+3. Current milestone identification
+4. Next phase number calculation (ignoring decimals)
+5. Slug generation from description
+6. Phase directory creation
+7. Roadmap entry insertion
+8. STATE.md updates
+</process>
+
+---
+
+Base directory for this skill: /home/jhonortiz/.claude/skills/gsd-plan-phase
+
+<objective>
+Create executable phase prompts (PLAN.md files) for a roadmap phase with integrated research and verification.
+
+**Default flow:** Research (if needed) → Plan → Verify → Done
+
+**Orchestrator role:** Parse arguments, validate phase, research domain (unless skipped), spawn gsd-planner, verify with gsd-plan-checker, iterate until pass or max iterations, present results.
+</objective>
+
+<execution_context>
+@$HOME/.claude/get-shit-done/workflows/plan-phase.md
+@$HOME/.claude/get-shit-done/references/ui-brand.md
+</execution_context>
+
+<runtime_note>
+**Copilot (VS Code):** Use `vscode_askquestions` wherever this workflow calls `AskUserQuestion`. They are equivalent — `vscode_askquestions` is the VS Code Copilot implementation of the same interactive question API. Do not skip questioning steps because `AskUserQuestion` appears unavailable; use `vscode_askquestions` instead.
+</runtime_note>
+
+<context>
+Phase number: 6 (optional — auto-detects next unplanned phase if omitted)
+
+**Flags:**
+- `--research` — Force re-research even if RESEARCH.md exists
+- `--skip-research` — Skip research, go straight to planning
+- `--gaps` — Gap closure mode (reads VERIFICATION.md, skips research)
+- `--skip-verify` — Skip verification loop
+- `--prd <file>` — Use a PRD/acceptance criteria file instead of discuss-phase. Parses requirements into CONTEXT.md automatically. Skips discuss-phase entirely.
+- `--reviews` — Replan incorporating cross-AI review feedback from REVIEWS.md (produced by `/gsd-review`)
+- `--text` — Use plain-text numbered lists instead of TUI menus (required for `/rc` remote sessions)
+
+Normalize phase input in step 2 before any directory lookups.
+</context>
+
+<process>
+Execute the plan-phase workflow from @$HOME/.claude/get-shit-done/workflows/plan-phase.md end-to-end.
+Preserve all workflow gates (validation, research, planning, verification loop, routing).
+</process>
+
+---
+
+Ya está lo hice en otra sesión de claude
+
+---
+
+Crea el issue de Linear
+
+---
+
+Guarda en memoria
