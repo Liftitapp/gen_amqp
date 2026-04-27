@@ -1,0 +1,30 @@
+Mira este chat, quiero confirmar la precisión del bot @Monitoreo_integraciones Puedes verificar que errores aparecen en cloud logging para el servicio integration_rndc, en las últimas 4 horas, clasifícalos por criticidad y diferencia de los errores generados por conexión del rndc, indícame si Backoffice genera muchos errores al consultar tarifa e impuestos  (edited) 
+NEWJhon Alexander Ortiz Castaño (CO)  [7:41 PM]
+Hay que etiquetar al bot
+Monitoreo_integraciones  [7:41 PM]
+:thinking_face: integration_rndc / backoffice-api: No se encontraron errores en Cloud Logging para integration_rndc ni para backoffice-api relacionados con tarifas e impuestos en las últimas 4 horas.
+
+:round_pushpin: Las búsquedas no arrojaron resultados para errores generales o de conexión en integration_rndc, ni para errores específicos de "tarifa" o "impuestos" en backoffice-api.
+:clock1: 2026-04-23T20:41:00Z - 2026-04-24T00:41:00Z (15:41-19:41 p.m. Bogotá) — 0 ocurrencias.
+:link: N/A
+:zap: Suggested:
+   1. Si se sospecha de errores, revisar Sentry para ambos servicios, ya que Cloud Logging no muestra incidencias.
+   2. Verificar si los logs de estos servicios se están enviando correctamente a Cloud Logging con la severidad adecuada.NEWJuan Pablo Quiroga Gonzalez (CO)  [7:43 PM]
+@Monitoreo_integraciones ten en cuenta que el servicio es de cloudrun, ten en cuenta cualquier tipo de error 
+NEWMonitoreo_integraciones  [7:43 PM]
+:thinking_face: integration_rndc / backoffice-api: No se encontraron errores o advertencias en Cloud Logging para integration_rndc ni para backoffice-api relacionados con tarifas e impuestos en las últimas 4 horas.
+
+:round_pushpin: Las búsquedas no arrojaron resultados para errores o advertencias en integration_rndc, ni para errores específicos de "tarifa" o "impuestos" en backoffice-api.
+:clock1: 2026-04-23T20:41:00Z - 2026-04-24T00:41:00Z (15:41-19:41 p.m. Bogotá) — 0 ocurrencias.
+:link: N/A
+:zap: Suggested:
+   1. Revisar Sentry para ambos servicios, ya que Cloud Logging no muestra incidencias.
+   2. Confirmar que los logs de integration_rndc y backoffice-api se estén enviando correctamente a Cloud Logging con la severidad adecuada.
+
+---
+
+No, sólo corrije el error y aplica los fixes, recuerda para ingresar al server ssh openfang
+
+---
+
+has push, y ahora garantiza que toda la documentación de este proyecto tf-infrastructure esté totalmente al día en documentación de README y de Claudemd, si es necesario valida todo el código, y por último has commit y push
