@@ -1,0 +1,17 @@
+puedes ver los logs de bloqueo de waf de liftit-bi parece que hay un falso positivo
+
+---
+
+opción 1
+
+---
+
+Si
+
+---
+
+1
+
+---
+
+Si
