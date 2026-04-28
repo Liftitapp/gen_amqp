@@ -1,0 +1,29 @@
+puedes ver los logs de bloqueo de waf de liftit-bi parece que hay un falso positivo
+
+---
+
+opción 1
+
+---
+
+Si
+
+---
+
+1
+
+---
+
+Si
+
+---
+
+Valida porque hay otro bloqueo sobre metabase
+
+---
+
+El error 403 se da es en workflows pero en prod
+
+---
+
+Si, has apply commit y push
