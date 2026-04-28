@@ -1,0 +1,21 @@
+retoma desde la memoria
+
+---
+
+Ayer no quedó activo el modo enforce ni en prod,bi ni sha
+
+---
+
+Ayer no quedó activo el modo enforce ni en prod,bi ni sha del waf
+
+---
+
+Por favor activa el modo enforce para los 3 ambientes en preview
+
+---
+
+Si
+
+---
+
+Ejecutalo por favor
