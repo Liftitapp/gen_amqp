@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "27af16df859a",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/ai/files/openfang-catalog-scanner/__pycache__/merge.cpython-312.pyc"
+  ],
+  "sessions": [
+    {
+      "metadata": "/27/af16df859a/0/metadata.json",
+      "transcript": "/27/af16df859a/0/full.jsonl",
+      "context": "/27/af16df859a/0/context.md",
+      "content_hash": "/27/af16df859a/0/content_hash.txt",
+      "prompt": "/27/af16df859a/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 459,
+    "cache_creation_tokens": 526234,
+    "cache_read_tokens": 18135900,
+    "output_tokens": 103699,
+    "api_call_count": 186
+  }
+}
