@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "4b88cb531fdd",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/runner/src/restorer/__init__.py",
+    "sec/restore/runner/src/restorer/vm.py",
+    "sec/restore/runner/tests/test_restorer_vm.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/4b/88cb531fdd/0/metadata.json",
+      "transcript": "/4b/88cb531fdd/0/full.jsonl",
+      "context": "/4b/88cb531fdd/0/context.md",
+      "content_hash": "/4b/88cb531fdd/0/content_hash.txt",
+      "prompt": "/4b/88cb531fdd/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 3165,
+    "cache_creation_tokens": 1038217,
+    "cache_read_tokens": 57152363,
+    "output_tokens": 266770,
+    "api_call_count": 210
+  }
+}
