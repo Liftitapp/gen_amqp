@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "ce75d609759c",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/runner/.dockerignore",
+    "sec/restore/runner/Dockerfile",
+    "sec/restore/runner/README.md",
+    "sec/restore/runner/pyproject.toml",
+    "sec/restore/runner/src/__init__.py",
+    "sec/restore/runner/src/__main__.py",
+    "sec/restore/runner/tests/__init__.py",
+    "sec/restore/runner/tests/conftest.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/ce/75d609759c/0/metadata.json",
+      "transcript": "/ce/75d609759c/0/full.jsonl",
+      "context": "/ce/75d609759c/0/context.md",
+      "content_hash": "/ce/75d609759c/0/content_hash.txt",
+      "prompt": "/ce/75d609759c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 3147,
+    "cache_creation_tokens": 993239,
+    "cache_read_tokens": 51334405,
+    "output_tokens": 226678,
+    "api_call_count": 197
+  }
+}
