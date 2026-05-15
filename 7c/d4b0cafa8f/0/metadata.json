@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "7cd4b0cafa8f",
+  "session_id": "23f489ac-e7e1-468e-8043-8b2058c3c213",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-15T20:04:21.034012424Z",
+  "branch": "master",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "docs/superpowers/plans/2026-05-15-sec-restore-f2-runner.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "fc7b22ed57f2",
+  "transcript_identifier_at_start": "3f81677a-4dc0-4664-9643-e7e4d0f8c441",
+  "token_usage": {
+    "input_tokens": 3101,
+    "cache_creation_tokens": 584218,
+    "cache_read_tokens": 40701632,
+    "output_tokens": 200607,
+    "api_call_count": 170
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-15T20:04:19.073528104Z",
+    "agent_lines": 2005,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 2005,
+    "agent_percentage": 100
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/23f489ac-e7e1-468e-8043-8b2058c3c213.jsonl"
+}
