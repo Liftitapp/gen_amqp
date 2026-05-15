@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "d68820035200",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/runner/src/validator/gke_workloads.py",
+    "sec/restore/runner/tests/test_validator_gke_workloads.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/d6/8820035200/0/metadata.json",
+      "transcript": "/d6/8820035200/0/full.jsonl",
+      "context": "/d6/8820035200/0/context.md",
+      "content_hash": "/d6/8820035200/0/content_hash.txt",
+      "prompt": "/d6/8820035200/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 3164,
+    "cache_creation_tokens": 1034213,
+    "cache_read_tokens": 56683816,
+    "output_tokens": 261027,
+    "api_call_count": 209
+  }
+}
