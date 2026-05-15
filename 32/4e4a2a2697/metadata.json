@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "324e4a2a2697",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "bi/streamlit/.terraform-version",
+    "bi/streamlit/CLAUDE.md",
+    "bi/streamlit/backend.tf",
+    "bi/streamlit/cloudflare.tf",
+    "bi/streamlit/load-balancer.tf",
+    "bi/streamlit/locals.tf",
+    "bi/streamlit/outputs.tf",
+    "bi/streamlit/providers.tf",
+    "bi/streamlit/remote-state.tf",
+    "bi/streamlit/versions.tf",
+    "bi/streamlit/vm.tf",
+    "bi/wrenai-poc/.terraform.lock.hcl",
+    "bi/wrenai-poc/CLAUDE.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/32/4e4a2a2697/0/metadata.json",
+      "transcript": "/32/4e4a2a2697/0/full.jsonl",
+      "context": "/32/4e4a2a2697/0/context.md",
+      "content_hash": "/32/4e4a2a2697/0/content_hash.txt",
+      "prompt": "/32/4e4a2a2697/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 3218,
+    "cache_creation_tokens": 1069553,
+    "cache_read_tokens": 64031783,
+    "output_tokens": 292852,
+    "api_call_count": 224
+  }
+}
