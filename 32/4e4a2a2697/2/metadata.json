@@ -1,0 +1,48 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "324e4a2a2697",
+  "session_id": "94a43be6-56f2-4ebc-ab27-47b1b1bb616a",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-15T22:30:27.326992193Z",
+  "branch": "master",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "bi/streamlit/.terraform-version",
+    "bi/wrenai-poc/CLAUDE.md",
+    "bi/streamlit/cloudflare.tf",
+    "bi/streamlit/locals.tf",
+    "bi/streamlit/versions.tf",
+    "bi/streamlit/CLAUDE.md",
+    "bi/wrenai-poc/.terraform.lock.hcl",
+    "bi/streamlit/backend.tf",
+    "bi/streamlit/remote-state.tf",
+    "sec/firewall/fw-vpc.tf",
+    "CLAUDE.md",
+    "bi/streamlit/outputs.tf",
+    "bi/streamlit/vm.tf",
+    "bi/streamlit/load-balancer.tf",
+    "bi/streamlit/providers.tf"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "a020274aefed",
+  "transcript_identifier_at_start": "7f72e684-f7c0-4596-8f36-c45de73ecb9b",
+  "checkpoint_transcript_start": 421,
+  "transcript_lines_at_start": 421,
+  "token_usage": {
+    "input_tokens": 1055,
+    "cache_creation_tokens": 165129,
+    "cache_read_tokens": 6860683,
+    "output_tokens": 49734,
+    "api_call_count": 74
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-15T22:30:25.550146878Z",
+    "agent_lines": 318,
+    "human_added": 21,
+    "human_modified": 17,
+    "human_removed": 0,
+    "total_committed": 356,
+    "agent_percentage": 89.32584269662921
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/94a43be6-56f2-4ebc-ab27-47b1b1bb616a.jsonl"
+}
