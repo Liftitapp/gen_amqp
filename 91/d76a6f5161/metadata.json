@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "91d76a6f5161",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/iam.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/91/d76a6f5161/0/metadata.json",
+      "transcript": "/91/d76a6f5161/0/full.jsonl",
+      "context": "/91/d76a6f5161/0/context.md",
+      "content_hash": "/91/d76a6f5161/0/content_hash.txt",
+      "prompt": "/91/d76a6f5161/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 3145,
+    "cache_creation_tokens": 989703,
+    "cache_read_tokens": 50483684,
+    "output_tokens": 222749,
+    "api_call_count": 195
+  }
+}
