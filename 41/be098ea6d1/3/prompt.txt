@@ -1,0 +1,57 @@
+retoma desde memoria
+
+---
+
+Espera, todos los recursos a probar restauración es con etiqueta?
+
+---
+
+entonces debes validar en tf-infrastructure cada máquina y crear la etiqueta, creo que en locals está default tags
+
+---
+
+Sigue
+
+---
+
+Aplica terraform workspace por workspace, si vez que hay algún cambio adicional o se va a recrear la máquina, deten y avísame
+
+---
+
+Procede con commit y push, luego F3 y nada más, los otros 2 puntos no los tengas en cuenta
+
+---
+
+Si
+
+---
+
+[Request interrupted by user]
+
+---
+
+Cancela 2.5
+
+---
+
+Despausa los schedulers F2
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+Detén todo
+
+---
+
+[Request interrupted by user]
+
+---
+
+Si para vm, pero para gke, en stg no hay backups por ende no se prueba y en prod, hay una subred especial que se creó para que no use la de producción actual
+
+---
+
+Si para vm, pero para gke, en stg no hay backups de gke por ende no se prueba, y en prod hay una subred especial que se creó sólo para restauraciones para que no use la de producción actual
