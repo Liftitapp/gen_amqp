@@ -3,7 +3,7 @@
   "checkpoint_id": "f9758a2e464b",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 2,
+  "checkpoints_count": 3,
   "files_touched": [
     "sec/restore/runner/src/restorer/vm.py",
     "sec/restore/runner/src/validator/mongodb.py",
@@ -30,13 +30,20 @@
       "context": "/f9/758a2e464b/2/context.md",
       "content_hash": "/f9/758a2e464b/2/content_hash.txt",
       "prompt": "/f9/758a2e464b/2/prompt.txt"
+    },
+    {
+      "metadata": "/f9/758a2e464b/3/metadata.json",
+      "transcript": "/f9/758a2e464b/3/full.jsonl",
+      "context": "/f9/758a2e464b/3/context.md",
+      "content_hash": "/f9/758a2e464b/3/content_hash.txt",
+      "prompt": "/f9/758a2e464b/3/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 4827,
-    "cache_creation_tokens": 1853055,
-    "cache_read_tokens": 127578326,
-    "output_tokens": 502305,
-    "api_call_count": 554
+    "input_tokens": 9205,
+    "cache_creation_tokens": 3426397,
+    "cache_read_tokens": 247446155,
+    "output_tokens": 826720,
+    "api_call_count": 923
   }
 }
