@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "b87cc05706b8",
+  "session_id": "d21bf6ed-5ac6-43b4-88f6-c878fabbb19e",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-16T22:51:23.767722481Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/runner/tests/__pycache__/conftest.cpython-312-pytest-7.4.4.pyc",
+    "sec/restore/runner/tests/__pycache__/test_restorer_vm.cpython-312-pytest-7.4.4.pyc"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "47213cb87995",
+  "transcript_identifier_at_start": "68edc66a-59e6-4252-8143-a783868172de",
+  "token_usage": {
+    "input_tokens": 4473,
+    "cache_creation_tokens": 2305743,
+    "cache_read_tokens": 156741690,
+    "output_tokens": 390443,
+    "api_call_count": 429
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-16T22:51:21.774651307Z",
+    "agent_lines": 0,
+    "human_added": 19,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 19,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/d21bf6ed-5ac6-43b4-88f6-c878fabbb19e.jsonl"
+}
