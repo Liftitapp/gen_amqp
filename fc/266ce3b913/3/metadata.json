@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "fc266ce3b913",
+  "session_id": "d21bf6ed-5ac6-43b4-88f6-c878fabbb19e",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-16T22:12:09.826194863Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/runner/src/restorer/vm.py",
+    "sec/restore/secrets/bi/secrets.enc.yaml"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "44a8043655fb",
+  "transcript_identifier_at_start": "68edc66a-59e6-4252-8143-a783868172de",
+  "token_usage": {
+    "input_tokens": 4423,
+    "cache_creation_tokens": 1629838,
+    "cache_read_tokens": 141082405,
+    "output_tokens": 366239,
+    "api_call_count": 404
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-16T22:12:07.96615436Z",
+    "agent_lines": 0,
+    "human_added": 16,
+    "human_modified": 12,
+    "human_removed": 0,
+    "total_committed": 16,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/d21bf6ed-5ac6-43b4-88f6-c878fabbb19e.jsonl"
+}

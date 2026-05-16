@@ -3,7 +3,7 @@
   "checkpoint_id": "fc266ce3b913",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 2,
+  "checkpoints_count": 3,
   "files_touched": [
     "sec/restore/runner/src/restorer/vm.py",
     "sec/restore/secrets/bi/secrets.enc.yaml"
@@ -29,13 +29,20 @@
       "context": "/fc/266ce3b913/2/context.md",
       "content_hash": "/fc/266ce3b913/2/content_hash.txt",
       "prompt": "/fc/266ce3b913/2/prompt.txt"
+    },
+    {
+      "metadata": "/fc/266ce3b913/3/metadata.json",
+      "transcript": "/fc/266ce3b913/3/full.jsonl",
+      "context": "/fc/266ce3b913/3/context.md",
+      "content_hash": "/fc/266ce3b913/3/content_hash.txt",
+      "prompt": "/fc/266ce3b913/3/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 4827,
-    "cache_creation_tokens": 1853055,
-    "cache_read_tokens": 127578326,
-    "output_tokens": 502305,
-    "api_call_count": 554
+    "input_tokens": 9250,
+    "cache_creation_tokens": 3482893,
+    "cache_read_tokens": 268660731,
+    "output_tokens": 868544,
+    "api_call_count": 958
   }
 }
