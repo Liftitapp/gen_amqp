@@ -3,7 +3,7 @@
   "checkpoint_id": "11727f181b2c",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "sec/restore/runner/src/validator/postgresql.py",
     "sec/restore/runner/src/validator/redis.py",
@@ -17,13 +17,20 @@
       "context": "/11/727f181b2c/0/context.md",
       "content_hash": "/11/727f181b2c/0/content_hash.txt",
       "prompt": "/11/727f181b2c/0/prompt.txt"
+    },
+    {
+      "metadata": "/11/727f181b2c/1/metadata.json",
+      "transcript": "/11/727f181b2c/1/full.jsonl",
+      "context": "/11/727f181b2c/1/context.md",
+      "content_hash": "/11/727f181b2c/1/content_hash.txt",
+      "prompt": "/11/727f181b2c/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 3313,
-    "cache_creation_tokens": 1161692,
-    "cache_read_tokens": 102581743,
-    "output_tokens": 348872,
-    "api_call_count": 294
+    "input_tokens": 3772,
+    "cache_creation_tokens": 1687926,
+    "cache_read_tokens": 120717643,
+    "output_tokens": 452571,
+    "api_call_count": 480
   }
 }
