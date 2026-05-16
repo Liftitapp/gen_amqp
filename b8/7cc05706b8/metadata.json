@@ -5,6 +5,7 @@
   "branch": "master",
   "checkpoints_count": 2,
   "files_touched": [
+    "common/artifactregistry/.terraform.lock.hcl",
     "sec/restore/runner/src/__pycache__/__init__.cpython-312.pyc",
     "sec/restore/runner/src/__pycache__/config.cpython-312.pyc",
     "sec/restore/runner/src/__pycache__/discovery.cpython-312.pyc",
@@ -26,6 +27,7 @@
     "sec/restore/runner/src/validator/__pycache__/web.cpython-312.pyc",
     "sec/restore/runner/src/validator/__pycache__/windows.cpython-312.pyc",
     "sec/restore/runner/tests/__pycache__/__init__.cpython-312.pyc",
+    "sec/restore/runner/tests/__pycache__/conftest.cpython-312-pytest-7.4.4.pyc",
     "sec/restore/runner/tests/__pycache__/conftest.cpython-312-pytest-9.0.3.pyc",
     "sec/restore/runner/tests/__pycache__/test_config.cpython-312-pytest-9.0.3.pyc",
     "sec/restore/runner/tests/__pycache__/test_discovery.cpython-312-pytest-9.0.3.pyc",
@@ -33,6 +35,7 @@
     "sec/restore/runner/tests/__pycache__/test_metrics.cpython-312-pytest-9.0.3.pyc",
     "sec/restore/runner/tests/__pycache__/test_orchestrator.cpython-312-pytest-9.0.3.pyc",
     "sec/restore/runner/tests/__pycache__/test_restorer_gke.cpython-312-pytest-9.0.3.pyc",
+    "sec/restore/runner/tests/__pycache__/test_restorer_vm.cpython-312-pytest-7.4.4.pyc",
     "sec/restore/runner/tests/__pycache__/test_restorer_vm.cpython-312-pytest-9.0.3.pyc",
     "sec/restore/runner/tests/__pycache__/test_runtime.cpython-312-pytest-9.0.3.pyc",
     "sec/restore/runner/tests/__pycache__/test_slack.cpython-312-pytest-9.0.3.pyc",
@@ -59,13 +62,20 @@
       "context": "/b8/7cc05706b8/1/context.md",
       "content_hash": "/b8/7cc05706b8/1/content_hash.txt",
       "prompt": "/b8/7cc05706b8/1/prompt.txt"
+    },
+    {
+      "metadata": "/b8/7cc05706b8/2/metadata.json",
+      "transcript": "/b8/7cc05706b8/2/full.jsonl",
+      "context": "/b8/7cc05706b8/2/context.md",
+      "content_hash": "/b8/7cc05706b8/2/content_hash.txt",
+      "prompt": "/b8/7cc05706b8/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 3772,
-    "cache_creation_tokens": 1687926,
-    "cache_read_tokens": 120717643,
-    "output_tokens": 452571,
-    "api_call_count": 480
+    "input_tokens": 4827,
+    "cache_creation_tokens": 1853055,
+    "cache_read_tokens": 127578326,
+    "output_tokens": 502305,
+    "api_call_count": 554
   }
 }
