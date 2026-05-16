@@ -1,0 +1,17 @@
+retoma proyecto waf
+
+---
+
+Hay que hacer revisión en ambiente prod de los bloqueos de waf para validar si hay falsos positivos, evalua desde que se puso todo en modo enforce hasta hoy
+
+---
+
+Si
+
+---
+
+Si
+
+---
+
+has commit y push de todos los cambios en el repo
