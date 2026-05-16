@@ -3,7 +3,7 @@
   "checkpoint_id": "f6398df487ba",
   "strategy": "manual-commit",
   "branch": "master",
-  "checkpoints_count": 2,
+  "checkpoints_count": 4,
   "files_touched": [
     "apps/airflow/locals.tf",
     "apps/airflow/vm.tf",
@@ -47,13 +47,20 @@
       "context": "/f6/398df487ba/2/context.md",
       "content_hash": "/f6/398df487ba/2/content_hash.txt",
       "prompt": "/f6/398df487ba/2/prompt.txt"
+    },
+    {
+      "metadata": "/f6/398df487ba/3/metadata.json",
+      "transcript": "/f6/398df487ba/3/full.jsonl",
+      "context": "/f6/398df487ba/3/context.md",
+      "content_hash": "/f6/398df487ba/3/content_hash.txt",
+      "prompt": "/f6/398df487ba/3/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 4827,
-    "cache_creation_tokens": 1853055,
-    "cache_read_tokens": 127578326,
-    "output_tokens": 502305,
-    "api_call_count": 554
+    "input_tokens": 7977,
+    "cache_creation_tokens": 2613634,
+    "cache_read_tokens": 147313048,
+    "output_tokens": 608436,
+    "api_call_count": 678
   }
 }
