@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "f9758a2e464b",
+  "strategy": "manual-commit",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/runner/src/restorer/vm.py",
+    "sec/restore/runner/src/validator/mongodb.py",
+    "sec/restore/runner/src/validator/postgresql.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f9/758a2e464b/0/metadata.json",
+      "transcript": "/f9/758a2e464b/0/full.jsonl",
+      "context": "/f9/758a2e464b/0/context.md",
+      "content_hash": "/f9/758a2e464b/0/content_hash.txt",
+      "prompt": "/f9/758a2e464b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 3313,
+    "cache_creation_tokens": 1161692,
+    "cache_read_tokens": 102581743,
+    "output_tokens": 348872,
+    "api_call_count": 294
+  }
+}
