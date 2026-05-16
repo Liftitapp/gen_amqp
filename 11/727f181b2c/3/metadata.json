@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "11727f181b2c",
+  "session_id": "d21bf6ed-5ac6-43b4-88f6-c878fabbb19e",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-16T19:12:44.797422225Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "sec/restore/runner/src/validator/postgresql.py",
+    "sec/restore/runner/src/validator/redis.py",
+    "sec/restore/runner/src/validator/web.py",
+    "sec/restore/runner/src/validator/windows.py"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "c219448aca9a",
+  "transcript_identifier_at_start": "68edc66a-59e6-4252-8143-a783868172de",
+  "token_usage": {
+    "input_tokens": 4331,
+    "cache_creation_tokens": 1517504,
+    "cache_read_tokens": 99643847,
+    "output_tokens": 283663,
+    "api_call_count": 332
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-16T19:12:42.838786581Z",
+    "agent_lines": 0,
+    "human_added": 32,
+    "human_modified": 13,
+    "human_removed": 0,
+    "total_committed": 32,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-home-jhonortiz-devops-tf-infrastructure/d21bf6ed-5ac6-43b4-88f6-c878fabbb19e.jsonl"
+}
