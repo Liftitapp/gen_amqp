@@ -14,7 +14,9 @@ defmodule GenAMQP.Conn do
   @spec start_link(String.t(), GenServer.name()) :: GenServer.on_start()
   def start_link(conn_url, name) do
     Logger.info("Crearing conn with name: #{name} and url #{conn_url}")
-    GenServer.start_link(__MODULE__, [name, conn_url], name: name)
+    # timeout 60s (vs 5s default) para permitir que init/1 reintente
+    # AMQP.Connection.open hasta 30 veces (1s entre intentos) antes de fallar.
+    GenServer.start_link(__MODULE__, [name, conn_url], name: name, timeout: 60_000)
   end
 
   @doc """
@@ -48,7 +50,7 @@ defmodule GenAMQP.Conn do
   def init([name, amqp_url]) do
     Logger.info("Starting connection")
     Process.flag(:trap_exit, true)
-    {:ok, %AMQP.Connection{pid: pid} = conn} = AMQP.Connection.open(amqp_url)
+    {:ok, %AMQP.Connection{pid: pid} = conn} = connect_with_retry(amqp_url, 30)
     Process.link(pid)
     Logger.info("Connection linked #{inspect(pid)}")
     {:ok, chan} = AMQP.Channel.open(conn)
@@ -62,6 +64,33 @@ defmodule GenAMQP.Conn do
 
     {:ok, %{conn: conn, conn_name: name, chans: %{default: chan}, subscriptions: []}}
   end
+
+  # Reintenta AMQP.Connection.open hasta `retries` veces con 1s de delay entre
+  # intentos. Necesario para sobrevivir:
+  #   - Cold-start del broker (DNS cache, broker aun arrancando)
+  #   - close_all_connections durante un cutover
+  #   - Handshake transients observados con brokers 3.13+ usando amqp_client 3.7.x
+  #
+  # Si los `retries` intentos fallan, devuelve el ultimo {:error, _} para que el
+  # pattern match en init/1 dispare el MatchError original y el supervisor maneje
+  # el caso (con max_restarts ya ampliado en ConnSupervisor).
+  defp connect_with_retry(amqp_url, retries) when retries > 0 do
+    case AMQP.Connection.open(amqp_url) do
+      {:ok, _} = ok ->
+        ok
+
+      {:error, reason} ->
+        Logger.warn(
+          "AMQP connect failed: #{inspect(reason)}, retries left: #{retries - 1}"
+        )
+
+        Process.sleep(1_000)
+        connect_with_retry(amqp_url, retries - 1)
+    end
+  end
+
+  defp connect_with_retry(amqp_url, _),
+    do: AMQP.Connection.open(amqp_url)
 
   defp reconnect(connected) do
     Logger.info("restarting #{inspect(connected)}")
